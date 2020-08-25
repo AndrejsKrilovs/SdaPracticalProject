@@ -1,0 +1,52 @@
+<div class="row">
+  <div class="col-md-5">
+    <app-film [film]="selectedFilm" [mainPage]="false" [buttonValue]="'На главную'"></app-film>
+  </div>
+  <div class="col-md-7">
+    <h1>Доступные сеансы</h1>
+    <hr/>
+    <div class="list-group">
+      <button *ngFor="let session of sessions" (click)="onSessionSelect(session)" class="list-group-item list-group-item-action">
+        {{session.date_time }} &nbsp;/ Room {{session.room}} &nbsp;/ {{session.price | currency:'EUR'}}
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="selectedSession.id === 0; else roomPlan"></div>
+  <div *ngIf="selectedSeats.length === 0; else paymentForm"></div>
+</div>
+
+<ng-template #roomPlan>
+  <div class="col-sm-12">
+    <h3 style="margin-top: 1rem">План зала</h3>
+    <hr/>
+  </div>
+  <div *ngFor="let seat of seats" [ngClass]="seat.available ? 'card text-white bg-primary' : 'card'" style="width: 2rem; margin: 1rem">
+    <a (click)="onSeatSelect($event, seat)">{{seat.nr}}</a>
+  </div>
+</ng-template>
+
+<ng-template #paymentForm>
+  <div class="col-sm-12">
+    <h3 style="margin-top: 1rem">Оформлемие заказа</h3>
+    <hr/>
+  </div>
+  <div class="col-lg-4 col-xl-3">
+    <input id="name_surname" aria-label="Search"
+           class="form-control"
+           placeholder="Введите Имя и Фамилию" type="text" >
+  </div>
+  <div class="col-lg-4 col-xl-3">
+    <input id="email" aria-label="Search"
+           class="form-control"
+           placeholder="Введите e-mail" type="email" >
+  </div>
+  <div class="col-lg-4 col-xl-3">
+    <input id="phone" aria-label="Search"
+           class="form-control"
+           placeholder="Введите телефон" type="number" >
+  </div>
+  <div class="col-lg-12 col-xl-3">
+    <button class="btn btn-primary btn-block">Оформить заказ</button>
+  </div>
+</ng-template>

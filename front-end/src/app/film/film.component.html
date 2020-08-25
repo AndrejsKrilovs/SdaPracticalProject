@@ -1,0 +1,8 @@
+<div class="card">
+  <img [src]="film.picture" class="card-img-top" alt="Film image" width="200" height="340">
+  <div class="card-body">
+    <h5 class="card-title">{{film.title}}</h5>
+    <p class="card-text"><b>Длительность</b>&nbsp;{{film.length}}</p>
+    <button (click)="onSelect(film)" class="btn badge-primary">{{ buttonValue }}</button>
+  </div>
+</div>
