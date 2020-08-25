@@ -9,8 +9,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.PostConstruct;
-import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -61,16 +59,4 @@ public class FilmController {
     public void delete(@PathVariable("id") Film film) {
         filmRepository.delete(film);
     }
-
-//    @PostConstruct
-//    public void init() {
-//        filmRepository.deleteAll();
-//        for (int i = 0; i < 128; i++) {
-//            Film entity = new Film();
-//            entity.setLength(LocalTime.of((int) (Math.round(Math.random() * 2) + 1), (int) (Math.round(Math.random() * 59))));
-//            entity.setPicturePath("https://miro.medium.com/max/1200/0*jSJUA3vYRpJA3oK3.jpg");
-//            entity.setTitle(String.format("Title %d", i));
-//            filmRepository.save(entity);
-//        }
-//    }
 }

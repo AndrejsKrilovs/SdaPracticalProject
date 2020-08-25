@@ -7,16 +7,9 @@ import lv.sda.cinemaapi.entity.Session;
 import lv.sda.cinemaapi.mapper.SessionMapper;
 import lv.sda.cinemaapi.repository.SessionRepository;
 import org.springframework.beans.BeanUtils;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.PostConstruct;
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -75,19 +68,4 @@ public class SessionController {
                 .map(mapper::toDTO)
                 .collect(Collectors.toList());
     }
-
-//    @PostConstruct
-//    public void init() {
-//        for (int i = 1; i < 2048; i++) {
-//            Session entity = new Session();
-//            entity.setDateTime(LocalDateTime.now());
-//            entity.setRoom((byte) Math.round(Math.random()* 16));
-//            entity.setPrice(BigDecimal.valueOf(Math.random() * 10));
-//
-//            Film film = new Film();
-//            film.setId(Math.round(Math.random()* 127 + 1));
-//            entity.setFilm(film);
-//            sessionRepository.save(entity);
-//        }
-//    }
 }
