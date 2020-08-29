@@ -1,6 +1,5 @@
 package lv.sda.cinemaapi.controller;
 
-import lombok.RequiredArgsConstructor;
 import lv.sda.cinemaapi.dto.FilmDTO;
 import lv.sda.cinemaapi.entity.Film;
 import lv.sda.cinemaapi.mapper.FilmMapper;
@@ -20,16 +19,20 @@ import java.util.stream.Collectors;
  *  Use {@link PageRequest} class documentation
  */
 @RestController
-@RequiredArgsConstructor
 @RequestMapping("/api/film.svc")
 @CrossOrigin(origins="http://localhost:4200")
 public class FilmController {
     private final FilmRepository filmRepository;
     private final FilmMapper filmMapper;
 
+    public FilmController(FilmRepository filmRepository, FilmMapper filmMapper) {
+        this.filmRepository = filmRepository;
+        this.filmMapper = filmMapper;
+    }
+
     @GetMapping("/Films")
     public List<FilmDTO> findAll() {
-        return filmRepository.findAll(PageRequest.of(1, 13))
+        return filmRepository.findAll(PageRequest.of(1, 10))
                 .stream()
                 .map(filmMapper::toDTO)
                 .collect(Collectors.toList());
@@ -41,7 +44,7 @@ public class FilmController {
     }
 
     @PostMapping("/Film")
-    private FilmDTO add(@RequestBody FilmDTO filmDTO) {
+    public FilmDTO add(@RequestBody FilmDTO filmDTO) {
         Film entity = filmMapper.fromDTO(filmDTO);
         Film newEntity = filmRepository.save(entity);
         return filmMapper.toDTO(newEntity);

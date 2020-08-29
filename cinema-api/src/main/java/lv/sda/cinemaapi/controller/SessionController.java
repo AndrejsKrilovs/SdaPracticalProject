@@ -1,6 +1,5 @@
 package lv.sda.cinemaapi.controller;
 
-import lombok.RequiredArgsConstructor;
 import lv.sda.cinemaapi.dto.SessionDTO;
 import lv.sda.cinemaapi.entity.Film;
 import lv.sda.cinemaapi.entity.Session;
@@ -21,16 +20,20 @@ import java.util.stream.Collectors;
  *  Use {@link PageRequest} class documentation
  */
 @RestController
-@RequiredArgsConstructor
 @RequestMapping("/api/session.svc")
 @CrossOrigin(origins="http://localhost:4200")
 public class SessionController {
     private final SessionRepository sessionRepository;
     private final SessionMapper mapper;
 
+    public SessionController(SessionRepository sessionRepository, SessionMapper mapper) {
+        this.sessionRepository = sessionRepository;
+        this.mapper = mapper;
+    }
+
     @GetMapping("/Sessions")
     public List<SessionDTO> findAll() {
-        return sessionRepository.findAll(PageRequest.of(1, 25))
+        return sessionRepository.findAll(PageRequest.of(1, 10))
                 .stream()
                 .map(mapper::toDTO)
                 .collect(Collectors.toList());
@@ -42,7 +45,7 @@ public class SessionController {
     }
 
     @PostMapping("/Session")
-    private SessionDTO add(@RequestBody SessionDTO sessionDTO) {
+    public SessionDTO add(@RequestBody SessionDTO sessionDTO) {
         Session entity = mapper.fromDTO(sessionDTO);
         Session newEntity = sessionRepository.save(entity);
         return mapper.toDTO(newEntity);

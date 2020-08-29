@@ -2,11 +2,9 @@ package lv.sda.cinemaapi.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Data;
 
 import java.math.BigDecimal;
 
-@Data
 public class SessionDTO {
     private Long id;
 
@@ -18,4 +16,44 @@ public class SessionDTO {
 
     @JsonProperty(value = "film_id")
     private Long filmId;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getDateTime() {
+        return dateTime;
+    }
+
+    public void setDateTime(String dateTime) {
+        this.dateTime = dateTime;
+    }
+
+    public Byte getRoom() {
+        return room;
+    }
+
+    public void setRoom(Byte room) {
+        this.room = room;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
+
+    public Long getFilmId() {
+        return filmId;
+    }
+
+    public void setFilmId(Long filmId) {
+        this.filmId = filmId;
+    }
 }
