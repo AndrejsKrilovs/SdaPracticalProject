@@ -10,10 +10,16 @@
         {{session.date_time }} &nbsp;/ Room {{session.room}} &nbsp;/ {{session.price | currency:'EUR'}}
       </button>
     </div>
+
+    <div class="col-sm-6 btn-group" role="group" aria-label="Basic example">
+      <button type="button" class="btn" (click)="pageDown()">&laquo;</button>
+      <span class="btn">{{ currentPage + 1 }}</span>
+      <button type="button" class="btn" (click)="pageUp()">&raquo;</button>
+    </div>
   </div>
 
   <div *ngIf="selectedSession.id === 0; else roomPlan"></div>
-  <div *ngIf="selectedSeats.length === 0; else paymentForm"></div>
+  <div *ngIf="selectedSeats === 0; else paymentForm"></div>
 </div>
 
 <ng-template #roomPlan>
@@ -31,21 +37,25 @@
     <h3 style="margin-top: 1rem">Оформлемие заказа</h3>
     <hr/>
   </div>
+
   <div class="col-lg-4 col-xl-3">
     <input id="name_surname" aria-label="Search"
            class="form-control"
            placeholder="Введите Имя и Фамилию" type="text" >
   </div>
+
   <div class="col-lg-4 col-xl-3">
     <input id="email" aria-label="Search"
            class="form-control"
            placeholder="Введите e-mail" type="email" >
   </div>
+
   <div class="col-lg-4 col-xl-3">
     <input id="phone" aria-label="Search"
            class="form-control"
            placeholder="Введите телефон" type="number" >
   </div>
+
   <div class="col-lg-12 col-xl-3">
     <button class="btn btn-primary btn-block">Оформить заказ</button>
   </div>

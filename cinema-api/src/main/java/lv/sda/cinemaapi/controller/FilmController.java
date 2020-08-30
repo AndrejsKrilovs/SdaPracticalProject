@@ -31,8 +31,10 @@ public class FilmController {
     }
 
     @GetMapping("/Films")
-    public List<FilmDTO> findAll() {
-        return filmRepository.findAll(PageRequest.of(1, 10))
+    public List<FilmDTO> findAll(
+            @RequestParam(value = "offset", required = false, defaultValue = "0") Integer offset
+    ) {
+        return filmRepository.findAll(PageRequest.of(offset, 10))
                 .stream()
                 .map(filmMapper::toDTO)
                 .collect(Collectors.toList());

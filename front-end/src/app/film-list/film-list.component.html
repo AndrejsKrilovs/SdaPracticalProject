@@ -31,9 +31,9 @@
   <div class="col-md-12 col-lg-4">
     <button class="col-sm-6 btn badge-primary">Найти</button>
     <div class="col-sm-6 btn-group" role="group" aria-label="Basic example">
-      <button type="button" class="btn">&laquo;</button>
-      <button type="button" class="btn">0</button>
-      <button type="button" class="btn">&raquo;</button>
+      <button type="button" class="btn" (click)="pageDown()">&laquo;</button>
+      <span class="btn">{{ currentPage + 1 }}</span>
+      <button type="button" class="btn" (click)="pageUp()">&raquo;</button>
     </div>
   </div>
   <div class="col-md-12">

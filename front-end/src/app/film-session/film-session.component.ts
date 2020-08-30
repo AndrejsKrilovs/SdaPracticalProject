@@ -9,8 +9,10 @@ import {ApiService} from '../api.service';
   styleUrls: ['./film-session.component.css']
 })
 export class FilmSessionComponent {
-  jsonResult: string;
   sessions: Array<ISession> = [];
+  currentPage: number = 0;
+  selectedSeats: number = 0;
+
   selectedSession: ISession = {
     id: 0,
     date_time: null,
@@ -18,12 +20,14 @@ export class FilmSessionComponent {
     price: 0,
     film_id: 0
   };
+
   selectedFilm: IFilm = {
     id: 0,
     length: '',
     picture: '',
     title: ''
   };
+
   seats: Array<ISeat> = [
     {nr: 1, available: false}, {nr: 2, available: false}, {nr: 3, available: false}, {nr: 4, available: false}, {nr: 5, available: false},
     {nr: 6, available: false}, {nr: 7, available: false}, {nr: 8, available: false}, {nr: 9, available: false}, {nr: 10, available: false},
@@ -36,25 +40,48 @@ export class FilmSessionComponent {
     {nr: 35, available: false}, {nr: 36, available: false}, {nr: 37, available: false}, {nr: 38, available: false},
     {nr: 39, available: false}, {nr: 40, available: false}, {nr: 41, available: false}, {nr: 42, available: false}
   ];
-  selectedSeats: Array<number> = [];
+
+
   constructor(private route: ActivatedRoute, private apiService: ApiService) {
-    const filmId = Number.parseInt(this.route.snapshot.paramMap.get('id'), 0);
-    apiService.oneFilm(filmId).subscribe(result => this.selectedFilm = result);
-    apiService.sessionCollection(filmId)
+    this.selectedFilm.id = Number.parseInt(this.route.snapshot.paramMap.get('id'), 0);
+    apiService.oneFilm(this.selectedFilm.id).subscribe(result => this.selectedFilm = result);
+    apiService.sessionCollection(this.selectedFilm.id, this.currentPage)
       .subscribe(result => result.forEach(data => this.sessions.push(data)));
   }
-  onSessionSelect(session: ISession): void {
-    this.selectedSession = session;
-    this.jsonResult = JSON.stringify(this.selectedFilm) + `\n` + JSON.stringify(this.selectedSession);
+
+  private init(): void {
+      this.sessions.splice(0);
+      this.selectedSession.id = 0;
+      this.selectedSeats = 0;
   }
+
+  onSessionSelect(session: ISession): void {
+    this.selectedSeats = 0;
+    this.seats.forEach(s => s.available = false);
+    this.selectedSession = session;
+  }
+
   onSeatSelect(event: any, seat: ISeat): void {
     const selectedNumber: number = Number.parseInt(event.target.text, 0);
-    const ind: number = this.selectedSeats.indexOf(selectedNumber);
-    if (ind !== -1) {
-      this.selectedSeats.splice(ind, 1);
-    } else {
-      this.selectedSeats.push(selectedNumber);
-    }
-    seat.available = !seat.available;
+    this.seats.forEach(_seat => {
+      if(_seat == seat) {
+        _seat.available = !_seat.available;
+        _seat.available ? this.selectedSeats++ : this.selectedSeats--;
+      }
+    });
+  }
+
+  pageUp() {
+    this.init();
+    this.currentPage > 0 ? 0 : this.currentPage ++ ;
+    this.apiService.sessionCollection(this.selectedFilm.id, this.currentPage)
+      .subscribe(result => result.forEach(data => this.sessions.push(data)));
+  }
+
+  pageDown() {
+    this.init();
+    this.currentPage <= 0 ? 0 : this.currentPage -- ;
+    this.apiService.sessionCollection(this.selectedFilm.id, this.currentPage)
+      .subscribe(result => result.forEach(data => this.sessions.push(data)));
   }
 }

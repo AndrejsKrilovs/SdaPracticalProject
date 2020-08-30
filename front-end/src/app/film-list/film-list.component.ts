@@ -8,14 +8,32 @@ import {ApiService} from '../api.service';
   styleUrls: ['./film-list.component.css']
 })
 export class FilmListComponent {
-  toggle = false;
   films: Array<IFilm> = [];
+  toggle: boolean = false;
+  currentPage: number = 0;
+
   constructor(private apiService: ApiService) {
-    apiService.filmCollection()
+    apiService.filmCollection(this.currentPage)
       .subscribe(result => result.forEach(data => this.films.push(data)));
   }
 
   toggleFilms(): void {
     this.toggle = !this.toggle;
   }
+
+  pageUp() {
+    this.films = [];
+    this.currentPage > 11 ? 11 : this.currentPage ++;
+     this.apiService
+       .filmCollection(this.currentPage)
+       .subscribe(result => result.forEach(data => this.films.push(data)));
+  }
+
+  pageDown() {
+    this.films= [];
+    this.currentPage < 1 ? 0 : this.currentPage --;
+    this.apiService
+      .filmCollection(this.currentPage)
+      .subscribe(result => result.forEach(data => this.films.push(data)));
+     }
 }

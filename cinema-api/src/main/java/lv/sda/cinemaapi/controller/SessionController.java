@@ -31,14 +31,6 @@ public class SessionController {
         this.mapper = mapper;
     }
 
-    @GetMapping("/Sessions")
-    public List<SessionDTO> findAll() {
-        return sessionRepository.findAll(PageRequest.of(1, 10))
-                .stream()
-                .map(mapper::toDTO)
-                .collect(Collectors.toList());
-    }
-
     @GetMapping("/Session({id})")
     public SessionDTO getOne(@PathVariable("id") Session session) {
         return mapper.toDTO(session);
@@ -65,8 +57,11 @@ public class SessionController {
     }
 
     @GetMapping("/Sessions({film_id})")
-    public List<SessionDTO> findSessionsByFilm(@PathVariable("film_id") Film film) {
-        return sessionRepository.findAllByFilm(film, PageRequest.of(0, 8))
+    public List<SessionDTO> findSessionsByFilm(
+            @PathVariable("film_id") Film film,
+            @RequestParam(value = "offset", required = false, defaultValue = "0") Integer offset
+    ) {
+        return sessionRepository.findAllByFilm(film, PageRequest.of(offset, 7))
                 .stream()
                 .map(mapper::toDTO)
                 .collect(Collectors.toList());
