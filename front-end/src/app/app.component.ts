@@ -16,7 +16,8 @@ export interface ISession {
 }
 
 export interface ISeat {
-  nr: number;
+  room_number: number;
+  place_number: number;
   available: boolean;
 }
 

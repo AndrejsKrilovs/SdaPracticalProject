@@ -14,9 +14,7 @@ import java.util.stream.Collectors;
 /**
  * @AleksandrKozirev
  * 1. Make an AbstractController and extend from it.
- * 2. In findAll() method pass limit and offset arguments. Should be findAll(int offset, limit).
- *  Where {offset} - parameter from which page start, {limit} - parameter how many records on page to display
- *  Use {@link PageRequest} class documentation
+ * 2. Please create an Service layer
  */
 @RestController
 @RequestMapping("/api/film.svc")

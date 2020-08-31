@@ -8,6 +8,7 @@ import {Observable} from 'rxjs';
 export class ApiService {
   private filmURL = `//localhost:8080/api/film.svc`;
   private sessionURL = `//localhost:8080/api/session.svc`;
+  private placeURL = `//localhost:8080/api/place.svc`;
 
   constructor(private httpClient: HttpClient) { }
 
@@ -23,5 +24,9 @@ export class ApiService {
   public sessionCollection(film_id: number, offset: number): Observable<any> {
     const params = new HttpParams().set(`offset`, offset.toString());
     return this.httpClient.get(this.sessionURL + `/Sessions(` + film_id + `)`, {params});
+  }
+
+  public showSeats(room_number: number): Observable<any> {
+    return this.httpClient.get(this.placeURL + `/Places(` + room_number + `)`);
   }
 }

@@ -1,16 +1,19 @@
 package lv.sda.cinemaapi.controller;
 
 import lv.sda.cinemaapi.dto.PlaceDTO;
+import lv.sda.cinemaapi.entity.Room;
 import lv.sda.cinemaapi.mapper.PlaceMapper;
 import lv.sda.cinemaapi.repository.PlaceRepository;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * @AleksandrKozirev
+ * 1. Make an AbstractController and extend from it.
+ * 2. Please create an Service layer
+ */
 @RestController
 @RequestMapping("/api/place.svc")
 @CrossOrigin(origins="http://localhost:4200")
@@ -26,6 +29,14 @@ public class PlaceController {
     @GetMapping("/Places")
     public List<PlaceDTO> placeList() {
         return placeRepository.findAll()
+                .stream()
+                .map(placeMapper::toDTO)
+                .collect(Collectors.toList());
+    }
+
+    @GetMapping("/Places({room_number})")
+    public List<PlaceDTO> placeListByRoomNumber(@PathVariable("room_number") Integer roomNumber) {
+        return placeRepository.findPlaceByRoom(Room.values()[roomNumber])
                 .stream()
                 .map(placeMapper::toDTO)
                 .collect(Collectors.toList());

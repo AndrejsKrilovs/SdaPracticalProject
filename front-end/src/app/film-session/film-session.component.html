@@ -28,7 +28,7 @@
     <hr/>
   </div>
   <div *ngFor="let seat of seats" [ngClass]="seat.available ? 'card text-white bg-primary' : 'card'" style="width: 2rem; margin: 1rem">
-    <a (click)="onSeatSelect($event, seat)">{{seat.nr}}</a>
+    <a (click)="onSeatSelect($event, seat)">{{seat.place_number}}</a>
   </div>
 </ng-template>
 
