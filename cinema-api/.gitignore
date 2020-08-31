@@ -5,6 +5,7 @@ target/
 
 ###Database###
 TestDB/
+CinemaDB/
 *.log
 
 ### STS ###

@@ -10,7 +10,7 @@ public class Session {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private LocalDateTime dateTime;
-    private Byte room;
+    private Room room;
     private BigDecimal price;
 
     @ManyToOne(targetEntity = Film.class, fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
@@ -33,11 +33,11 @@ public class Session {
         this.dateTime = dateTime;
     }
 
-    public Byte getRoom() {
+    public Room getRoom() {
         return room;
     }
 
-    public void setRoom(Byte room) {
+    public void setRoom(Room room) {
         this.room = room;
     }
 

@@ -2,6 +2,7 @@ package lv.sda.cinemaapi.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lv.sda.cinemaapi.entity.Room;
 
 import java.math.BigDecimal;
 
@@ -11,7 +12,7 @@ public class SessionDTO {
     @JsonProperty(value = "date_time")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy hh:mm")
     private String dateTime;
-    private Byte room;
+    private Integer room;
     private BigDecimal price;
 
     @JsonProperty(value = "film_id")
@@ -33,11 +34,11 @@ public class SessionDTO {
         this.dateTime = dateTime;
     }
 
-    public Byte getRoom() {
+    public Integer getRoom() {
         return room;
     }
 
-    public void setRoom(Byte room) {
+    public void setRoom(Integer room) {
         this.room = room;
     }
 

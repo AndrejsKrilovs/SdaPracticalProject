@@ -1,8 +1,8 @@
 package lv.sda.cinemaapi;
 
-import lv.sda.cinemaapi.entity.Film;
-import lv.sda.cinemaapi.entity.Session;
+import lv.sda.cinemaapi.entity.*;
 import lv.sda.cinemaapi.repository.FilmRepository;
+import lv.sda.cinemaapi.repository.PlaceRepository;
 import lv.sda.cinemaapi.repository.SessionRepository;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -16,10 +16,12 @@ import java.time.LocalTime;
 public class CinemaApiApplication {
     private final FilmRepository filmRepository;
     private final SessionRepository sessionRepository;
+    private final PlaceRepository placeRepository;
 
-    public CinemaApiApplication(FilmRepository filmRepository, SessionRepository sessionRepository) {
+    public CinemaApiApplication(FilmRepository filmRepository, SessionRepository sessionRepository, PlaceRepository placeRepository) {
         this.filmRepository = filmRepository;
         this.sessionRepository = sessionRepository;
+        this.placeRepository = placeRepository;
     }
 
     public static void main(String[] args) {
@@ -28,6 +30,10 @@ public class CinemaApiApplication {
 
     @PostConstruct
     public void init() {
+        placeRepository.deleteAll();
+        sessionRepository.deleteAll();
+        filmRepository.deleteAll();
+
         if(filmRepository.count() == 0) {
             for (int i = 0; i < 128; i++) {
                 Film entity = new Film();
@@ -42,13 +48,30 @@ public class CinemaApiApplication {
             for (int i = 1; i < 2048; i++) {
                 Session entity = new Session();
                 entity.setDateTime(LocalDateTime.now());
-                entity.setRoom((byte) Math.round(Math.random()* 16));
+
+                int room = (int) (Math.round(Math.random() * 3) + 1);
+                entity.setRoom(Room.values()[room]);
                 entity.setPrice(BigDecimal.valueOf(Math.random() * 10));
 
                 Film film = new Film();
                 film.setId(Math.round(Math.random()* 127 + 1));
                 entity.setFilm(film);
                 sessionRepository.save(entity);
+            }
+        }
+
+        if(placeRepository.count() == 0) {
+            for (byte i = 1; i <= 4 ; i++) {
+                for (byte j = 1; j <= 40; j++) {
+                    Place place = new Place();
+                    place.setAvailable(Boolean.FALSE);
+
+                    PlacePrimaryKey id = new PlacePrimaryKey();
+                    id.setRoomNumber(Room.values()[i]);
+                    id.setPlaceNumber(j);
+                    place.setId(id);
+                    placeRepository.save(place);
+                }
             }
         }
     }
