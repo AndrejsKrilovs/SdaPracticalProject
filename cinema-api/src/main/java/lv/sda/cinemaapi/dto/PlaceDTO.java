@@ -1,7 +1,6 @@
 package lv.sda.cinemaapi.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.swagger.models.auth.In;
 
 public class PlaceDTO {
     @JsonProperty(value = "room_number")

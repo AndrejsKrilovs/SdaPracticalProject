@@ -23,4 +23,12 @@ public class PlacePrimaryKey implements Serializable {
     public void setPlaceNumber(Integer placeNumber) {
         this.placeNumber = placeNumber;
     }
+
+    @Override
+    public String toString() {
+        return "PlacePrimaryKey{" +
+                "roomNumber=" + roomNumber +
+                ", placeNumber=" + placeNumber +
+                '}';
+    }
 }

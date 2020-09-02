@@ -12,12 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/**
- * @AleksandrKozirev
- * 1. Make an AbstractController and extend from it.
- * 2. Please create an Service layer
- */
-@RestController
+p@RestController
 @RequestMapping("/api/session.svc")
 @CrossOrigin(origins="http://localhost:4200")
 public class SessionController {
@@ -27,31 +22,6 @@ public class SessionController {
     public SessionController(SessionRepository sessionRepository, SessionMapper mapper) {
         this.sessionRepository = sessionRepository;
         this.mapper = mapper;
-    }
-
-    @GetMapping("/Session({id})")
-    public SessionDTO getOne(@PathVariable("id") Session session) {
-        return mapper.toDTO(session);
-    }
-
-    @PostMapping("/Session")
-    public SessionDTO add(@RequestBody SessionDTO sessionDTO) {
-        Session entity = mapper.fromDTO(sessionDTO);
-        Session newEntity = sessionRepository.save(entity);
-        return mapper.toDTO(newEntity);
-    }
-
-    @PutMapping("/Session({id})")
-    public SessionDTO update(@PathVariable("id") Session sessionFromDB, @RequestBody SessionDTO sessionDTO) {
-        Session sessionToUpdate = mapper.fromDTO(sessionDTO);
-        BeanUtils.copyProperties(sessionToUpdate, sessionFromDB, "id");
-        Session result = sessionRepository.save(sessionFromDB);
-        return mapper.toDTO(result);
-    }
-
-    @DeleteMapping("/Session({id})")
-    public void delete(@PathVariable("id") Session session) {
-        sessionRepository.delete(session);
     }
 
     @GetMapping("/Sessions({film_id})")

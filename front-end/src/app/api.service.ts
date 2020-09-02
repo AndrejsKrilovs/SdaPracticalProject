@@ -2,6 +2,8 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 
+import { ISeat } from './app.component';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -28,5 +30,9 @@ export class ApiService {
 
   public showSeats(room_number: number): Observable<any> {
     return this.httpClient.get(this.placeURL + `/Places(` + room_number + `)`);
+  }
+
+  public updateSeats(seat: ISeat): Observable<any> {
+    return this.httpClient.put(this.placeURL + `/Place`, seat);
   }
 }

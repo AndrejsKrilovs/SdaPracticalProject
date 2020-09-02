@@ -10,11 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/**
- * @AleksandrKozirev
- * 1. Make an AbstractController and extend from it.
- * 2. Please create an Service layer
- */
 @RestController
 @RequestMapping("/api/place.svc")
 @CrossOrigin(origins="http://localhost:4200")
@@ -27,14 +22,6 @@ public class PlaceController {
         this.placeMapper = placeMapper;
     }
 
-    @GetMapping("/Places")
-    public List<PlaceDTO> placeList() {
-        return placeRepository.findAll()
-                .stream()
-                .map(placeMapper::toDTO)
-                .collect(Collectors.toList());
-    }
-
     @GetMapping("/Places({room_number})")
     public List<PlaceDTO> placeListByRoomNumber(@PathVariable("room_number") Integer roomNumber) {
         return placeRepository.findPlaceByRoom(Room.values()[roomNumber])
@@ -44,10 +31,8 @@ public class PlaceController {
     }
 
     @PutMapping("/Place")
-    public void updatePlaceData(
-            @RequestParam("room_number") Integer roomNumber,
-            @RequestParam("seat_number") Integer seatNumber
-    ) {
-
+    public PlaceDTO updatePlaceData(@RequestBody PlaceDTO placeDTO) {
+        Place result = placeRepository.save(placeMapper.fromDTO(placeDTO));
+        return placeMapper.toDTO(result);
     }
 }
