@@ -61,8 +61,8 @@ public class CinemaApiApplication {
         }
 
         if(placeRepository.count() == 0) {
-            for (byte i = 1; i <= 4 ; i++) {
-                for (byte j = 1; j <= 40; j++) {
+            for (int i = 1; i <= 4 ; i++) {
+                for (int j = 1; j <= 40; j++) {
                     Place place = new Place();
                     place.setAvailable(Boolean.FALSE);
 

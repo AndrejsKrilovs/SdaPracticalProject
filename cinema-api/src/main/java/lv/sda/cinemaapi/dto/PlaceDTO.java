@@ -1,28 +1,29 @@
 package lv.sda.cinemaapi.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.models.auth.In;
 
 public class PlaceDTO {
     @JsonProperty(value = "room_number")
-    private Byte roomNumber;
+    private Integer roomNumber;
 
     @JsonProperty(value = "place_number")
-    private Byte placeNumber;
+    private Integer placeNumber;
     private Boolean available;
 
-    public Byte getRoomNumber() {
+    public Integer getRoomNumber() {
         return roomNumber;
     }
 
-    public void setRoomNumber(Byte roomNumber) {
+    public void setRoomNumber(Integer roomNumber) {
         this.roomNumber = roomNumber;
     }
 
-    public Byte getPlaceNumber() {
+    public Integer getPlaceNumber() {
         return placeNumber;
     }
 
-    public void setPlaceNumber(Byte placeNumber) {
+    public void setPlaceNumber(Integer placeNumber) {
         this.placeNumber = placeNumber;
     }
 

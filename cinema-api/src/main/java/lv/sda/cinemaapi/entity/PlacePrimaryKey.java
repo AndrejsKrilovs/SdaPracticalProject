@@ -6,7 +6,7 @@ import java.io.Serializable;
 @Embeddable
 public class PlacePrimaryKey implements Serializable {
     private Room roomNumber;
-    private Byte placeNumber;
+    private Integer placeNumber;
 
     public Room getRoomNumber() {
         return roomNumber;
@@ -16,11 +16,11 @@ public class PlacePrimaryKey implements Serializable {
         this.roomNumber = roomNumber;
     }
 
-    public Byte getPlaceNumber() {
+    public Integer getPlaceNumber() {
         return placeNumber;
     }
 
-    public void setPlaceNumber(Byte placeNumber) {
+    public void setPlaceNumber(Integer placeNumber) {
         this.placeNumber = placeNumber;
     }
 }

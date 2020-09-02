@@ -23,7 +23,7 @@ public class PlaceMapper {
     public PlaceDTO toDTO(Place place) {
         PlaceDTO result = new PlaceDTO();
         result.setAvailable(place.getAvailable());
-        result.setRoomNumber((byte) place.getId().getRoomNumber().ordinal());
+        result.setRoomNumber(place.getId().getRoomNumber().ordinal());
         result.setPlaceNumber(place.getId().getPlaceNumber());
         return result;
     }

@@ -1,6 +1,7 @@
 package lv.sda.cinemaapi.controller;
 
 import lv.sda.cinemaapi.dto.PlaceDTO;
+import lv.sda.cinemaapi.entity.Place;
 import lv.sda.cinemaapi.entity.Room;
 import lv.sda.cinemaapi.mapper.PlaceMapper;
 import lv.sda.cinemaapi.repository.PlaceRepository;
@@ -40,5 +41,13 @@ public class PlaceController {
                 .stream()
                 .map(placeMapper::toDTO)
                 .collect(Collectors.toList());
+    }
+
+    @PutMapping("/Place")
+    public void updatePlaceData(
+            @RequestParam("room_number") Integer roomNumber,
+            @RequestParam("seat_number") Integer seatNumber
+    ) {
+
     }
 }
