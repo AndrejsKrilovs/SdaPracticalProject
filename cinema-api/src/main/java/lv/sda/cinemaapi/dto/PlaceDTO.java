@@ -9,6 +9,7 @@ public class PlaceDTO {
     @JsonProperty(value = "place_number")
     private Integer placeNumber;
     private Boolean available;
+    private Boolean enabled;
 
     public Integer getRoomNumber() {
         return roomNumber;
@@ -32,5 +33,13 @@ public class PlaceDTO {
 
     public void setAvailable(Boolean available) {
         this.available = available;
+    }
+
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
     }
 }

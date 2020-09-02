@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {IFilm, ISeat, ISession} from '../app.component';
+import {IFilm, ISeat, ISession, IOrder} from '../app.component';
 import {ApiService} from '../api.service';
 import {DatePipe} from "@angular/common";
 
@@ -31,10 +31,10 @@ export class FilmSessionComponent {
     title: ''
   };
 
-  order: any = {
+  order: IOrder = {
     generationTime: '',
     film: null,
-    session: 0,
+    session: null,
     places: [],
     totalPrice: 0
   };
@@ -49,11 +49,13 @@ export class FilmSessionComponent {
   }
 
   private init(): void {
+      this.selectedSeats = 0;
       this.sessions.splice(0);
       this.selectedSession.id = 0;
   }
 
   onSessionSelect(session: ISession): void {
+    this.selectedSeats = 0;
     this.seats.splice(0);
     this.seats.forEach(s => s.available = false);
     this.selectedSession = session;
@@ -67,7 +69,7 @@ export class FilmSessionComponent {
   onSeatSelect(event: any, seat: ISeat): void {
     const selectedNumber: number = Number.parseInt(event.target.text, 0);
     this.seats.forEach(_seat => {
-        if(_seat == seat) {
+        if(_seat == seat && !_seat.enabled) {
           _seat.available = !_seat.available;
           seat = _seat;
 
@@ -75,9 +77,9 @@ export class FilmSessionComponent {
             ++ this.selectedSeats;
             this.order.places.push(seat);
           } else if(!seat.available) {
-            const index = this.order.places.indexOf(seat);
-            this.order.places.splice(index, 1);
-            -- this.selectedSeats;
+              const index = this.order.places.indexOf(seat);
+              this.order.places.splice(index, 1);
+              -- this.selectedSeats;
           }
         }
       });

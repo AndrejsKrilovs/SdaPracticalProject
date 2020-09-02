@@ -19,6 +19,15 @@ export interface ISeat {
   room_number: number;
   place_number: number;
   available: boolean;
+  enabled: boolean;
+}
+
+export interface IOrder {
+  generationTime: string;
+  film: IFilm;
+  session: ISession;
+  places: Array<ISeat>;
+  totalPrice: number;
 }
 
 @Component({

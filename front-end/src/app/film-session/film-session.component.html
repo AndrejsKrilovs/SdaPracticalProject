@@ -27,8 +27,10 @@
     <h3 style="margin-top: 1rem">План зала</h3>
     <hr/>
   </div>
-  <div *ngFor="let seat of seats" [ngClass]="seat.available ? 'card text-white bg-primary' : 'card'" style="width: 2rem; margin: 1rem">
-    <a (click)="onSeatSelect($event, seat)">{{seat.place_number}}</a>
+  <div style="width: 3rem; margin: 1rem"
+       *ngFor="let seat of seats"
+       [ngClass]="seat.available ? 'card text-white bg-primary' : 'card'" >
+    <a (click)="onSeatSelect($event, seat)" [ng-class]="seat.enabled ? 'btn disabled' : 'btn'">{{seat.place_number}}</a>
   </div>
 </ng-template>
 

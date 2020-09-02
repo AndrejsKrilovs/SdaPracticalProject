@@ -25,6 +25,7 @@ public class PlaceMapper {
         result.setAvailable(place.getAvailable());
         result.setRoomNumber(place.getId().getRoomNumber().ordinal());
         result.setPlaceNumber(place.getId().getPlaceNumber());
+        result.setEnabled(place.getAvailable());
         return result;
     }
 }
