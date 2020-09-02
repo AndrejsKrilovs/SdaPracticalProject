@@ -9,6 +9,7 @@ import {FilmSessionComponent} from './film-session/film-session.component';
 import {RouterModule} from '@angular/router';
 import {FilmListComponent} from './film-list/film-list.component';
 import {HttpClientModule} from '@angular/common/http';
+import {DatePipe} from "@angular/common";
 
 @NgModule({
   declarations: [
@@ -22,7 +23,7 @@ import {HttpClientModule} from '@angular/common/http';
     AppRoutingModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
