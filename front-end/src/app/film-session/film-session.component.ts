@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {IFilm, ISeat, ISession, IOrder} from '../app.component';
 import {ApiService} from '../api.service';
 import {DatePipe} from "@angular/common";
@@ -39,7 +39,12 @@ export class FilmSessionComponent {
     totalPrice: 0
   };
 
-  constructor(private route: ActivatedRoute, private apiService: ApiService, public datePipe: DatePipe) {
+  constructor(
+    private route: ActivatedRoute,
+    private apiService: ApiService,
+    private datePipe: DatePipe,
+    private router: Router
+  ) {
     this.selectedFilm.id = Number.parseInt(this.route.snapshot.paramMap.get('id'), 0);
     apiService.oneFilm(this.selectedFilm.id)
       .subscribe(result => this.selectedFilm = result);
@@ -111,5 +116,11 @@ export class FilmSessionComponent {
       .forEach(element => {
         this.apiService.updateSeats(element).subscribe()
       });
+  }
+
+  approveOrder(): void {
+//     this.router
+//       .navigate([``])
+//       .then(() => console.log());
   }
 }

@@ -30,7 +30,10 @@
   <div style="width: 3rem; margin: 1rem"
        *ngFor="let seat of seats"
        [ngClass]="seat.available ? 'card text-white bg-primary' : 'card'" >
-    <a (click)="onSeatSelect($event, seat)" [ng-class]="seat.enabled ? 'btn disabled' : 'btn'">{{seat.place_number}}</a>
+    <a (click)="onSeatSelect($event, seat)"
+       [ng-class]="seat.enabled ? 'btn disabled' : 'btn'">
+      {{seat.place_number}}
+    </a>
   </div>
 </ng-template>
 
@@ -59,6 +62,72 @@
   </div>
 
   <div class="col-lg-12 col-xl-3">
-    <button class="btn btn-primary btn-block" (click)="makeOrder()">Оформить заказ</button>
+    <button class="btn btn-primary btn-block"
+            data-toggle="modal" data-target="#exampleModalCenter"
+            (click)="makeOrder()">
+      Оформить заказ
+    </button>
+  </div>
+
+  <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Поздравляем, ваш билет оформлен!</h5>
+        </div>
+        <div class="modal-body">
+          <div class="form-group col-md-12">
+            <label for="nameSurname">Имя Фамилия</label>
+            <input id="nameSurname" aria-label="Search" class="form-control" type="text" value="Имя Фамилия" readonly>
+          </div>
+
+          <div class="form-group col-md-12">
+            <label for="email">E-mail</label>
+            <input id="email" aria-label="Search" class="form-control" type="email" value="some@email.com" readonly>
+          </div>
+
+          <div class="form-group col-md-12">
+            <label for="phone">Телефон</label>
+            <input id="phone" aria-label="Search" class="form-control" type="number" value="22325826" readonly>
+          </div>
+
+          <div class="form-group col-md-12">
+            <label for="film">Название фильма</label>
+            <input id="film" aria-label="Search" class="form-control" type="text" value="Название фильма" readonly>
+          </div>
+
+          <div class="form-row" style="margin: 0 0.7rem">
+            <div class="form-group col-md-5">
+              <label for="data">Дата</label>
+              <input id="data" aria-label="Search" class="form-control" type="text" value="dd.mm.yyyy hh:mi" readonly>
+            </div>
+            <div class="form-group col-md-2">
+              <label for="room">Комната</label>
+              <input id="room" aria-label="Search" class="form-control" type="number" value="1" readonly>
+            </div>
+            <div class="form-group col-md-3">
+              <label for="seats">Места</label>
+              <input id="seats" aria-label="Search" class="form-control" type="number" value="1" readonly>
+            </div>
+          </div>
+
+          <div class="form-row" style="margin: 0 0.7rem">
+            <div class="form-group col-md-3">
+              <label for="price">Цена</label>
+              <input id="price" aria-label="Search" class="form-control" type="text" value="EUR.CC" readonly>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="print">Дата генерации билета</label>
+              <input id="print" aria-label="Search" class="form-control" type="text" value="dd.mm.yyyy hh:mi:ss" readonly>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal" disabled>Распечатать</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="approveOrder()">Окей</button>
+        </div>
+      </div>
+    </div>
   </div>
 </ng-template>
