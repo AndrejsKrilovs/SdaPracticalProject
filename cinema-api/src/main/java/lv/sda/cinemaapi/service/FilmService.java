@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class FilmService {
+
     private final static Integer ELEMENT_SIZE_PER_PAGE = 10;
     private final FilmRepository filmRepository;
     private final FilmMapper filmMapper;

@@ -1,15 +1,10 @@
 package lv.sda.cinemaapi.controller;
 
 import lv.sda.cinemaapi.dto.PlaceDTO;
-import lv.sda.cinemaapi.entity.Place;
-import lv.sda.cinemaapi.entity.Room;
-import lv.sda.cinemaapi.mapper.PlaceMapper;
-import lv.sda.cinemaapi.repository.PlaceRepository;
 import lv.sda.cinemaapi.service.PlaceService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/place.svc")
