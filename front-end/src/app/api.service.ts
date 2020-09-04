@@ -32,7 +32,7 @@ export class ApiService {
     return this.httpClient.get(this.placeURL + `/Places(` + room_number + `)`);
   }
 
-  public updateSeats(seat: ISeat): Observable<any> {
+  public updateSeat(seat: ISeat): Observable<any> {
     return this.httpClient.put(this.placeURL + `/Place`, seat);
   }
 }

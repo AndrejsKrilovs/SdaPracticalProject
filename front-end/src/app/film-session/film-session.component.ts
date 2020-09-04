@@ -109,17 +109,12 @@ export class FilmSessionComponent {
     this.order.places = this.selected_seats.join(',\xa0');
     this.order.total_price = this.selected_seats.length * this.selectedSession.price;
     this.order.generation_time = this.datePipe
-      .transform(new Date(), 'dd.MM.yyyy hh:mm:ss');  
-  
+      .transform(new Date(), 'dd.MM.yyyy hh:mm:ss');
+
   }
 
   approveOrder(): void {
-//     this.order.places
-//       .forEach(element => {
-//         this.apiService.updateSeats(element).subscribe()
-//     });
-//     this.router
-//       .navigate([``])
-//       .then(() => console.log());
+    this.seats.forEach(seat => this.apiService.updateSeat(seat).subscribe());
+    this.router.navigate(['']).then(() => console.log());
   }
 }
