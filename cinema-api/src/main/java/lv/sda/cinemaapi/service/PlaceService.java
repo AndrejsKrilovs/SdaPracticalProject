@@ -1,35 +1,27 @@
 package lv.sda.cinemaapi.service;
 
-import lv.sda.cinemaapi.dto.PlaceDTO;
 import lv.sda.cinemaapi.entity.Place;
 import lv.sda.cinemaapi.entity.Room;
-import lv.sda.cinemaapi.mapper.PlaceMapper;
 import lv.sda.cinemaapi.repository.PlaceRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class PlaceService {
 
     private final PlaceRepository placeRepository;
-    private final PlaceMapper placeMapper;
 
-    public PlaceService(PlaceRepository placeRepository, PlaceMapper placeMapper) {
+    public PlaceService(PlaceRepository placeRepository) {
         this.placeRepository = placeRepository;
-        this.placeMapper = placeMapper;
     }
 
-    public List<PlaceDTO> placesByRoomNumber(Integer roomNumber) {
-        return placeRepository.findPlaceByRoom(Room.values()[roomNumber])
-                .stream()
-                .map(placeMapper::toDTO)
-                .collect(Collectors.toList());
+    public List<Place> placesByRoomNumber(Integer roomNumber) {
+        return new ArrayList<>(placeRepository.findPlaceByRoom(Room.values()[roomNumber]));
     }
 
-    public PlaceDTO updatePlace(PlaceDTO placeDTO) {
-        Place result = placeRepository.save(placeMapper.fromDTO(placeDTO));
-        return placeMapper.toDTO(result);
+    public Place updatePlace(Place place) {
+        return placeRepository.save(place);
     }
 }
