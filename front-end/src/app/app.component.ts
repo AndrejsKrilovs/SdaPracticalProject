@@ -23,12 +23,12 @@ export interface ISeat {
 }
 
 export interface IOrder {
-  generationTime: string;
-  filmName: string;
-  sessionDate: string;
-  roomNumber: number;
-  places: Array<number>;
-  totalPrice: number;
+  film: string;
+  session_date: string;
+  room: number;
+  places: string;
+  generation_time: string;
+  total_price: number;
 }
 
 @Component({

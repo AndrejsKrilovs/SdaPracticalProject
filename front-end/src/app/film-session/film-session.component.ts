@@ -10,11 +10,10 @@ import {DatePipe} from "@angular/common";
   styleUrls: ['./film-session.component.css']
 })
 export class FilmSessionComponent {
+  selected_seats: Array<number> = [];
   sessions: Array<ISession> = [];
   seats: Array<ISeat> = [];
-
-  selectedSeats: number = 0;
-  currentPage: number = 0;
+  current_page: number = 0;
 
   selectedSession: ISession = {
     id: 0,
@@ -31,13 +30,14 @@ export class FilmSessionComponent {
     title: ''
   };
 
-//   order: IOrder = {
-//     generationTime: '',
-//     filmName: null,
-//     sessionDate: null,
-//     places: [],
-//     totalPrice: 0
-//   };
+  order: IOrder = {
+    film: '',
+    session_date: '',
+    room: 0,
+    places: '',
+    generation_time: '',
+    total_price: 0
+  }
 
   constructor(
     private route: ActivatedRoute,
@@ -49,21 +49,19 @@ export class FilmSessionComponent {
     apiService.oneFilm(this.selectedFilm.id)
       .subscribe(result => this.selectedFilm = result);
 
-    apiService.sessionCollection(this.selectedFilm.id, this.currentPage)
+    apiService.sessionCollection(this.selectedFilm.id, this.current_page)
       .subscribe(result => result.forEach(data => this.sessions.push(data)));
   }
 
   private init(): void {
-      this.selectedSeats = 0;
       this.sessions.splice(0);
-   //   this.order.places.splice(0);
+      this.selected_seats.splice(0);
       this.selectedSession.id = 0;
   }
 
   onSessionSelect(session: ISession): void {
-    this.selectedSeats = 0;
     this.seats.splice(0);
-    //this.order.places.splice(0);
+    this.selected_seats.splice(0);
     this.seats.forEach(s => s.available = false);
     this.selectedSession = session;
 
@@ -81,12 +79,10 @@ export class FilmSessionComponent {
           seat = _seat;
 
           if(seat.available) {
-            ++ this.selectedSeats;
-    //        this.order.places.push(seat.place_number);
+            this.selected_seats.push(seat.place_number);
           } else if(!seat.available) {
-//               const index = this.order.places.indexOf(seat);
-//               this.order.places.splice(index, 1);
-               -- this.selectedSeats;
+              const ind = this.selected_seats.indexOf(seat.place_number);
+              this.selected_seats.splice(ind, 1);
           }
         }
       });
@@ -94,25 +90,27 @@ export class FilmSessionComponent {
 
   pageUp(): void {
     this.init();
-    this.currentPage > 0 ? this.currentPage = 1 : this.currentPage ++ ;
-    this.apiService.sessionCollection(this.selectedFilm.id, this.currentPage)
+    this.current_page > 0 ? this.current_page = 1 : this.current_page ++ ;
+    this.apiService.sessionCollection(this.selectedFilm.id, this.current_page)
       .subscribe(result => result.forEach(data => this.sessions.push(data)));
   }
 
   pageDown(): void {
     this.init();
-    this.currentPage <= 0 ? this.currentPage = 0 : this.currentPage -- ;
-    this.apiService.sessionCollection(this.selectedFilm.id, this.currentPage)
+    this.current_page <= 0 ? this.current_page = 0 : this.current_page -- ;
+    this.apiService.sessionCollection(this.selectedFilm.id, this.current_page)
       .subscribe(result => result.forEach(data => this.sessions.push(data)));
   }
 
   makeOrder(): void {
-  //  this.order.filmName = this.selectedFilm.title;
-  //  this.order.sessionDate = this.selectedSession.date_time;
-    //this.order.roomNumber = Number.parseInt(this.selectedSession.room, 0);
-  //  this.order.totalPrice = this.selectedSeats * this.selectedSession.price;
-  //  this.order.generationTime = this.datePipe
-  //    .transform(new Date(), 'dd.MM.yyyy hh:mm:ss');
+    this.order.film = this.selectedFilm.title;
+    this.order.session_date = this.selectedSession.date_time;
+    this.order.room = this.selectedSession.room;
+    this.order.places = this.selected_seats.join(',\xa0');
+    this.order.total_price = this.selected_seats.length * this.selectedSession.price;
+    this.order.generation_time = this.datePipe
+      .transform(new Date(), 'dd.MM.yyyy hh:mm:ss');  
+  
   }
 
   approveOrder(): void {
