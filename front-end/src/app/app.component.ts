@@ -24,9 +24,10 @@ export interface ISeat {
 
 export interface IOrder {
   generationTime: string;
-  film: IFilm;
-  session: ISession;
-  places: Array<ISeat>;
+  filmName: string;
+  sessionDate: string;
+  roomNumber: number;
+  places: Array<number>;
   totalPrice: number;
 }
 

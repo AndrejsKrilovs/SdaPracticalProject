@@ -31,13 +31,13 @@ export class FilmSessionComponent {
     title: ''
   };
 
-  order: IOrder = {
-    generationTime: '',
-    film: null,
-    session: null,
-    places: [],
-    totalPrice: 0
-  };
+//   order: IOrder = {
+//     generationTime: '',
+//     filmName: null,
+//     sessionDate: null,
+//     places: [],
+//     totalPrice: 0
+//   };
 
   constructor(
     private route: ActivatedRoute,
@@ -56,12 +56,14 @@ export class FilmSessionComponent {
   private init(): void {
       this.selectedSeats = 0;
       this.sessions.splice(0);
+   //   this.order.places.splice(0);
       this.selectedSession.id = 0;
   }
 
   onSessionSelect(session: ISession): void {
     this.selectedSeats = 0;
     this.seats.splice(0);
+    //this.order.places.splice(0);
     this.seats.forEach(s => s.available = false);
     this.selectedSession = session;
 
@@ -80,11 +82,11 @@ export class FilmSessionComponent {
 
           if(seat.available) {
             ++ this.selectedSeats;
-            this.order.places.push(seat);
+    //        this.order.places.push(seat.place_number);
           } else if(!seat.available) {
-              const index = this.order.places.indexOf(seat);
-              this.order.places.splice(index, 1);
-              -- this.selectedSeats;
+//               const index = this.order.places.indexOf(seat);
+//               this.order.places.splice(index, 1);
+               -- this.selectedSeats;
           }
         }
       });
@@ -105,20 +107,19 @@ export class FilmSessionComponent {
   }
 
   makeOrder(): void {
-    this.order.generationTime = this.datePipe
-      .transform(new Date(), 'dd.MM.yyyy hh:mm:ss');
-
-    this.order.session = this.selectedSession;
-    this.order.film = this.selectedFilm;
-    this.order.totalPrice = this.selectedSeats * this.selectedSession.price;
-
-    this.order.places
-      .forEach(element => {
-        this.apiService.updateSeats(element).subscribe()
-      });
+  //  this.order.filmName = this.selectedFilm.title;
+  //  this.order.sessionDate = this.selectedSession.date_time;
+    //this.order.roomNumber = Number.parseInt(this.selectedSession.room, 0);
+  //  this.order.totalPrice = this.selectedSeats * this.selectedSession.price;
+  //  this.order.generationTime = this.datePipe
+  //    .transform(new Date(), 'dd.MM.yyyy hh:mm:ss');
   }
 
   approveOrder(): void {
+//     this.order.places
+//       .forEach(element => {
+//         this.apiService.updateSeats(element).subscribe()
+//     });
 //     this.router
 //       .navigate([``])
 //       .then(() => console.log());

@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class FilmService {
-
+    private final static Integer ELEMENT_SIZE_PER_PAGE = 10;
     private final FilmRepository filmRepository;
     private final FilmMapper filmMapper;
 
@@ -22,7 +22,7 @@ public class FilmService {
     }
 
     public List<FilmDTO> getFilms(Integer offset) {
-        return filmRepository.findAll(PageRequest.of(offset, 10))
+        return filmRepository.findAll(PageRequest.of(offset, ELEMENT_SIZE_PER_PAGE))
                 .stream()
                 .map(filmMapper::toDTO)
                 .collect(Collectors.toList());
