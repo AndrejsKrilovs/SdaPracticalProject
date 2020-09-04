@@ -5,6 +5,7 @@ import lv.sda.cinemaapi.entity.Place;
 import lv.sda.cinemaapi.entity.Room;
 import lv.sda.cinemaapi.mapper.PlaceMapper;
 import lv.sda.cinemaapi.repository.PlaceRepository;
+import lv.sda.cinemaapi.service.PlaceService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,25 +15,20 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/place.svc")
 @CrossOrigin(origins="http://localhost:4200")
 public class PlaceController {
-    private final PlaceRepository placeRepository;
-    private final PlaceMapper placeMapper;
 
-    public PlaceController(PlaceRepository placeRepository, PlaceMapper placeMapper) {
-        this.placeRepository = placeRepository;
-        this.placeMapper = placeMapper;
+    private final PlaceService placeService;
+
+    public PlaceController(PlaceService placeService) {
+        this.placeService = placeService;
     }
 
     @GetMapping("/Places({room_number})")
     public List<PlaceDTO> placeListByRoomNumber(@PathVariable("room_number") Integer roomNumber) {
-        return placeRepository.findPlaceByRoom(Room.values()[roomNumber])
-                .stream()
-                .map(placeMapper::toDTO)
-                .collect(Collectors.toList());
+        return placeService.placesByRoomNumber(roomNumber);
     }
 
     @PutMapping("/Place")
     public PlaceDTO updatePlaceData(@RequestBody PlaceDTO placeDTO) {
-        Place result = placeRepository.save(placeMapper.fromDTO(placeDTO));
-        return placeMapper.toDTO(result);
+        return placeService.updatePlace(placeDTO);
     }
 }
