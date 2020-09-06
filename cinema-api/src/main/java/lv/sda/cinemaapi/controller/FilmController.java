@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -27,9 +26,7 @@ public class FilmController {
     }
 
     @GetMapping("/Films")
-    public ResponseEntity<List<FilmDTO>> findAll(
-            @RequestParam(value = "offset", required = false, defaultValue = "0") Integer offset
-    ) {
+    public ResponseEntity<List<FilmDTO>> findAll(@RequestParam(value = "offset", required = false, defaultValue = "0") Integer offset) {
         List<FilmDTO> resultList = filmService.getFilms(offset)
                 .stream()
                 .map(filmMapper::toDTO)
@@ -41,6 +38,6 @@ public class FilmController {
 
     @GetMapping("/Film({id})")
     public ResponseEntity<FilmDTO> getOne(@PathVariable("id") Film film) {
-        return new ResponseEntity<>(filmMapper.toDTO(film), HttpStatus.FOUND);
+        return new ResponseEntity<>(filmMapper.toDTO(film), HttpStatus.OK);
     }
 }
