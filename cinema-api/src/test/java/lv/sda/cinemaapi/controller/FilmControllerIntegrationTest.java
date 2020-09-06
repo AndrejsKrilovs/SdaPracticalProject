@@ -1,22 +1,24 @@
 package lv.sda.cinemaapi.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lv.sda.cinemaapi.dto.FilmDTO;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.util.UriComponentsBuilder;
 
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
+import java.net.URI;
+import java.util.Objects;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class FilmControllerIntegrationTest {
+public class FilmControllerIntegrationTest {
+
+    private final static String URL_TO_TEST = "http://localhost:%d/api/film.svc%s";
+    private final static Integer ITEMS_PER_PAGE = 10;
 
     @LocalServerPort
     private int port;
@@ -24,33 +26,49 @@ class FilmControllerIntegrationTest {
     @Autowired
     private TestRestTemplate restTemplate;
 
-    @Autowired
-    private ObjectMapper objectMapper;
-
     @Test
-    void getTenFilms() throws JsonProcessingException {
-        String result = restTemplate.getForObject("http://localhost:" + port
-                + "/api/film.svc/Films?offset=1", String.class);
+    public void filmListWithoutOffsetTest() {
+        String url = String.format(URL_TO_TEST, port, "/Films");
+        ResponseEntity<FilmDTO[]> entity = restTemplate.getForEntity(url, FilmDTO[].class);
 
-        JsonNode jsonNode = objectMapper.readTree(result);
-        List<FilmDTO> filmDTOS = objectMapper.convertValue(jsonNode, new TypeReference<List<FilmDTO>>() {});
-
-        assertEquals(10, filmDTOS.size());
-
-        for (int i=0; i<10; i++) {
-            assertEquals("Title " + (i + 10), filmDTOS.get(i).getTitle());
-        }
-        assertEquals("https://miro.medium.com/max/1200/0*jSJUA3vYRpJA3oK3.jpg",
-                filmDTOS.get(0).getPicturePath());
+        Assertions.assertEquals(HttpStatus.OK, entity.getStatusCode());
+        Assertions.assertEquals(ITEMS_PER_PAGE, Objects.requireNonNull(entity.getBody()).length);
     }
 
     @Test
-    void getFilmById() {
-        FilmDTO result = restTemplate.getForObject("http://localhost:" + port
-                + "/api/film.svc/Film(5)", FilmDTO.class);
+    public void filmListWithOffsetTest() {
+        String url = String.format(URL_TO_TEST, port, "/Films");
+        URI generatedRequest = UriComponentsBuilder.fromUriString(url)
+                .queryParam("offset", "1")
+                .build().toUri();
 
-        assertEquals("https://miro.medium.com/max/1200/0*jSJUA3vYRpJA3oK3.jpg", result.getPicturePath());
-        assertEquals("Title 4", result.getTitle());
-        assertEquals(5L, result.getId());
+        ResponseEntity<FilmDTO[]> entity = restTemplate.getForEntity(generatedRequest, FilmDTO[].class);
+        Assertions.assertEquals(HttpStatus.OK, entity.getStatusCode());
+        Assertions.assertEquals(ITEMS_PER_PAGE, Objects.requireNonNull(entity.getBody()).length);
+    }
+
+    @Test
+    public void filmListWithLongOffsetTest() {
+        String url = String.format(URL_TO_TEST, port, "/Films");
+        URI generatedRequest = UriComponentsBuilder.fromUriString(url)
+                .queryParam("offset", "1024")
+                .build().toUri();
+
+        ResponseEntity<FilmDTO[]> entity = restTemplate.getForEntity(generatedRequest, FilmDTO[].class);
+        Assertions.assertEquals(HttpStatus.NO_CONTENT, entity.getStatusCode());
+    }
+
+    @Test
+    public void getOneFilmTest() {
+        String url = String.format(URL_TO_TEST, port, "/Film(10)");
+        ResponseEntity<FilmDTO> entity = restTemplate.getForEntity(url, FilmDTO.class);
+        Assertions.assertEquals(HttpStatus.FOUND, entity.getStatusCode());
+    }
+
+    @Test
+    public void getOneFilmWithIncorrectParameterTest() {
+        String url = String.format(URL_TO_TEST, port, "/Film(1024)");
+        ResponseEntity<FilmDTO> entity = restTemplate.getForEntity(url, FilmDTO.class);
+        Assertions.assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, entity.getStatusCode());
     }
 }
