@@ -45,6 +45,12 @@ class FilmControllerIntegrationTest {
     }
 
     @Test
-    void getOne() {
+    void getFilmById() {
+        FilmDTO result = restTemplate.getForObject("http://localhost:" + port
+                + "/api/film.svc/Film(5)", FilmDTO.class);
+
+        assertEquals("https://miro.medium.com/max/1200/0*jSJUA3vYRpJA3oK3.jpg", result.getPicturePath());
+        assertEquals("Title 4", result.getTitle());
+        assertEquals(5L, result.getId());
     }
 }
