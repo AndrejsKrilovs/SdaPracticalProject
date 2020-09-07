@@ -8,12 +8,12 @@ import java.time.LocalTime;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class FilmMapperTest {
+public class FilmMapperTest {
 
     private final FilmMapper filmMapper = new FilmMapper();
 
     @Test
-    void fromDTO() {
+    public void fromDTO() {
         FilmDTO filmDTO  = new FilmDTO();
         filmDTO.setId(100L);
         filmDTO.setTitle("Title 100");
@@ -29,7 +29,7 @@ class FilmMapperTest {
     }
 
     @Test
-    void toDTO() {
+    public void toDTO() {
         Film film = new Film();
         film.setId(100L);
         film.setTitle("Title 100");

@@ -63,6 +63,7 @@ public class FilmControllerIntegrationTest {
         String url = String.format(URL_TO_TEST, port, "/Film(10)");
         ResponseEntity<FilmDTO> entity = restTemplate.getForEntity(url, FilmDTO.class);
         Assertions.assertEquals(HttpStatus.OK, entity.getStatusCode());
+        Assertions.assertEquals(10, Objects.requireNonNull(entity.getBody()).getId());
     }
 
     @Test
