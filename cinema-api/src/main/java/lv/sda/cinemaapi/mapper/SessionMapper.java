@@ -6,7 +6,6 @@ import lv.sda.cinemaapi.entity.Room;
 import lv.sda.cinemaapi.entity.Session;
 import org.springframework.stereotype.Component;
 
-import java.lang.reflect.Array;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
