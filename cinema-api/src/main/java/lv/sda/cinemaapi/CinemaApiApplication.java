@@ -30,10 +30,6 @@ public class CinemaApiApplication {
 
     @PostConstruct
     public void init() {
-        placeRepository.deleteAll();
-        sessionRepository.deleteAll();
-        filmRepository.deleteAll();
-
         if(filmRepository.count() == 0) {
             for (int i = 0; i < 128; i++) {
                 Film entity = new Film();

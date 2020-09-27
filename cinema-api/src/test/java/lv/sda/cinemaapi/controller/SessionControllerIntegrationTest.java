@@ -1,22 +1,20 @@
 package lv.sda.cinemaapi.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lv.sda.cinemaapi.dto.SessionDTO;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
-
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class SessionControllerIntegrationTest {
+public class SessionControllerIntegrationTest {
+
+    private final static String URL_TO_TEST = "http://localhost:%d/api/film.svc%s";
+    private final static Integer ITEMS_PER_PAGE = 7;
 
     @LocalServerPort
     private int port;
@@ -24,18 +22,18 @@ class SessionControllerIntegrationTest {
     @Autowired
     private TestRestTemplate restTemplate;
 
-    @Autowired
-    private ObjectMapper objectMapper;
-
     @Test
-    void getSevenSessionsByFilm() throws JsonProcessingException {
-        String result = restTemplate.getForObject("http://localhost:" + port
-                + "/api/session.svc/Sessions(50)", String.class);
-
-        JsonNode jsonNode = objectMapper.readTree(result);
-        List<SessionDTO> sessionDTOS = objectMapper.convertValue(jsonNode, new TypeReference<List<SessionDTO>>() {});
-
-        assertEquals(7, sessionDTOS.size());
-        assertEquals(50, sessionDTOS.get(0).getFilmId());
+    public void findSessionByFilmTest() {
+        String url = String.format(URL_TO_TEST, port, "/Sessions(1)");
+        ResponseEntity<SessionDTO[]> entity = restTemplate.getForEntity(url, SessionDTO[].class);
+        Assertions.assertEquals(HttpStatus.OK, entity.getStatusCode());
     }
+//
+//    @Test
+//    public void findSessionByFilmWithIncorrectParameterTest() {
+//        String url = String.format(URL_TO_TEST, port, "/Sessions(99999)");
+//        ResponseEntity<SessionDTO[]> entity = restTemplate.getForEntity(url, SessionDTO[].class);
+//        Assertions.assertEquals(HttpStatus.OK, entity.getStatusCode());
+//        Assertions.assertArrayEquals(new SessionDTO[]{new SessionDTO()}, entity.getBody());
+//    }
 }
