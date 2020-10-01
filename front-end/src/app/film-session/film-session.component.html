@@ -43,22 +43,30 @@
     <hr/>
   </div>
 
-  <div class="col-md-4 col-xl-3">
+  <div class="col-md-4 col-xl-3 was-validated">
+    <label for="name_surname">Имя и Фамилия</label>
     <input id="name_surname" aria-label="Search"
-           class="form-control"
-           placeholder="Введите Имя и Фамилию" type="text" >
+           class="form-control is-invalid" type="text"
+           placeholder="Имя Фамилия" required
+           pattern="[A-Z]{1}[a-z]{1,}\s[A-Z]{1}[a-z]{1,}"
+           (input)="userNameInput($event)"
+    >
   </div>
 
-  <div class="col-md-4 col-xl-3">
-    <input id="email" aria-label="Search"
-           class="form-control"
-           placeholder="Введите e-mail" type="email" >
+  <div class="col-md-4 col-xl-3 was-validated">
+    <label for="pk">Персональный код</label>
+    <input id="pk" aria-label="Search"
+           class="form-control is-invalid" type="text"
+           placeholder="000000-00000" required
+           pattern="[0-9]{6}-[0-9]{5}" (input)="userCodeInput($event)"
+    >
   </div>
 
-  <div class="col-md-4 col-xl-3">
-    <button class="btn btn-primary btn-block"
+  <div class="col-md-4 col-xl-3 was-validated">
+    <label for="mk_ord" style="padding-top: 1em"></label>
+    <button id="mk_ord" class="btn btn-primary btn-block"
             data-toggle="modal" data-target="#exampleModalCenter"
-            (click)="makeOrder()">
+            (click)="makeOrder()" [disabled]="buttonDisabled" >
       Оформить заказ
     </button>
   </div>
@@ -68,21 +76,24 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLongTitle">Поздравляем, ваш билет оформлен!</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
         </div>
         <div class="modal-body">
           <div class="form-group col-md-12">
             <label for="nameSurname">Имя Фамилия</label>
-            <input id="nameSurname" aria-label="Search" class="form-control" type="text" value="Имя Фамилия" readonly>
+            <input id="nameSurname" aria-label="Search" class="form-control" type="text" [value]="name_surname" readonly>
           </div>
 
           <div class="form-group col-md-12">
-            <label for="em">E-mail</label>
-            <input id="em" aria-label="Search" class="form-control" type="email" value="some@email.com" readonly>
+            <label for="em">Персональный код</label>
+            <input id="em" aria-label="Search" class="form-control" type="text" [value]="personal_code" readonly>
           </div>
 
           <div class="form-group col-md-12">
             <label for="film">Название фильма</label>
-            <input id="film" aria-label="Search" class="form-control" type="text" [value]="order.film" readonly>
+            <input id="film" aria-label="Search" class="form-control" type="text" [value]="selectedFilm.title" readonly>
           </div>
 
           <div class="form-row" style="margin: 0 0.7rem">

@@ -23,7 +23,9 @@ export interface ISeat {
 }
 
 export interface IOrder {
-  film: string;
+  name_surname: string;
+  personal_code: string;
+  film: number;
   session_date: string;
   room: number;
   places: string;

@@ -14,6 +14,9 @@ export class FilmSessionComponent {
   sessions: Array<ISession> = [];
   seats: Array<ISeat> = [];
   current_page: number = 0;
+  name_surname: string = '';
+  personal_code: string = '';
+  buttonDisabled: boolean = true;
 
   selectedSession: ISession = {
     id: 0,
@@ -31,7 +34,9 @@ export class FilmSessionComponent {
   };
 
   order: IOrder = {
-    film: '',
+    name_surname: '',
+    personal_code: '',
+    film: 0,
     session_date: '',
     room: 0,
     places: '',
@@ -51,12 +56,6 @@ export class FilmSessionComponent {
 
     apiService.sessionCollection(this.selectedFilm.id, this.current_page)
       .subscribe(result => result.forEach(data => this.sessions.push(data)));
-  }
-
-  private init(): void {
-      this.sessions.splice(0);
-      this.selected_seats.splice(0);
-      this.selectedSession.id = 0;
   }
 
   onSessionSelect(session: ISession): void {
@@ -103,18 +102,60 @@ export class FilmSessionComponent {
   }
 
   makeOrder(): void {
-    this.order.film = this.selectedFilm.title;
+    this.order.film = this.selectedFilm.id;
     this.order.session_date = this.selectedSession.date_time;
     this.order.room = this.selectedSession.room;
     this.order.places = this.selected_seats.join(',\xa0');
     this.order.total_price = this.selected_seats.length * this.selectedSession.price;
-    this.order.generation_time = this.datePipe
-      .transform(new Date(), 'dd.MM.yyyy hh:mm:ss');
-
+    this.order.generation_time = this.datePipe.transform(new Date(), 'dd.MM.yyyy hh:mm:ss');
+    this.order.name_surname = this.name_surname;
+    this.order.personal_code = this.personal_code;
   }
 
   approveOrder(): void {
     this.seats.forEach(seat => this.apiService.updateSeat(seat).subscribe());
-    this.router.navigate(['']).then(() => console.log());
+    console.log(this.order);
+    this.invalidateOrder();
+  }
+
+  userCodeInput(event: any): void {
+    this.personal_code = '';
+    const correctUserCode: RegExp = /[0-9]{6}-[0-9]{5}/;
+    if(correctUserCode.test(event.target.value)) {
+      this.personal_code = event.target.value;
+    };
+
+    this.buttonDisabled = !(this.name_surname.length > 0 && this.personal_code.length === 12);
+  }
+
+  userNameInput(event: any): void {
+    this.name_surname = '';
+    const correctUserName: RegExp = /[A-Z]{1}[a-z]{1,}\s[A-Z]{1}[a-z]{1,}/;
+    if(correctUserName.test(event.target.value)) {
+      this.name_surname = event.target.value;
+    };
+
+    this.buttonDisabled = !(this.name_surname.length > 0 && this.personal_code.length === 12);
+  }
+
+  private init(): void {
+    this.sessions.splice(0);
+    this.selected_seats.splice(0);
+    this.selectedSession.id = 0;
+    this.name_surname = '';
+    this.personal_code = '';
+  }
+
+  private invalidateOrder(): void {
+    this.order = {
+      name_surname: '',
+      personal_code: '',
+      film: 0,
+      session_date: '',
+      room: 0,
+      places: '',
+      generation_time: '',
+      total_price: 0
+    }
   }
 }

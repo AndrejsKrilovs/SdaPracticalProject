@@ -9,8 +9,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import javax.annotation.PostConstruct;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.Month;
+import java.time.temporal.ChronoUnit;
 
 @SpringBootApplication
 public class CinemaApiApplication {
@@ -26,49 +29,51 @@ public class CinemaApiApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(CinemaApiApplication.class, args);
+
+        Long days = ChronoUnit.DAYS.between(LocalDate.of(1990, Month.JULY, 5), LocalDate.now());
+        System.out.println(days);
     }
 
     @PostConstruct
     public void init() {
-        if(filmRepository.count() == 0) {
-            for (int i = 0; i < 128; i++) {
-                Film entity = new Film();
-                entity.setLength(LocalTime.of((int) (Math.round(Math.random() * 2) + 1), (int) (Math.round(Math.random() * 59))));
-                entity.setPicturePath("https://miro.medium.com/max/1200/0*jSJUA3vYRpJA3oK3.jpg");
-                entity.setTitle(String.format("Title %d", i));
-                filmRepository.save(entity);
+        for (int i = 0; i < 128; i++) {
+            Film entity = new Film();
+            entity.setLength(LocalTime.of((int) (Math.round(Math.random() * 2) + 1), (int) (Math.round(Math.random() * 59))));
+            entity.setPicturePath("https://miro.medium.com/max/1200/0*jSJUA3vYRpJA3oK3.jpg");
+            entity.setTitle(String.format("Title %d", i));
+            filmRepository.save(entity);
+        }
+
+
+
+        for (int i = 1; i < 2048; i++) {
+            Session entity = new Session();
+            entity.setDateTime(LocalDateTime.now());
+
+            int room = (int) (Math.round(Math.random() * 3) + 1);
+            entity.setRoom(Room.values()[room]);
+            entity.setPrice(BigDecimal.valueOf(Math.random() * 10));
+
+            Film film = new Film();
+            film.setId(Math.round(Math.random()* 127 + 1));
+            entity.setFilm(film);
+            sessionRepository.save(entity);
+        }
+
+
+
+        for (int i = 1; i <= 4 ; i++) {
+            for (int j = 1; j <= 40; j++) {
+                Place place = new Place();
+                place.setAvailable(Boolean.FALSE);
+
+                PlacePrimaryKey id = new PlacePrimaryKey();
+                id.setRoomNumber(Room.values()[i]);
+                id.setPlaceNumber(j);
+                place.setId(id);
+                placeRepository.save(place);
             }
         }
 
-        if(sessionRepository.count() == 0) {
-            for (int i = 1; i < 2048; i++) {
-                Session entity = new Session();
-                entity.setDateTime(LocalDateTime.now());
-
-                int room = (int) (Math.round(Math.random() * 3) + 1);
-                entity.setRoom(Room.values()[room]);
-                entity.setPrice(BigDecimal.valueOf(Math.random() * 10));
-
-                Film film = new Film();
-                film.setId(Math.round(Math.random()* 127 + 1));
-                entity.setFilm(film);
-                sessionRepository.save(entity);
-            }
-        }
-
-        if(placeRepository.count() == 0) {
-            for (int i = 1; i <= 4 ; i++) {
-                for (int j = 1; j <= 40; j++) {
-                    Place place = new Place();
-                    place.setAvailable(Boolean.FALSE);
-
-                    PlacePrimaryKey id = new PlacePrimaryKey();
-                    id.setRoomNumber(Room.values()[i]);
-                    id.setPlaceNumber(j);
-                    place.setId(id);
-                    placeRepository.save(place);
-                }
-            }
-        }
     }
 }
