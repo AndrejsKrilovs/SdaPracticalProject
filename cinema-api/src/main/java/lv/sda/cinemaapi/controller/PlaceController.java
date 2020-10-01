@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -38,7 +39,7 @@ public class PlaceController {
     }
 
     @PutMapping("/Place")
-    public ResponseEntity<PlaceDTO> updatePlaceData(@RequestBody PlaceDTO placeDTO) {
+    public ResponseEntity<PlaceDTO> updatePlaceData(@Valid @RequestBody PlaceDTO placeDTO) {
         Place placeToUpdate = placeMapper.fromDTO(placeDTO);
         Place result = placeService.updatePlace(placeToUpdate);
         return new ResponseEntity<>(placeMapper.toDTO(result), HttpStatus.ACCEPTED);

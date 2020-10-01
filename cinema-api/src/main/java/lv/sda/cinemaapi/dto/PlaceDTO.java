@@ -2,12 +2,14 @@ package lv.sda.cinemaapi.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.util.StringJoiner;
+import javax.validation.constraints.Positive;
 
 public class PlaceDTO {
+    @Positive
     @JsonProperty(value = "room_number")
     private Integer roomNumber;
 
+    @Positive
     @JsonProperty(value = "place_number")
     private Integer placeNumber;
     private Boolean available;

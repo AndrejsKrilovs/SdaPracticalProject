@@ -17,6 +17,7 @@ public class OrderDTO {
     @Pattern(regexp = "[0-9]{6}-[0-9]{5}", message = "Incorrect Personal code")
     private String personalCode;
 
+    @Positive
     private Long session;
 
     @NotBlank(message = "Should select at least one place")
