@@ -40,4 +40,19 @@ public class FilmController {
     public ResponseEntity<FilmDTO> getOne(@PathVariable("id") Film film) {
         return new ResponseEntity<>(filmMapper.toDTO(film), HttpStatus.OK);
     }
+
+    @GetMapping("/Films$filter")
+    public ResponseEntity<List<FilmDTO>> findAllByTitle(
+            @RequestParam(value = "title", required = false, defaultValue = "") String title,
+            @RequestParam(value = "offset", required = false, defaultValue = "0") Integer offset
+    ) {
+        List<FilmDTO> resultList = filmService.getFilmsByTitle(title, offset)
+                .stream()
+                .map(filmMapper::toDTO)
+                .collect(Collectors.toList());
+
+        return resultList.size() > 0 ?
+                new ResponseEntity<>(resultList, HttpStatus.OK) :
+                new ResponseEntity<>(new ArrayList<>(), HttpStatus.NO_CONTENT);
+    }
 }

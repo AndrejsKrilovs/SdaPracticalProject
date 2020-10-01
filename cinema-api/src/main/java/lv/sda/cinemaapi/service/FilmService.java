@@ -23,4 +23,12 @@ public class FilmService {
                 .stream()
                 .collect(Collectors.toList());
     }
+
+    public List<Film> getFilmsByTitle(String title, Integer offset) {
+        if(title == null) {
+           title = String.join("\\s");
+        }
+        return filmRepository
+                .findAllByTitleContainingIgnoreCase(title, PageRequest.of(offset, ELEMENT_SIZE_PER_PAGE));
+    }
 }
