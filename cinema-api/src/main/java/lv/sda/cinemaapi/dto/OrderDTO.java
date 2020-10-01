@@ -1,25 +1,34 @@
 package lv.sda.cinemaapi.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import javax.validation.constraints.*;
 import java.math.BigDecimal;
 
 public class OrderDTO {
-   @JsonProperty(value = "name_surname")
+    @NotBlank
+    @JsonProperty(value = "name_surname")
+    @Pattern(regexp = "[A-Z]{1}[a-z]{1,}\\s[A-Z]{1}[a-z]{1,}", message = "Incorrect Name and Surname")
     private String user;
 
+    @NotBlank
     @JsonProperty(value = "personal_code")
+    @Pattern(regexp = "[0-9]{6}-[0-9]{5}", message = "Incorrect Personal code")
     private String personalCode;
+
     private Long session;
+
+    @NotBlank(message = "Should select at least one place")
     private String places;
 
     @JsonProperty(value = "generation_time")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy hh:mm")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy hh:mm:ss")
+    @NotBlank(message = "Generated time should be with pattern 'dd.MM.yyyy hh:mm:ss'")
     private String generationTime;
 
     @JsonProperty(value = "total_price")
+    @PositiveOrZero(message = "Total sum should be positive")
     private BigDecimal totalPrice;
 
     public String getUser() {

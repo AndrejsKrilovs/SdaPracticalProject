@@ -38,6 +38,6 @@ export class ApiService {
   }
 
   public addOrder(order: IOrder): Observable<any> {
-      return this.httpClient.post(this.placeURL + `/Order`, order);
+      return this.httpClient.post(this.orderURL + `/Order`, order);
   }
 }

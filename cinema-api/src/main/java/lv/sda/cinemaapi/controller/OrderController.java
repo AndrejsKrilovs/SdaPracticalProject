@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/api/order.svc")
 @CrossOrigin(origins="http://localhost:4200")
@@ -22,7 +24,7 @@ public class OrderController {
     }
 
     @PostMapping("/Order")
-    public ResponseEntity<OrderDTO> addOrder(@RequestBody OrderDTO order) {
+    public ResponseEntity<OrderDTO> addOrder(@Valid @RequestBody OrderDTO order) {
         Order newOrder = orderService.addOrder(orderMapper.fromDTO(order));
         return new ResponseEntity<>(orderMapper.toDTO(newOrder), HttpStatus.CREATED);
     }

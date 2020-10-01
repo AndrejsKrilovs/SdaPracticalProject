@@ -18,7 +18,7 @@ public class OrderMapper {
         result.setPersonalCode(orderDTO.getPersonalCode());
 
         LocalDateTime generationTime = LocalDateTime
-                .parse(orderDTO.getGenerationTime(), DateTimeFormatter.ofPattern("dd.MM.yyyy kk:mm"));
+                .parse(orderDTO.getGenerationTime(), DateTimeFormatter.ofPattern("dd.MM.yyyy kk:mm:ss"));
         result.setGenerationTime(generationTime);
 
         Session session = new Session();
@@ -33,7 +33,7 @@ public class OrderMapper {
         result.setPlaces(order.getPlaces());
         result.setTotalPrice(order.getTotalPrice());
         result.setPersonalCode(order.getPersonalCode());
-        result.setGenerationTime(order.getGenerationTime().format(DateTimeFormatter.ofPattern("dd.MM.yyyy kk:mm")));
+        result.setGenerationTime(order.getGenerationTime().format(DateTimeFormatter.ofPattern("dd.MM.yyyy kk:mm:ss")));
         result.setSession(order.getSession().getId());
         return result;
     }

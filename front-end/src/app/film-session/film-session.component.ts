@@ -110,9 +110,9 @@ export class FilmSessionComponent {
 
   approveOrder(): void {
     this.seats.forEach(seat => this.apiService.updateSeat(seat).subscribe());
-    console.log(this.order);
+    this.apiService.addOrder(this.order).subscribe();
     this.invalidateOrder();
-    //this.router.navigate([``]).then(() => console.log());
+    this.router.navigate([``]).then(() => console.log());
   }
 
   userCodeInput(event: any): void {

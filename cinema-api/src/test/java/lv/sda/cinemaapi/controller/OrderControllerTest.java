@@ -30,7 +30,7 @@ public class OrderControllerTest {
         orderDTO.setPersonalCode("050790-11186");
         orderDTO.setSession(1L);
         orderDTO.setPlaces("1, 2, 3");
-        orderDTO.setGenerationTime("01.10.2020 14:00");
+        orderDTO.setGenerationTime("01.10.2020 14:00:00");
         orderDTO.setTotalPrice(BigDecimal.valueOf(1.13));
 
         String url = String.format(URL_TO_TEST, port, "/Order");

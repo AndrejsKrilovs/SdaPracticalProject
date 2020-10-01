@@ -21,7 +21,7 @@ public class OrderMapperTest {
         orderDTO.setPersonalCode("050790-11186");
         orderDTO.setSession(1L);
         orderDTO.setPlaces("1, 2, 3");
-        orderDTO.setGenerationTime("01.10.2020 14:00");
+        orderDTO.setGenerationTime("01.10.2020 14:00:00");
         orderDTO.setTotalPrice(BigDecimal.valueOf(1.13));
 
         Order order = orderMapper.fromDTO(orderDTO);
@@ -32,7 +32,7 @@ public class OrderMapperTest {
         Assertions.assertEquals("1, 2, 3", order.getPlaces());
         Assertions.assertEquals(BigDecimal.valueOf(1.13), order.getTotalPrice());
         Assertions.assertEquals(
-                LocalDateTime.parse("01.10.2020 14:00", DateTimeFormatter.ofPattern("dd.MM.yyyy kk:mm")),
+                LocalDateTime.parse("01.10.2020 14:00:00", DateTimeFormatter.ofPattern("dd.MM.yyyy kk:mm:ss")),
                 order.getGenerationTime()
         );
     }
@@ -50,7 +50,7 @@ public class OrderMapperTest {
         order.setSession(session);
 
         LocalDateTime time = LocalDateTime
-                .parse("01.10.2020 14:00", DateTimeFormatter.ofPattern("dd.MM.yyyy kk:mm"));
+                .parse("01.10.2020 14:00:00", DateTimeFormatter.ofPattern("dd.MM.yyyy kk:mm:ss"));
         order.setGenerationTime(time);
 
         OrderDTO orderDTO = orderMapper.toDTO(order);
@@ -59,6 +59,6 @@ public class OrderMapperTest {
         Assertions.assertEquals(1L, orderDTO.getSession());
         Assertions.assertEquals("1, 2, 3", orderDTO.getPlaces());
         Assertions.assertEquals(BigDecimal.valueOf(1.13), order.getTotalPrice());
-        Assertions.assertEquals("01.10.2020 14:00", orderDTO.getGenerationTime());
+        Assertions.assertEquals("01.10.2020 14:00:00", orderDTO.getGenerationTime());
     }
 }
