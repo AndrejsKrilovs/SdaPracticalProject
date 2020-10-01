@@ -36,9 +36,7 @@ export class FilmSessionComponent {
   order: IOrder = {
     name_surname: '',
     personal_code: '',
-    film: 0,
-    session_date: '',
-    room: 0,
+    session: 0,
     places: '',
     generation_time: '',
     total_price: 0
@@ -102,9 +100,7 @@ export class FilmSessionComponent {
   }
 
   makeOrder(): void {
-    this.order.film = this.selectedFilm.id;
-    this.order.session_date = this.selectedSession.date_time;
-    this.order.room = this.selectedSession.room;
+    this.order.session = this.selectedSession.id;
     this.order.places = this.selected_seats.join(',\xa0');
     this.order.total_price = this.selected_seats.length * this.selectedSession.price;
     this.order.generation_time = this.datePipe.transform(new Date(), 'dd.MM.yyyy hh:mm:ss');
@@ -116,6 +112,7 @@ export class FilmSessionComponent {
     this.seats.forEach(seat => this.apiService.updateSeat(seat).subscribe());
     console.log(this.order);
     this.invalidateOrder();
+    //this.router.navigate([``]).then(() => console.log());
   }
 
   userCodeInput(event: any): void {
@@ -150,9 +147,7 @@ export class FilmSessionComponent {
     this.order = {
       name_surname: '',
       personal_code: '',
-      film: 0,
-      session_date: '',
-      room: 0,
+      session: 0,
       places: '',
       generation_time: '',
       total_price: 0

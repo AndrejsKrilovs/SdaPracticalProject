@@ -44,14 +44,4 @@ public class PlaceDTO {
     public void setEnabled(Boolean enabled) {
         this.enabled = enabled;
     }
-
-    @Override
-    public String toString() {
-        return new StringJoiner(", ", PlaceDTO.class.getSimpleName() + "[", "]")
-                .add("roomNumber=" + roomNumber)
-                .add("placeNumber=" + placeNumber)
-                .add("available=" + available)
-                .add("enabled=" + enabled)
-                .toString();
-    }
 }

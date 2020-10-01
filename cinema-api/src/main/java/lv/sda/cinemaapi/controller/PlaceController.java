@@ -4,8 +4,11 @@ import lv.sda.cinemaapi.dto.PlaceDTO;
 import lv.sda.cinemaapi.entity.Place;
 import lv.sda.cinemaapi.mapper.PlaceMapper;
 import lv.sda.cinemaapi.service.PlaceService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,17 +26,21 @@ public class PlaceController {
     }
 
     @GetMapping("/Places({room_number})")
-    public List<PlaceDTO> placeListByRoomNumber(@PathVariable("room_number") Integer roomNumber) {
-        return placeService.placesByRoomNumber(roomNumber)
+    public ResponseEntity<List<PlaceDTO>> placeListByRoomNumber(@PathVariable("room_number") Integer roomNumber) {
+        List<PlaceDTO> placeList = placeService.placesByRoomNumber(roomNumber)
                 .stream()
                 .map(placeMapper::toDTO)
                 .collect(Collectors.toList());
+
+        return placeList.size() > 0 ?
+                new ResponseEntity<>(placeList, HttpStatus.OK) :
+                new ResponseEntity<>(new ArrayList<>(), HttpStatus.NO_CONTENT);
     }
 
     @PutMapping("/Place")
-    public PlaceDTO updatePlaceData(@RequestBody PlaceDTO placeDTO) {
+    public ResponseEntity<PlaceDTO> updatePlaceData(@RequestBody PlaceDTO placeDTO) {
         Place placeToUpdate = placeMapper.fromDTO(placeDTO);
         Place result = placeService.updatePlace(placeToUpdate);
-        return placeMapper.toDTO(result);
+        return new ResponseEntity<>(placeMapper.toDTO(result), HttpStatus.ACCEPTED);
     }
 }

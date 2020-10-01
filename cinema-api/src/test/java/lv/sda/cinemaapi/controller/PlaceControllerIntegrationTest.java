@@ -57,7 +57,7 @@ public class PlaceControllerIntegrationTest {
         ResponseEntity<PlaceDTO> updatedEntity =
                 restTemplate.exchange(url, HttpMethod.PUT, new HttpEntity<>(placeDTO), PlaceDTO.class);
 
-        Assertions.assertEquals(HttpStatus.OK, updatedEntity.getStatusCode());
+        Assertions.assertEquals(HttpStatus.ACCEPTED, updatedEntity.getStatusCode());
         Assertions.assertFalse(Objects.requireNonNull(updatedEntity.getBody()).getAvailable());
     }
 }

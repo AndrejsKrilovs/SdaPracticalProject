@@ -29,9 +29,6 @@ public class CinemaApiApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(CinemaApiApplication.class, args);
-
-        Long days = ChronoUnit.DAYS.between(LocalDate.of(1990, Month.JULY, 5), LocalDate.now());
-        System.out.println(days);
     }
 
     @PostConstruct

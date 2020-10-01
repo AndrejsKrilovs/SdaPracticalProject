@@ -28,8 +28,10 @@ public class SessionMapperTest {
         Session session = sessionMapper.fromDTO(sessionDTO);
 
         assertEquals(47L, session.getId());
-        assertEquals(LocalDateTime.parse("25.09.2020 01:55", DateTimeFormatter.ofPattern("dd.MM.yyyy kk:mm")),
-                session.getDateTime());
+        assertEquals(
+                LocalDateTime.parse("25.09.2020 01:55", DateTimeFormatter.ofPattern("dd.MM.yyyy kk:mm")),
+                session.getDateTime()
+        );
         assertEquals(Room.TWO, session.getRoom());
         assertEquals(BigDecimal.valueOf(3.98), session.getPrice());
         assertEquals(12L, session.getFilm().getId());
