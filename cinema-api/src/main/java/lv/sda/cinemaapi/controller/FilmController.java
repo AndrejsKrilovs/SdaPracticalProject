@@ -26,7 +26,9 @@ public class FilmController {
     }
 
     @GetMapping("/Films")
-    public ResponseEntity<List<FilmDTO>> findAll(@RequestParam(value = "offset", required = false, defaultValue = "0") Integer offset) {
+    public ResponseEntity<List<FilmDTO>> findAll(
+            @RequestParam(value = "offset", required = false, defaultValue = "0") Integer offset
+    ) {
         List<FilmDTO> resultList = filmService.getFilms(offset)
                 .stream()
                 .map(filmMapper::toDTO)
