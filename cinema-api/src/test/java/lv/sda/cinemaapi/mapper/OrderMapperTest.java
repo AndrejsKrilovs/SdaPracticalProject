@@ -5,14 +5,18 @@ import lv.sda.cinemaapi.entity.Order;
 import lv.sda.cinemaapi.entity.Session;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+@SpringBootTest
 public class OrderMapperTest {
 
-    private final OrderMapper orderMapper = new OrderMapper();
+    @Autowired
+    private OrderMapper orderMapper;
 
     @Test
     public void fromDTO() {

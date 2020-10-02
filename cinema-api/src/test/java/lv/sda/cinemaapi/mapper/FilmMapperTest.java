@@ -3,14 +3,18 @@ package lv.sda.cinemaapi.mapper;
 import lv.sda.cinemaapi.dto.FilmDTO;
 import lv.sda.cinemaapi.entity.Film;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalTime;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@SpringBootTest
 public class FilmMapperTest {
 
-    private final FilmMapper filmMapper = new FilmMapper();
+    @Autowired
+    private FilmMapper filmMapper;
 
     @Test
     public void fromDTO() {

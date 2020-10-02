@@ -72,4 +72,19 @@ public class FilmControllerIntegrationTest {
         ResponseEntity<FilmDTO> entity = restTemplate.getForEntity(url, FilmDTO.class);
         Assertions.assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, entity.getStatusCode());
     }
+
+    @Test
+    public void filterFilmTest() {
+        String url = String.format(URL_TO_TEST, port, "/Films$filter?offset=0");
+        ResponseEntity<FilmDTO[]> entity = restTemplate.getForEntity(url, FilmDTO[].class);
+        Assertions.assertEquals(HttpStatus.OK, entity.getStatusCode());
+        Assertions.assertEquals(ITEMS_PER_PAGE, Objects.requireNonNull(entity.getBody()).length);
+    }
+
+    @Test
+    public void filterFilmWithIncorrectParameterTest() {
+        String url = String.format(URL_TO_TEST, port, "/Films$filter?offset=999&title=q");
+        ResponseEntity<FilmDTO[]> entity = restTemplate.getForEntity(url, FilmDTO[].class);
+        Assertions.assertEquals(HttpStatus.NO_CONTENT, entity.getStatusCode());
+    }
 }

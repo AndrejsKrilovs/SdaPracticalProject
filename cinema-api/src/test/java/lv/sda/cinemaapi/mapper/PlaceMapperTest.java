@@ -5,12 +5,16 @@ import lv.sda.cinemaapi.entity.Place;
 import lv.sda.cinemaapi.entity.PlacePrimaryKey;
 import lv.sda.cinemaapi.entity.Room;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@SpringBootTest
 public class PlaceMapperTest {
 
-    private final PlaceMapper placeMapper = new PlaceMapper();
+    @Autowired
+    private PlaceMapper placeMapper;
 
     @Test
     public void fromDTO() {

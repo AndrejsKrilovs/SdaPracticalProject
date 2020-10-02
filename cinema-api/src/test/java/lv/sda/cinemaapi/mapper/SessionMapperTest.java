@@ -5,6 +5,8 @@ import lv.sda.cinemaapi.entity.Film;
 import lv.sda.cinemaapi.entity.Room;
 import lv.sda.cinemaapi.entity.Session;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -12,9 +14,11 @@ import java.time.format.DateTimeFormatter;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@SpringBootTest
 public class SessionMapperTest {
 
-    private final SessionMapper sessionMapper = new SessionMapper();
+    @Autowired
+    private SessionMapper sessionMapper;
 
     @Test
     public void fromDTO() {
