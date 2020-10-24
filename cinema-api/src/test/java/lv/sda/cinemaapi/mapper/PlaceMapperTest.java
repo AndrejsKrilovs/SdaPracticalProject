@@ -4,17 +4,15 @@ import lv.sda.cinemaapi.dto.PlaceDTO;
 import lv.sda.cinemaapi.entity.Place;
 import lv.sda.cinemaapi.entity.PlacePrimaryKey;
 import lv.sda.cinemaapi.entity.Room;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.junit.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import java.util.Optional;
 
-@SpringBootTest
+import static org.junit.Assert.assertEquals;
+
 public class PlaceMapperTest {
 
-    @Autowired
-    private PlaceMapper placeMapper;
+    private final PlaceMapper placeMapper = new PlaceMapper();
 
     @Test
     public void fromDTO() {
@@ -28,7 +26,7 @@ public class PlaceMapperTest {
 
         assertEquals(Boolean.TRUE, place.getAvailable());
         assertEquals(3, place.getId().getRoomNumber().ordinal());
-        assertEquals(20, place.getId().getPlaceNumber());
+        assertEquals(Optional.of(20), Optional.ofNullable(place.getId().getPlaceNumber()));
     }
 
     @Test
@@ -44,8 +42,8 @@ public class PlaceMapperTest {
         PlaceDTO placeDTO = placeMapper.toDTO(place);
 
         assertEquals(Boolean.TRUE, placeDTO.getAvailable());
-        assertEquals(3, placeDTO.getRoomNumber());
-        assertEquals(20, placeDTO.getPlaceNumber());
+        assertEquals(Optional.of(3), Optional.ofNullable(placeDTO.getRoomNumber()));
+        assertEquals(Optional.of(20), Optional.ofNullable(placeDTO.getPlaceNumber()));
         assertEquals(Boolean.TRUE, placeDTO.getEnabled());
     }
 }

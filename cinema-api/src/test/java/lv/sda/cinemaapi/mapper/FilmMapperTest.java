@@ -2,19 +2,16 @@ package lv.sda.cinemaapi.mapper;
 
 import lv.sda.cinemaapi.dto.FilmDTO;
 import lv.sda.cinemaapi.entity.Film;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.junit.Test;
 
 import java.time.LocalTime;
+import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.assertEquals;
 
-@SpringBootTest
 public class FilmMapperTest {
 
-    @Autowired
-    private FilmMapper filmMapper;
+    private final FilmMapper filmMapper = new FilmMapper();
 
     @Test
     public void fromDTO() {
@@ -26,7 +23,7 @@ public class FilmMapperTest {
 
         Film film = filmMapper.fromDTO(filmDTO);
 
-        assertEquals(100L, film.getId());
+        assertEquals(Optional.of(100L), Optional.ofNullable(film.getId()));
         assertEquals("Title 100", film.getTitle());
         assertEquals("https://", film.getPicturePath());
         assertEquals(LocalTime.parse("01:55"), LocalTime.parse(filmDTO.getLength()));
@@ -42,7 +39,7 @@ public class FilmMapperTest {
 
         FilmDTO filmDTO = filmMapper.toDTO(film);
 
-        assertEquals(100L, filmDTO.getId());
+        assertEquals(java.util.Optional.of(100L), Optional.ofNullable(filmDTO.getId()));
         assertEquals("Title 100", filmDTO.getTitle());
         assertEquals("https://", filmDTO.getPicturePath());
         assertEquals("01:55", filmDTO.getLength());

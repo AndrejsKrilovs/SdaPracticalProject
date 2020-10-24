@@ -1,22 +1,21 @@
 package lv.sda.cinemaapi.mapper;
 
+
 import lv.sda.cinemaapi.dto.OrderDTO;
 import lv.sda.cinemaapi.entity.Order;
 import lv.sda.cinemaapi.entity.Session;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.junit.Test;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Optional;
 
-@SpringBootTest
+import static org.junit.Assert.assertEquals;
+
 public class OrderMapperTest {
 
-    @Autowired
-    private OrderMapper orderMapper;
+    private final OrderMapper orderMapper = new OrderMapper();
 
     @Test
     public void fromDTO() {
@@ -30,12 +29,12 @@ public class OrderMapperTest {
 
         Order order = orderMapper.fromDTO(orderDTO);
 
-        Assertions.assertEquals("Andrejs Krilovs", order.getUser());
-        Assertions.assertEquals("050790-11186", order.getPersonalCode());
-        Assertions.assertEquals(1L, order.getSession().getId());
-        Assertions.assertEquals("1, 2, 3", order.getPlaces());
-        Assertions.assertEquals(BigDecimal.valueOf(1.13), order.getTotalPrice());
-        Assertions.assertEquals(
+        assertEquals("Andrejs Krilovs", order.getUser());
+        assertEquals("050790-11186", order.getPersonalCode());
+        assertEquals(java.util.Optional.of(1L), Optional.ofNullable(order.getSession().getId()));
+        assertEquals("1, 2, 3", order.getPlaces());
+        assertEquals(BigDecimal.valueOf(1.13), order.getTotalPrice());
+        assertEquals(
                 LocalDateTime.parse("01.10.2020 14:00:00", DateTimeFormatter.ofPattern("dd.MM.yyyy kk:mm:ss")),
                 order.getGenerationTime()
         );
@@ -58,11 +57,11 @@ public class OrderMapperTest {
         order.setGenerationTime(time);
 
         OrderDTO orderDTO = orderMapper.toDTO(order);
-        Assertions.assertEquals("Andrejs Krilovs", orderDTO.getUser());
-        Assertions.assertEquals("050790-11186", orderDTO.getPersonalCode());
-        Assertions.assertEquals(1L, orderDTO.getSession());
-        Assertions.assertEquals("1, 2, 3", orderDTO.getPlaces());
-        Assertions.assertEquals(BigDecimal.valueOf(1.13), order.getTotalPrice());
-        Assertions.assertEquals("01.10.2020 14:00:00", orderDTO.getGenerationTime());
+        assertEquals("Andrejs Krilovs", orderDTO.getUser());
+        assertEquals("050790-11186", orderDTO.getPersonalCode());
+        assertEquals(Optional.of(1L), Optional.ofNullable(orderDTO.getSession()));
+        assertEquals("1, 2, 3", orderDTO.getPlaces());
+        assertEquals(BigDecimal.valueOf(1.13), order.getTotalPrice());
+        assertEquals("01.10.2020 14:00:00", orderDTO.getGenerationTime());
     }
 }

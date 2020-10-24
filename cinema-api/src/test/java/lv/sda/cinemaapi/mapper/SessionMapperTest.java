@@ -4,21 +4,18 @@ import lv.sda.cinemaapi.dto.SessionDTO;
 import lv.sda.cinemaapi.entity.Film;
 import lv.sda.cinemaapi.entity.Room;
 import lv.sda.cinemaapi.entity.Session;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.junit.Test;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.assertEquals;
 
-@SpringBootTest
 public class SessionMapperTest {
 
-    @Autowired
-    private SessionMapper sessionMapper;
+    private final SessionMapper sessionMapper = new SessionMapper();
 
     @Test
     public void fromDTO() {
@@ -31,22 +28,21 @@ public class SessionMapperTest {
 
         Session session = sessionMapper.fromDTO(sessionDTO);
 
-        assertEquals(47L, session.getId());
+        assertEquals(java.util.Optional.of(47L), Optional.ofNullable(session.getId()));
         assertEquals(
                 LocalDateTime.parse("25.09.2020 01:55", DateTimeFormatter.ofPattern("dd.MM.yyyy kk:mm")),
                 session.getDateTime()
         );
         assertEquals(Room.TWO, session.getRoom());
         assertEquals(BigDecimal.valueOf(3.98), session.getPrice());
-        assertEquals(12L, session.getFilm().getId());
+        assertEquals(Optional.of(12L), Optional.ofNullable(session.getFilm().getId()));
     }
 
     @Test
     public void toDTO() {
         Session session = new Session();
         session.setId(47L);
-        session.setDateTime(LocalDateTime.parse("25.09.2020 01:55",
-                DateTimeFormatter.ofPattern("dd.MM.yyyy kk:mm")));
+        session.setDateTime(LocalDateTime.parse("25.09.2020 01:55", DateTimeFormatter.ofPattern("dd.MM.yyyy kk:mm")));
         session.setRoom(Room.TWO);
         session.setPrice(BigDecimal.valueOf(3.98));
 
@@ -56,10 +52,10 @@ public class SessionMapperTest {
 
         SessionDTO sessionDTO = sessionMapper.toDTO(session);
 
-        assertEquals(47L, sessionDTO.getId());
+        assertEquals(Optional.of(47L), Optional.ofNullable(sessionDTO.getId()));
         assertEquals("25.09.2020 01:55", sessionDTO.getDateTime());
-        assertEquals(2, sessionDTO.getRoom());
+        assertEquals(Optional.of(2), Optional.ofNullable(sessionDTO.getRoom()));
         assertEquals(BigDecimal.valueOf(3.98), sessionDTO.getPrice());
-        assertEquals(12L, sessionDTO.getFilmId());
+        assertEquals(Optional.of(12L), Optional.ofNullable(sessionDTO.getFilmId()));
     }
 }
