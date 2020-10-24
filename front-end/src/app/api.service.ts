@@ -40,4 +40,9 @@ export class ApiService {
   public addOrder(order: IOrder): Observable<any> {
       return this.httpClient.post(this.orderURL + `/Order`, order);
   }
+
+  public filterFilm(query: string, offset: number): Observable<any> {
+    const params = new HttpParams().set(`offset`, offset.toString()).set(`title`, query);
+    return this.httpClient.get(this.filmURL + `/Films$filter` + {params});
+  }
 }

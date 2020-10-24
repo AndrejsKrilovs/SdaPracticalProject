@@ -13,6 +13,7 @@ export class FilmListComponent {
   currentPage: number = 0;
 
   constructor(private apiService: ApiService) {
+    this.films.splice(0);
     apiService.filmCollection(this.currentPage)
       .subscribe(result => result.forEach(data => this.films.push(data)));
   }
@@ -22,7 +23,7 @@ export class FilmListComponent {
   }
 
   pageUp() {
-    this.films = [];
+    this.films.splice(0);
     this.currentPage > 11 ? 11 : this.currentPage ++;
      this.apiService
        .filmCollection(this.currentPage)
@@ -30,10 +31,19 @@ export class FilmListComponent {
   }
 
   pageDown() {
-    this.films= [];
+    this.films.splice(0);
     this.currentPage < 1 ? 0 : this.currentPage --;
     this.apiService
       .filmCollection(this.currentPage)
       .subscribe(result => result.forEach(data => this.films.push(data)));
      }
+
+  filterInput(event: any): void {
+    this.currentPage = 0;
+    console.log(event.target.value);
+    // this.films.slice(0);
+    // this.apiService
+    //   .filterFilm(event.target.value, this.currentPage)
+    //   .subscribe(result => result.forEach(data => console.log(data)));
+  }
 }

@@ -5,16 +5,19 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "sess")
 public class Session {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(name="sess_id_seq", initialValue=10000, allocationSize=1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sess_id_seq")
     private Long id;
+
     private LocalDateTime dateTime;
     private Room room;
     private BigDecimal price;
 
     @ManyToOne(targetEntity = Film.class, fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
-    @JoinColumn(name = "film_id", foreignKey = @ForeignKey(name = "film_session_fk"))
+    @JoinColumn(name = "film_id")
     private Film film;
 
     public Long getId() {

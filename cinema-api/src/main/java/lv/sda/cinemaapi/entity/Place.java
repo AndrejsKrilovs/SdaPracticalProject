@@ -2,7 +2,6 @@ package lv.sda.cinemaapi.entity;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.Transient;
 
 @Entity
 public class Place {
@@ -26,11 +25,4 @@ public class Place {
         this.available = available;
     }
 
-    @Override
-    public String toString() {
-        return "Place{" +
-                "id=" + id +
-                ", available=" + available +
-                '}';
-    }
 }

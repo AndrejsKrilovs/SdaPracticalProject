@@ -1,18 +1,19 @@
 package lv.sda.cinemaapi.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalTime;
 
 @Entity
 public class Film {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(name="film_id_seq", initialValue=10000, allocationSize=1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "film_id_seq")
     private Long id;
+
     private String title;
     private String picturePath;
+
+    @Column(name = "f_length")
     private LocalTime length;
 
     public Long getId() {

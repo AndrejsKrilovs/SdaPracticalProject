@@ -8,8 +8,11 @@ import java.time.LocalDateTime;
 @Table(name = "ord")
 public class Order {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(name="ord_id_seq", initialValue=10000, allocationSize=1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ord_id_seq")
     private Long id;
+
+    @Column(name = "usr")
     private String user;
     private String personalCode;
     private String places;
@@ -17,16 +20,8 @@ public class Order {
     private BigDecimal totalPrice;
 
     @ManyToOne(targetEntity = Session.class, fetch = FetchType.LAZY)
-    @JoinColumn(name = "session_id", foreignKey = @ForeignKey(name = "session_order_fk"))
+    @JoinColumn(name = "session_id")
     private Session session;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getUser() {
         return user;

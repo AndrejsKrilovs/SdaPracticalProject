@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/film.svc")
-@CrossOrigin(origins="http://localhost:4200")
+@CrossOrigin(origins="*")
 public class FilmController {
 
     private final FilmService filmService;
