@@ -12,7 +12,7 @@ import java.time.format.DateTimeFormatter;
 @Component
 public class SessionMapper {
     public Session fromDTO(SessionDTO sessionDTO) {
-        Session result = new Session();
+        Session result = Session.builder().build();
         result.setId(sessionDTO.getId());
         result.setDateTime(LocalDateTime.parse(sessionDTO.getDateTime(), DateTimeFormatter.ofPattern("dd.MM.yyyy kk:mm")));
         result.setRoom(Room.values()[sessionDTO.getRoom()]);

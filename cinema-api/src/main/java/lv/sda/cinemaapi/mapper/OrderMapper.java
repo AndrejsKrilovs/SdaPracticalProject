@@ -21,7 +21,7 @@ public class OrderMapper {
                 .parse(orderDTO.getGenerationTime(), DateTimeFormatter.ofPattern("dd.MM.yyyy kk:mm:ss"));
         result.setGenerationTime(generationTime);
 
-        Session session = new Session();
+        Session session = Session.builder().build();
         session.setId(orderDTO.getSession());
         result.setSession(session);
         return result;
