@@ -1,60 +1,67 @@
 package lv.sda.cinemaapi.service;
 
-import com.google.common.collect.ImmutableList;
 import lv.sda.cinemaapi.entity.Film;
 import lv.sda.cinemaapi.repository.FilmRepository;
-import org.junit.Before;
+import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mockito;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 
-import java.time.LocalTime;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.doReturn;
-
 public class FilmServiceTest {
-
     private final FilmRepository repository = Mockito.mock(FilmRepository.class);
     private final FilmService service = new FilmService(repository);
 
-    @Before
-    public void setUp() throws Exception {
-        Film film1 = new Film();
-        film1.setId(1L);
-        film1.setLength(LocalTime.of(2, 0));
-        film1.setTitle("Alive");
-        film1.setPicturePath("https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcTV7mO2pcvBJjnBst2TsIsxkNdpOZVkTR2W9umZBSXuK7xMIvFW");
-
-        Film film2 = new Film();
-        film1.setId(2L);
-        film1.setLength(LocalTime.of(1, 43));
-        film1.setTitle("Fantasy Island");
-        film1.setPicturePath("https://images-na.ssl-images-amazon.com/images/I/912UPJuKy8L._RI_.jpg");
-
-        doReturn(new PageImpl<>(ImmutableList.of(film1, film2))).when(repository)
+    @Test
+    public void getNonEmptyListOfFilmsTest() {
+        Film generatedFilm = Film.builder().build();
+        Mockito.doReturn(new PageImpl<>(List.of(generatedFilm)))
+                .when(repository)
                 .findAll(PageRequest.of(0, 10));
-        doReturn(ImmutableList.of(film2)).when(repository)
-                .findAllByTitleContainingIgnoreCase("island", PageRequest.of(0, 10));
+
+        List<Film> filmList = service.getFilms(0);
+        Assert.assertNotNull(filmList);
+        Assert.assertFalse(filmList.isEmpty());
+        Assert.assertEquals(1, filmList.size());
     }
 
     @Test
-    public void getFilms() {
-        List<Film> getFilms = service.getFilms(0);
-        assertEquals(2, getFilms.size());
+    public void getEmptyListOfFilmsTest() {
+        Mockito.doReturn(new PageImpl<>(List.of()))
+                .when(repository)
+                .findAll(PageRequest.of(0, 10));
+
+        List<Film> filmList = service.getFilms(0);
+        Assert.assertNotNull(filmList);
+        Assert.assertTrue(filmList.isEmpty());
     }
 
     @Test
-    public void getFilmsByTitle() {
-        List<Film> filteredFilms = service.getFilmsByTitle("island", 0);
-        assertEquals(1, filteredFilms.size());
+    public void getFilmsByExistingTitleTest() {
+        Film firstFilm = Film.builder().title("Test title 1").build();
+        Film secondFilm = Film.builder().title("test title 2").build();
+        Mockito.doReturn(List.of(firstFilm, secondFilm))
+                .when(repository)
+                .findAllByTitleContainingIgnoreCase("test", PageRequest.of(0, 10));
+
+        List<Film> filteredFilms = service.getFilmsByTitle("test", 0);
+        Assert.assertNotNull(filteredFilms);
+        Assert.assertFalse(filteredFilms.isEmpty());
+        Assert.assertEquals(2, filteredFilms.size());
     }
 
     @Test
-    public void getFilmsByEmptyTitle() {
-        List<Film> filteredFilms = service.getFilmsByTitle("", 0);
-        assertEquals(0, filteredFilms.size());
+    public void getFilmsByNotExistingTitleTest() {
+        Film firstFilm = Film.builder().title("Test title 1").build();
+        Film secondFilm = Film.builder().title("test title 2").build();
+        Mockito.doReturn(List.of(firstFilm, secondFilm))
+                .when(repository)
+                .findAllByTitleContainingIgnoreCase("test", PageRequest.of(0, 10));
+
+        List<Film> filteredFilms = service.getFilmsByTitle("non existing title", 0);
+        Assert.assertNotNull(filteredFilms);
+        Assert.assertTrue(filteredFilms.isEmpty());
     }
 }
