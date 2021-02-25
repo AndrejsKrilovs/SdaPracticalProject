@@ -41,7 +41,7 @@ public class PlaceController {
     @PutMapping("/Place")
     public ResponseEntity<PlaceDTO> updatePlaceData(@Valid @RequestBody PlaceDTO placeDTO) {
         Place placeToUpdate = placeMapper.fromDTO(placeDTO);
-        Place result = placeService.updatePlace(placeToUpdate);
+        Place result = placeService.changePlaceStatus(placeToUpdate);
         return new ResponseEntity<>(placeMapper.toDTO(result), HttpStatus.ACCEPTED);
     }
 }

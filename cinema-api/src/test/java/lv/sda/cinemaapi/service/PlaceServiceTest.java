@@ -51,7 +51,7 @@ public class PlaceServiceTest {
     public void updatePlace() {
         Place updatedEntity = new Place();
         updatedEntity.setAvailable(Boolean.TRUE);
-        service.updatePlace(updatedEntity);
+        service.changePlaceStatus(updatedEntity);
 
         verify(repository, times(1))
                 .save(updatedEntity);

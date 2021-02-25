@@ -13,5 +13,5 @@ import java.util.List;
 @Repository
 public interface PlaceRepository extends JpaRepository<Place, PlacePrimaryKey> {
     @Query("from Place p where p.id.room = :room")
-    List<Place> findPlaceByRoom(@Param("room") Room room);
+    List<Place> findPlaceByRoom(@Param(value = "room") Room room);
 }
