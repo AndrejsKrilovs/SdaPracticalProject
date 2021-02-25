@@ -25,8 +25,8 @@ public class PlaceMapperTest {
         Place place = placeMapper.fromDTO(placeDTO);
 
         assertEquals(Boolean.TRUE, place.getAvailable());
-        assertEquals(3, place.getId().getRoomNumber().ordinal());
-        assertEquals(Optional.of(20), Optional.ofNullable(place.getId().getPlaceNumber()));
+        assertEquals(3, place.getId().getRoom().ordinal());
+        assertEquals(Optional.of(20), Optional.ofNullable(place.getId().getPlace()));
     }
 
     @Test
@@ -35,8 +35,8 @@ public class PlaceMapperTest {
         place.setAvailable(Boolean.TRUE );
 
         PlacePrimaryKey id = new PlacePrimaryKey();
-        id.setRoomNumber(Room.values()[3]);
-        id.setPlaceNumber(20);
+        id.setRoom(Room.values()[3]);
+        id.setPlace(20);
         place.setId(id);
 
         PlaceDTO placeDTO = placeMapper.toDTO(place);

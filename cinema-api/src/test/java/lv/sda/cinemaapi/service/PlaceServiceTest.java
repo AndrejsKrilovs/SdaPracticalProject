@@ -25,16 +25,16 @@ public class PlaceServiceTest {
         place1.setAvailable(Boolean.FALSE);
 
         PlacePrimaryKey primaryKey1 = new PlacePrimaryKey();
-        primaryKey1.setRoomNumber(Room.ONE);
-        primaryKey1.setPlaceNumber(1);
+        primaryKey1.setRoom(Room.ONE);
+        primaryKey1.setPlace(1);
         place1.setId(primaryKey1);
 
         Place place2 = new Place();
         place2.setAvailable(Boolean.FALSE);
 
         PlacePrimaryKey primaryKey2 = new PlacePrimaryKey();
-        primaryKey2.setRoomNumber(Room.ONE);
-        primaryKey2.setPlaceNumber(2);
+        primaryKey2.setRoom(Room.ONE);
+        primaryKey2.setPlace(2);
         place1.setId(primaryKey2);
 
         doReturn(ImmutableList.of(place1, place2)).when(repository)

@@ -13,8 +13,8 @@ public class PlaceMapper {
         result.setAvailable(placeDTO.getAvailable());
 
         PlacePrimaryKey id = new PlacePrimaryKey();
-        id.setRoomNumber(Room.values()[placeDTO.getRoomNumber()]);
-        id.setPlaceNumber(placeDTO.getPlaceNumber());
+        id.setRoom(Room.values()[placeDTO.getRoomNumber()]);
+        id.setPlace(placeDTO.getPlaceNumber());
         result.setId(id);
 
         return result;
@@ -23,8 +23,8 @@ public class PlaceMapper {
     public PlaceDTO toDTO(Place place) {
         PlaceDTO result = new PlaceDTO();
         result.setAvailable(place.getAvailable());
-        result.setRoomNumber(place.getId().getRoomNumber().ordinal());
-        result.setPlaceNumber(place.getId().getPlaceNumber());
+        result.setRoomNumber(place.getId().getRoom().ordinal());
+        result.setPlaceNumber(place.getId().getPlace());
         result.setEnabled(place.getAvailable());
         return result;
     }

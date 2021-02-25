@@ -1,34 +1,17 @@
 package lv.sda.cinemaapi.entity;
 
+import lombok.Data;
+
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.io.Serializable;
 
+@Data
 @Embeddable
 public class PlacePrimaryKey implements Serializable {
-    private Room roomNumber;
-    private Integer placeNumber;
+    @Column(name = "place_room")
+    private Room room;
 
-    public Room getRoomNumber() {
-        return roomNumber;
-    }
-
-    public void setRoomNumber(Room roomNumber) {
-        this.roomNumber = roomNumber;
-    }
-
-    public Integer getPlaceNumber() {
-        return placeNumber;
-    }
-
-    public void setPlaceNumber(Integer placeNumber) {
-        this.placeNumber = placeNumber;
-    }
-
-    @Override
-    public String toString() {
-        return "PlacePrimaryKey{" +
-                "roomNumber=" + roomNumber +
-                ", placeNumber=" + placeNumber +
-                '}';
-    }
+    @Column(name = "place_seat")
+    private Integer place;
 }

@@ -1,34 +1,34 @@
- create table film (
-       id bigint,
-       f_length time,
-       picture_path varchar(255),
-       title varchar(255),
-       primary key (id)
+    create table film (
+       film_id bigint,
+       film_length time,
+       film_picture varchar(255),
+       film_title varchar(255),
+       constraint film_pk primary key (film_id)
     );
 
     create table ord (
-       id bigint,
-        generation_time timestamp,
-        personal_code varchar(255),
-        places varchar(255),
-        total_price decimal(19,2),
-        usr varchar(255),
-        session_id bigint,
-        primary key (id)
+       ord_id bigint,
+       ord_time timestamp,
+       ord_personal_code varchar(12),
+       ord_places varchar(8),
+       ord_price decimal(5,2),
+       ord_user_name varchar(255),
+       ord_session_id bigint,
+       constraint ord_pk primary key (ord_id)
     );
 
     create table place (
-       place_number integer,
-        room_number integer,
-        available boolean,
-        primary key (place_number, room_number)
+       place_seat integer,
+       place_room integer,
+       place_availability boolean,
+       constraint place_pk primary key (place_seat, place_room)
     );
 
     create table sess (
-       id bigint,
-        date_time timestamp,
-        price decimal(19,2),
-        room integer,
-        film_id bigint,
-        primary key (id)
+       sess_id bigint,
+       sess_date_time timestamp,
+       sess_price decimal(5,2),
+       sess_room integer,
+       sess_film_id bigint,
+       constraint sess_pk primary key (sess_id)
     );

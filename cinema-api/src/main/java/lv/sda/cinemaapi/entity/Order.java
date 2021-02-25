@@ -1,73 +1,37 @@
 package lv.sda.cinemaapi.entity;
 
+import lombok.Data;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+@Data
 @Entity
 @Table(name = "ord")
 public class Order {
     @Id
+    @Column(name = "ord_id")
     @SequenceGenerator(name="ord_id_seq", initialValue=10000, allocationSize=1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ord_id_seq")
     private Long id;
 
-    @Column(name = "usr")
+    @Column(name = "ord_user_name")
     private String user;
+
+    @Column(name = "ord_personal_code")
     private String personalCode;
+
+    @Column(name = "ord_places")
     private String places;
+
+    @Column(name = "ord_time")
     private LocalDateTime generationTime;
+
+    @Column(name = "ord_price")
     private BigDecimal totalPrice;
 
     @ManyToOne(targetEntity = Session.class, fetch = FetchType.LAZY)
-    @JoinColumn(name = "session_id")
+    @JoinColumn(name = "ord_session_id")
     private Session session;
-
-    public String getUser() {
-        return user;
-    }
-
-    public void setUser(String user) {
-        this.user = user;
-    }
-
-    public String getPersonalCode() {
-        return personalCode;
-    }
-
-    public void setPersonalCode(String personalCode) {
-        this.personalCode = personalCode;
-    }
-
-    public String getPlaces() {
-        return places;
-    }
-
-    public void setPlaces(String places) {
-        this.places = places;
-    }
-
-    public LocalDateTime getGenerationTime() {
-        return generationTime;
-    }
-
-    public void setGenerationTime(LocalDateTime generationTime) {
-        this.generationTime = generationTime;
-    }
-
-    public BigDecimal getTotalPrice() {
-        return totalPrice;
-    }
-
-    public void setTotalPrice(BigDecimal totalPrice) {
-        this.totalPrice = totalPrice;
-    }
-
-    public Session getSession() {
-        return session;
-    }
-
-    public void setSession(Session session) {
-        this.session = session;
-    }
 }
