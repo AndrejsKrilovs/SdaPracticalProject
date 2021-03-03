@@ -1,6 +1,5 @@
 package lv.sda.cinemaapi.entity;
 
-import lombok.Builder;
 import lombok.Data;
 
 import javax.persistence.*;
