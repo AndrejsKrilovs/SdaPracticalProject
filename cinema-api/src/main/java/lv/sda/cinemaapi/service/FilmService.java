@@ -5,7 +5,6 @@ import lv.sda.cinemaapi.entity.Film;
 import lv.sda.cinemaapi.repository.FilmRepository;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,12 +22,8 @@ public class FilmService {
     }
 
     public List<Film> getFilmsByTitle(String title, Integer offset) {
-        if (StringUtils.isEmpty(title.trim())) {
-            return filmRepository.findAll(PageRequest.of(offset, ELEMENT_SIZE_PER_PAGE)).getContent();
-        } else {
-            return filmRepository.findAllByTitleContainingIgnoreCase(
-                    title, PageRequest.of(offset, ELEMENT_SIZE_PER_PAGE)
-            );
-        }
+        return filmRepository.findAllByTitleContainingIgnoreCase(
+                title, PageRequest.of(offset, ELEMENT_SIZE_PER_PAGE)
+        );
     }
 }
