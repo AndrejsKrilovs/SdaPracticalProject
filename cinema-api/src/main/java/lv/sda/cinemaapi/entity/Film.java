@@ -1,5 +1,6 @@
 package lv.sda.cinemaapi.entity;
 
+import lombok.Builder;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -7,6 +8,7 @@ import java.time.LocalTime;
 
 @Data
 @Entity
+@Builder
 public class Film {
     @Id
     @Column(name = "film_id")
