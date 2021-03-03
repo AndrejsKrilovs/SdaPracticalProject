@@ -2,7 +2,9 @@ package lv.sda.cinemaapi.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Data;
+import lv.sda.cinemaapi.config.JsonTimeDeserializer;
 
 import java.time.LocalTime;
 
@@ -18,6 +20,7 @@ public class FilmDTO {
     private String picturePath;
 
     @JsonProperty(value = "length")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "hh:mm")
+    @JsonDeserialize(using = JsonTimeDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
     private LocalTime length;
 }
