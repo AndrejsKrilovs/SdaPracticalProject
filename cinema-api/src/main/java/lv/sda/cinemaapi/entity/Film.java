@@ -8,7 +8,6 @@ import java.time.LocalTime;
 
 @Data
 @Entity
-@Builder
 public class Film {
     @Id
     @Column(name = "film_id")

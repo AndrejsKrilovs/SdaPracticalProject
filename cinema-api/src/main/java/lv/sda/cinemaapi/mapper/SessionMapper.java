@@ -18,7 +18,7 @@ public class SessionMapper {
         result.setRoom(Room.values()[sessionDTO.getRoom()]);
         result.setPrice(sessionDTO.getPrice());
 
-        Film film = Film.builder().build();
+        Film film = new Film();
         film.setId(sessionDTO.getFilmId());
         result.setFilm(film);
         return result;

@@ -9,7 +9,7 @@ import java.time.LocalTime;
 @Component
 public class FilmMapper {
     public Film fromDTO(FilmDTO filmDTO) {
-        Film result = Film.builder().build();
+        Film result = new Film();
         result.setId(filmDTO.getId());
         result.setTitle(filmDTO.getTitle());
         result.setPicturePath(filmDTO.getPicturePath());
