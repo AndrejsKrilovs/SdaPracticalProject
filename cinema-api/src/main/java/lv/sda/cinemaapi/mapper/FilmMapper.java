@@ -14,4 +14,13 @@ public class FilmMapper {
         result.setLength(film.getLength());
         return result;
     }
+
+    public Film fromDTO(FilmDTO filmDTO) {
+        Film result  = new Film();
+        result.setId(filmDTO.getId());
+        result.setTitle(filmDTO.getTitle());
+        result.setPicturePath(filmDTO.getPicturePath());
+        result.setLength(filmDTO.getLength());
+        return result;
+    }
 }

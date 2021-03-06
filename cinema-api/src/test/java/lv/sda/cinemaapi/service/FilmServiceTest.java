@@ -2,6 +2,7 @@ package lv.sda.cinemaapi.service;
 
 import lv.sda.cinemaapi.entity.Film;
 import lv.sda.cinemaapi.repository.FilmRepository;
+import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mockito;
 import org.springframework.data.domain.PageImpl;
@@ -10,32 +11,30 @@ import org.springframework.data.domain.PageRequest;
 import java.time.LocalTime;
 import java.util.List;
 
-import static org.junit.Assert.*;
-
 public class FilmServiceTest {
     private final FilmRepository repository = Mockito.mock(FilmRepository.class);
     private final FilmService service = new FilmService(repository);
 
     @Test
-    public void getNonEmptyFilmListTest() {
+    public void findNonEmptyFilmListTest() {
         Mockito.doReturn(new PageImpl<>(List.of(filmTestData())))
                 .when(repository)
                 .findAll(PageRequest.of(0, 10));
 
         List<Film> serviceResult = service.getFilms(0);
-        assertNotNull(serviceResult);
-        assertFalse(serviceResult.isEmpty());
+        Assert.assertNotNull(serviceResult);
+        Assert.assertFalse(serviceResult.isEmpty());
     }
 
     @Test
-    public void getEmptyFilmListTest() {
+    public void findEmptyFilmListTest() {
         Mockito.doReturn(new PageImpl<Film>(List.of()))
                 .when(repository)
                 .findAll(PageRequest.of(0, 10));
 
         List<Film> serviceResult = service.getFilms(0);
-        assertNotNull(serviceResult);
-        assertTrue(serviceResult.isEmpty());
+        Assert.assertNotNull(serviceResult);
+        Assert.assertTrue(serviceResult.isEmpty());
     }
 
     @Test
@@ -45,8 +44,8 @@ public class FilmServiceTest {
                 .findAllByTitleContainingIgnoreCase("test", PageRequest.of(0, 10));
 
         List<Film> serviceResult = service.getFilmsByTitle("test", 0);
-        assertNotNull(serviceResult);
-        assertFalse(serviceResult.isEmpty());
+        Assert.assertNotNull(serviceResult);
+        Assert.assertFalse(serviceResult.isEmpty());
     }
 
     @Test
@@ -56,8 +55,8 @@ public class FilmServiceTest {
                 .findAll(PageRequest.of(0, 10));
 
         List<Film> serviceResult = service.getFilmsByTitle("", 0);
-        assertNotNull(serviceResult);
-        assertFalse(serviceResult.isEmpty());
+        Assert.assertNotNull(serviceResult);
+        Assert.assertFalse(serviceResult.isEmpty());
     }
 
     @Test
@@ -67,8 +66,8 @@ public class FilmServiceTest {
                 .findAllByTitleContainingIgnoreCase("test", PageRequest.of(0, 10));
 
         List<Film> serviceResult = service.getFilmsByTitle("Some title", 0);
-        assertNotNull(serviceResult);
-        assertTrue(serviceResult.isEmpty());
+        Assert.assertNotNull(serviceResult);
+        Assert.assertTrue(serviceResult.isEmpty());
     }
 
     private Film filmTestData() {
