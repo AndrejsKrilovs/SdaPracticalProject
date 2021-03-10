@@ -11,7 +11,7 @@ public class Metadata {
     @JsonProperty(value = "page_number")
     private Integer pageNumber;
 
-    @JsonProperty(value = "totalPages")
+    @JsonProperty(value = "total_pages")
     private Integer totalPages;
 
     @JsonProperty(value = "total_elements")

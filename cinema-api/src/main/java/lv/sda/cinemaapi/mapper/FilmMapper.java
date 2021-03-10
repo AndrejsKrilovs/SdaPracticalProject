@@ -15,10 +15,10 @@ public class FilmMapper {
     public FilmResponse generateResponse(Page<Film> filmPage) {
         boolean emptyFlag = filmPage.isEmpty();
         Metadata metadata = new Metadata();
-        metadata.setTotalPages(emptyFlag ? 0 : filmPage.getTotalPages());
+        metadata.setTotalPages(emptyFlag ? 0 : filmPage.getTotalPages() - 1);
         metadata.setTotalElements(filmPage.getTotalElements());
         metadata.setOffset(filmPage.getPageable().getOffset());
-        metadata.setPageNumber(emptyFlag ? 0 : filmPage.getPageable().getPageNumber() + 1);
+        metadata.setPageNumber(emptyFlag ? 0 : filmPage.getPageable().getPageNumber());
 
         FilmResponse response = new FilmResponse();
         List<FilmDTO> contentData = emptyFlag ? List.of() :
