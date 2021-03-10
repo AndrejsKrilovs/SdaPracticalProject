@@ -1,6 +1,6 @@
 .idea
 
 ###Database###
-TestDB/
+CinemaTestDB/
 CinemaDB/
 *.log

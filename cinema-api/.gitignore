@@ -4,7 +4,7 @@ target/
 !**/src/test/**/target/
 
 ###Database###
-TestDB/
+CinemaTestDB/
 CinemaDB/
 *.log
 

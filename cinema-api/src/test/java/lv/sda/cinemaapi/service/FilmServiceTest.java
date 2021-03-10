@@ -67,13 +67,13 @@ public class FilmServiceTest {
 
     @Test
     public void doNotFindFilmsByNotExistingTitleTest() {
-//        Mockito.doReturn(List.of(filmTestData()))
-//                .when(repository)
-//                .findAllByTitleContainingIgnoreCase("test", PageRequest.of(0, 10));
-//
-//        List<Film> serviceResult = service.getFilmsByTitle("Some title", 0);
-//        assertNotNull(serviceResult);
-//        assertTrue(serviceResult.isEmpty());
+        Mockito.doReturn(List.of(filmTestData()))
+                .when(repository)
+                .findAllByTitleContainingIgnoreCase("test", PageRequest.of(0, 10));
+
+        List<Film> serviceResult = service.getFilmsByTitle("Some title", 0);
+        assertNotNull(serviceResult);
+        assertTrue(serviceResult.isEmpty());
     }
 
     private List<Film> filmTestData() {
