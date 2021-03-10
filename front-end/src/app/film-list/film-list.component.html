@@ -17,27 +17,27 @@
 
 <ng-template #filmFilterForm>
   <div class="col-md-12">
-    <hr/>
+    <hr />
   </div>
-  <div class="col-sm-3 col-lg-2">
+  <!-- <div class="col-sm-3 col-lg-2">
     <input id="timeFrom" class="form-control" type="time" readonly>
   </div>
   <div class="col-sm-3 col-lg-2">
     <input id="timeTo" class="form-control" type="time" readonly>
   </div>
   <div class="col-sm-6 col-md-5 col-lg-4">
-    <input id="title" class="form-control" type="search" placeholder="Поиск по названию фильма" 
-            aria-label="Search" (input)="filterInput($event)">
-  </div>
+    <input id="title" class="form-control" type="search" placeholder="Поиск по названию фильма" aria-label="Search"
+      (input)="filterInput($event)">
+  </div> -->
   <div class="col-md-12 col-lg-4">
     <button class="col-sm-6 btn badge-primary">Найти</button>
     <div class="col-sm-6 btn-group" role="group" aria-label="Basic example">
       <button type="button" class="btn" (click)="pageDown()">&laquo;</button>
-      <span class="btn">{{ currentPage + 1 }}</span>
+      <span class="btn">{{ page_number + 1 }}</span>
       <button type="button" class="btn" (click)="pageUp()">&raquo;</button>
     </div>
   </div>
   <div class="col-md-12">
-    <hr/>
+    <hr />
   </div>
 </ng-template>

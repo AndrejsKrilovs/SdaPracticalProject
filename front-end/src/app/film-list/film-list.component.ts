@@ -1,6 +1,6 @@
-import {Component} from '@angular/core';
-import {IFilm} from '../app.component';
-import {ApiService} from '../api.service';
+import { Component } from '@angular/core'
+import { ApiService } from '../api.service'
+import { IFilm, IMetadata } from '../app.component'
 
 @Component({
   selector: 'app-film-list',
@@ -8,42 +8,48 @@ import {ApiService} from '../api.service';
   styleUrls: ['./film-list.component.css']
 })
 export class FilmListComponent {
-  films: Array<IFilm> = [];
-  toggle: boolean = false;
-  currentPage: number = 0;
+  page_number: number = 0
+  total_pages: number = 0;
+  films: Array<IFilm> = []
+  toggle: boolean = false
 
   constructor(private apiService: ApiService) {
-    this.films.splice(0);
-    apiService.filmCollection(this.currentPage)
-      .subscribe(result => result.forEach(data => this.films.push(data)));
+    apiService.filmCollection(this.page_number)
+      .subscribe(result => {
+        this.films = result.content
+        this.page_number = result.metadata.page_number
+        this.total_pages = result.metadata.total_pages
+      })
   }
 
   toggleFilms(): void {
-    this.toggle = !this.toggle;
+    this.toggle = !this.toggle
   }
 
-  pageUp() {
-    this.films.splice(0);
-    this.currentPage > 11 ? 11 : this.currentPage ++;
-     this.apiService
-       .filmCollection(this.currentPage)
-       .subscribe(result => result.forEach(data => this.films.push(data)));
+  pageUp(): void {
+    this.films.splice(0)
+    this.page_number > this.total_pages - 1 ? this.total_pages : this.page_number++
+    this.apiService.filmCollection(this.page_number)
+      .subscribe(result => {
+        this.films = result.content
+      })
   }
 
-  pageDown() {
-    this.films.splice(0);
-    this.currentPage < 1 ? 0 : this.currentPage --;
-    this.apiService
-      .filmCollection(this.currentPage)
-      .subscribe(result => result.forEach(data => this.films.push(data)));
-     }
-
-  filterInput(event: any): void {
-    this.currentPage = 0;
-    console.log(event.target.value);
-    // this.films.slice(0);
-    // this.apiService
-    //   .filterFilm(event.target.value, this.currentPage)
-    //   .subscribe(result => result.forEach(data => console.log(data)));
+  pageDown(): void {
+    this.films.splice(0)
+    this.page_number <= 0 ? this.page_number = 0 : this.page_number --
+    this.apiService.filmCollection(this.page_number)
+      .subscribe(result => {
+        this.films = result.content
+      })
   }
+
+  // filterInput(event: any): void {
+  //   this.currentPage = 0;
+  //   console.log(event.target.value);
+  //   this.films.slice(0);
+  //   this.apiService
+  //     .filterFilm(event.target.value, this.currentPage)
+  //     .subscribe(result => result.forEach(data => console.log(data)));
+  // }
 }
