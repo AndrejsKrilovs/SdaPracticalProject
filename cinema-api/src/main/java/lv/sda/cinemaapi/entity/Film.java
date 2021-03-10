@@ -1,6 +1,5 @@
 package lv.sda.cinemaapi.entity;
 
-import lombok.Builder;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -11,7 +10,7 @@ import java.time.LocalTime;
 public class Film {
     @Id
     @Column(name = "film_id")
-    @SequenceGenerator(name="film_id_seq", initialValue=10000, allocationSize=1)
+    @SequenceGenerator(name="film_id_seq", initialValue = 10000, allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "film_id_seq")
     private Long id;
 

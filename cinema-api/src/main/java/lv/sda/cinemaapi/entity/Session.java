@@ -1,6 +1,5 @@
 package lv.sda.cinemaapi.entity;
 
-import lombok.Builder;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -9,12 +8,11 @@ import java.time.LocalDateTime;
 
 @Data
 @Entity
-@Builder
 @Table(name = "sess")
 public class Session {
     @Id
     @Column(name = "sess_id")
-    @SequenceGenerator(name="sess_id_seq", initialValue=10000, allocationSize=1)
+    @SequenceGenerator(name="sess_id_seq", initialValue = 10000, allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sess_id_seq")
     private Long id;
 

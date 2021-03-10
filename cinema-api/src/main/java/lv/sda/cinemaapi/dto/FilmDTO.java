@@ -2,46 +2,22 @@ package lv.sda.cinemaapi.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
 
+import java.time.LocalTime;
+
+@Data
 public class FilmDTO {
+    @JsonProperty(value = "film_id")
     private Long id;
+
+    @JsonProperty(value = "film_title")
     private String title;
 
-    @JsonProperty(value = "picture")
+    @JsonProperty(value = "film_picture")
     private String picturePath;
 
+    @JsonProperty(value = "film_length")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "hh:mm")
-    private String length;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getPicturePath() {
-        return picturePath;
-    }
-
-    public void setPicturePath(String picturePath) {
-        this.picturePath = picturePath;
-    }
-
-    public String getLength() {
-        return length;
-    }
-
-    public void setLength(String length) {
-        this.length = length;
-    }
+    private LocalTime length;
 }

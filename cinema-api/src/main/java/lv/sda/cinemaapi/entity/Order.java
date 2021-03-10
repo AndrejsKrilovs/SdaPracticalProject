@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 public class Order {
     @Id
     @Column(name = "ord_id")
-    @SequenceGenerator(name="ord_id_seq", initialValue=10000, allocationSize=1)
+    @SequenceGenerator(name="ord_id_seq", initialValue = 10000, allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ord_id_seq")
     private Long id;
 

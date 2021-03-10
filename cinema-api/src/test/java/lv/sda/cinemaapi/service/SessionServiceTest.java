@@ -17,8 +17,8 @@ public class SessionServiceTest {
     @Test
     public void findAllSessionsByExistingFilmTest() {
         Film filmMock1 = new Film();
-        Session session1 = Session.builder().film(filmMock1).build();
-        Session session2 = Session.builder().film(filmMock1).build();
+        Session session1 = new Session();
+        Session session2 = new Session();
         Mockito.doReturn(List.of(session1, session2))
                 .when(repository)
                 .findAllByFilm(filmMock1, PageRequest.of(0, 7));
@@ -32,8 +32,8 @@ public class SessionServiceTest {
     @Test
     public void findAllSessionsByNonExistingFilmTest() {
         Film filmMock1 = new Film();
-        Session session1 = Session.builder().film(filmMock1).build();
-        Session session2 = Session.builder().film(filmMock1).build();
+        Session session1 = new Session();
+        Session session2 = new Session();
         Film filmMock2 = new Film();
         Mockito.doReturn(List.of(session1, session2))
                 .when(repository)
