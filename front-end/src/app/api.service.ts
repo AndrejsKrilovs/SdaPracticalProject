@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { IFilmResponse } from './app.component';
+import { Injectable } from '@angular/core'
+import { HttpClient, HttpParams } from '@angular/common/http'
+import { Observable } from 'rxjs'
+import { IFilmResponse, ISessionResponse } from './app.component'
 
 @Injectable({
   providedIn: 'root'
@@ -23,10 +23,10 @@ export class ApiService {
     return this.httpClient.get<IFilmResponse>(this.filmURL + `/Film(` + id + `)`);
   }
 
-  // public sessionCollection(film_id: number, offset: number): Observable<any> {
-  //   const params = new HttpParams().set(`offset`, offset.toString());
-  //   return this.httpClient.get(this.sessionURL + `/Sessions(` + film_id + `)`, {params});
-  // }
+  public sessionCollection(film_id: number, offset: number): Observable<ISessionResponse> {
+    const params = new HttpParams().set(`offset`, offset.toString());
+    return this.httpClient.get<ISessionResponse>(this.sessionURL + `/Sessions(` + film_id + `)`, { params });
+  }
 
   // public showSeats(room_number: number): Observable<any> {
   //   return this.httpClient.get(this.placeURL + `/Places(` + room_number + `)`);

@@ -1,8 +1,7 @@
 import { Component } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
-import { IFilm } from '../app.component'
+import { IFilm, ISession } from '../app.component'
 import { ApiService } from '../api.service'
-import { DatePipe } from "@angular/common"
 
 @Component({
   selector: 'app-film-session',
@@ -10,6 +9,10 @@ import { DatePipe } from "@angular/common"
   styleUrls: ['./film-session.component.css']
 })
 export class FilmSessionComponent {
+  sessions: Array<ISession> = [];
+  session_page_number: number = 0;
+  session_total_pages: number = 0;
+
   selectedFilm: IFilm = {
     film_id: 0,
     film_title: ``,
@@ -17,19 +20,37 @@ export class FilmSessionComponent {
     film_length: ``
   }
 
-  constructor(
-    private route: ActivatedRoute,
-    private apiService: ApiService
-  ) {
+  constructor(private route: ActivatedRoute, private apiService: ApiService) {
     let filmIdentifier: number = Number.parseInt(this.route.snapshot.paramMap.get(`id`), 0)
-    apiService.oneFilm(filmIdentifier)
-      .subscribe(result => this.selectedFilm = result.content.pop())
+    apiService.oneFilm(filmIdentifier).subscribe(result => this.selectedFilm = result.content.pop())
+    apiService.sessionCollection(filmIdentifier, this.session_page_number).subscribe(result => {
+      this.sessions = result.content
+      this.session_page_number = result.metadata.page_number
+      this.session_total_pages = result.metadata.total_pages
+    })
   }
 
+  pageUp(): void {
+    this.sessions.splice(0);
+    this.session_page_number > this.session_total_pages - 1 ? this.session_total_pages : this.session_page_number ++
+    this.apiService.sessionCollection(this.selectedFilm.film_id, this.session_page_number).subscribe(result => {
+      this.sessions = result.content
+      this.session_page_number = result.metadata.page_number
+    })
+  }
+
+  pageDown(): void {
+    this.sessions.splice(0)
+    this.session_page_number <= 0 ? this.session_page_number = 0 : this.session_page_number --
+    this.apiService.sessionCollection(this.selectedFilm.film_id, this.session_page_number).subscribe(result => {
+      this.sessions = result.content
+      this.session_page_number = result.metadata.page_number
+    })
+  }
+
+
   // selected_seats: Array<number> = [];
-  // sessions: Array<ISession> = [];
   // seats: Array<ISeat> = [];
-  // current_page: number = 0;
   // name_surname: string = '';
   // personal_code: string = '';
   // buttonDisabled: boolean = true;
@@ -40,13 +61,6 @@ export class FilmSessionComponent {
   //   room: 0,
   //   price: 0,
   //   film_id: 0
-  // };
-
-  // selectedFilm: IFilm = {
-  //   id: 0,
-  //   length: '',
-  //   picture: '',
-  //   title: ''
   // };
 
   // order: IOrder = {
@@ -99,20 +113,6 @@ export class FilmSessionComponent {
   //         }
   //       }
   //     });
-  // }
-
-  // pageUp(): void {
-  //   this.init();
-  //   this.current_page > 0 ? this.current_page = 1 : this.current_page ++ ;
-  //   this.apiService.sessionCollection(this.selectedFilm.id, this.current_page)
-  //     .subscribe(result => result.forEach(data => this.sessions.push(data)));
-  // }
-
-  // pageDown(): void {
-  //   this.init();
-  //   this.current_page <= 0 ? this.current_page = 0 : this.current_page -- ;
-  //   this.apiService.sessionCollection(this.selectedFilm.id, this.current_page)
-  //     .subscribe(result => result.forEach(data => this.sessions.push(data)));
   // }
 
   // makeOrder(): void {

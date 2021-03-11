@@ -28,17 +28,13 @@ export class FilmListComponent {
   pageUp(): void {
     this.films.splice(0)
     this.page_number > this.total_pages - 1 ? this.total_pages : this.page_number++
-    this.apiService.filmCollection(this.page_number).subscribe(result => {
-      this.films = result.content
-    })
+    this.apiService.filmCollection(this.page_number).subscribe(result => this.films = result.content)
   }
 
   pageDown(): void {
     this.films.splice(0)
     this.page_number <= 0 ? this.page_number = 0 : this.page_number--
-    this.apiService.filmCollection(this.page_number).subscribe(result => {
-      this.films = result.content
-    })
+    this.apiService.filmCollection(this.page_number).subscribe(result => this.films = result.content)
   }
 
   // filterInput(event: any): void {
