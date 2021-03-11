@@ -6,10 +6,10 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class FilmResponse {
+public class Response<T> {
     @JsonProperty(value = "metadata")
     private Metadata metadata;
 
     @JsonProperty(value = "content")
-    private List<FilmDTO> entityList;
+    private List<T> entityList;
 }

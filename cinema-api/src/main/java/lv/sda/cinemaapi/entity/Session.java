@@ -8,24 +8,24 @@ import java.time.LocalDateTime;
 
 @Data
 @Entity
-@Table(name = "sess")
+@Table(name = "session_table")
 public class Session {
     @Id
-    @Column(name = "sess_id")
-    @SequenceGenerator(name="sess_id_seq", initialValue = 10000, allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sess_id_seq")
+    @Column(name = "session_id")
+    @SequenceGenerator(name="session_id_seq", initialValue = 10000, allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "session_id_seq")
     private Long id;
 
-    @Column(name = "sess_date_time")
+    @Column(name = "session_date_time")
     private LocalDateTime dateTime;
 
-    @Column(name = "sess_room")
+    @Column(name = "session_room")
     private Room room;
 
-    @Column(name = "sess_price")
+    @Column(name = "session_price")
     private BigDecimal price;
 
+    @JoinColumn(name = "session_film_id")
     @ManyToOne(targetEntity = Film.class, fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
-    @JoinColumn(name = "sess_film_id")
     private Film film;
 }

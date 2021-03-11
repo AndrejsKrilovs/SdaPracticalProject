@@ -1,7 +1,7 @@
 package lv.sda.cinemaapi.mapper;
 
 import lv.sda.cinemaapi.dto.FilmDTO;
-import lv.sda.cinemaapi.dto.FilmResponse;
+import lv.sda.cinemaapi.dto.Response;
 import lv.sda.cinemaapi.dto.Metadata;
 import lv.sda.cinemaapi.entity.Film;
 import org.springframework.data.domain.Page;
@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 @Component
 public class FilmMapper {
-    public FilmResponse generateResponse(Page<Film> filmPage) {
+    public Response<FilmDTO> generateResponse(Page<Film> filmPage) {
         boolean emptyFlag = filmPage.isEmpty();
         Metadata metadata = new Metadata();
         metadata.setTotalPages(emptyFlag ? 0 : filmPage.getTotalPages() - 1);
@@ -20,7 +20,7 @@ public class FilmMapper {
         metadata.setOffset(filmPage.getPageable().getOffset());
         metadata.setPageNumber(emptyFlag ? 0 : filmPage.getPageable().getPageNumber());
 
-        FilmResponse response = new FilmResponse();
+        Response<FilmDTO> response = new Response<>();
         List<FilmDTO> contentData = emptyFlag ? List.of() :
                 filmPage.stream().map(this::toDTO).collect(Collectors.toList());
         response.setEntityList(contentData);
@@ -29,14 +29,14 @@ public class FilmMapper {
         return response;
     }
 
-    public FilmResponse generateSingleResponse(Film film) {
+    public Response<FilmDTO> generateSingleResponse(Film film) {
         Metadata metadata = new Metadata();
         metadata.setTotalPages(0);
         metadata.setTotalElements(1L);
         metadata.setOffset(0L);
         metadata.setPageNumber(0);
 
-        FilmResponse response = new FilmResponse();
+        Response<FilmDTO> response = new Response<>();
         response.setEntityList(List.of(toDTO(film)));
         response.setMetadata(metadata);
 

@@ -2,59 +2,33 @@ package lv.sda.cinemaapi.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
 import lv.sda.cinemaapi.entity.Room;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.Currency;
+import java.util.Locale;
 
+@Data
 public class SessionDTO {
+    @JsonProperty(value = "session_id")
     private Long id;
 
     @JsonProperty(value = "date_time")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy hh:mm")
-    private String dateTime;
-    private Integer room;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy HH:mm")
+    private LocalDateTime dateTime;
+
+    @JsonProperty(value = "session_room")
+    @JsonFormat(shape = JsonFormat.Shape.NUMBER)
+    private Room room;
+
+    @JsonProperty(value = "session_price")
     private BigDecimal price;
 
-    @JsonProperty(value = "film_id")
+    @JsonProperty(value = "price_currency")
+    private Currency currency = Currency.getInstance(Locale.getDefault());
+
+    @JsonProperty(value = "session_film_id")
     private Long filmId;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getDateTime() {
-        return dateTime;
-    }
-
-    public void setDateTime(String dateTime) {
-        this.dateTime = dateTime;
-    }
-
-    public Integer getRoom() {
-        return room;
-    }
-
-    public void setRoom(Integer room) {
-        this.room = room;
-    }
-
-    public BigDecimal getPrice() {
-        return price;
-    }
-
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-    }
-
-    public Long getFilmId() {
-        return filmId;
-    }
-
-    public void setFilmId(Long filmId) {
-        this.filmId = filmId;
-    }
 }

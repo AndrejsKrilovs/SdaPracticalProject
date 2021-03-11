@@ -62,40 +62,6 @@ public class FilmServiceTest {
         Assert.assertThrows(NoSuchElementException.class, () -> service.getFilmById(0L));
     }
 
-    @Test
-    public void findFilmsByTitleTest() {
-        filmTestData();
-//        Mockito.doReturn(List.of(filmTestData()))
-//                .when(repository)
-//                .findAllByTitleContainingIgnoreCase("test", PageRequest.of(0, 10));
-//
-//        List<Film> serviceResult = service.getFilmsByTitle("test", 0);
-//        assertNotNull(serviceResult);
-//        assertFalse(serviceResult.isEmpty());
-    }
-
-    @Test
-    public void findFilmsByEmptyTitleTest() {
-//        Mockito.doReturn(new PageImpl<>(List.of(filmTestData())))
-//                .when(repository)
-//                .findAll(PageRequest.of(0, 10));
-//
-//        List<Film> serviceResult = service.getFilmsByTitle("", 0);
-//        assertNotNull(serviceResult);
-//        assertFalse(serviceResult.isEmpty());
-    }
-
-    @Test
-    public void doNotFindFilmsByNotExistingTitleTest() {
-//        Mockito.doReturn(List.of(filmTestData()))
-//                .when(repository)
-//                .findAllByTitleContainingIgnoreCase("test", PageRequest.of(0, 10));
-//
-//        List<Film> serviceResult = service.getFilmsByTitle("Some title", 0);
-//        assertNotNull(serviceResult);
-//        assertTrue(serviceResult.isEmpty());
-    }
-
     private List<Film> filmTestData() {
         return LongStream.rangeClosed(1, 20).mapToObj(item -> {
             Film testFilmData = new Film();

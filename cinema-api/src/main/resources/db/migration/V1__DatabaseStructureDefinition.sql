@@ -24,11 +24,11 @@
        constraint place_pk primary key (place_seat, place_room)
     );
 
-    create table sess (
-       sess_id bigint,
-       sess_date_time timestamp,
-       sess_price decimal(5,2),
-       sess_room integer,
-       sess_film_id bigint,
-       constraint sess_pk primary key (sess_id)
+    create table session_table (
+       session_id bigint,
+       session_date_time timestamp,
+       session_price decimal(5,2),
+       session_room integer,
+       session_film_id bigint,
+       constraint session_pk primary key (session_id)
     );
