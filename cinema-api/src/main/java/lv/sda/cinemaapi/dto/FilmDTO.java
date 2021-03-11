@@ -18,6 +18,6 @@ public class FilmDTO {
     private String picturePath;
 
     @JsonProperty(value = "film_length")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "hh:mm")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
     private LocalTime length;
 }
