@@ -1,8 +1,8 @@
-import {Component} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {IFilm} from '../app.component';
-import {ApiService} from '../api.service';
-import {DatePipe} from "@angular/common";
+import { Component } from '@angular/core'
+import { ActivatedRoute, Router } from '@angular/router'
+import { IFilm } from '../app.component'
+import { ApiService } from '../api.service'
+import { DatePipe } from "@angular/common"
 
 @Component({
   selector: 'app-film-session',
@@ -10,6 +10,22 @@ import {DatePipe} from "@angular/common";
   styleUrls: ['./film-session.component.css']
 })
 export class FilmSessionComponent {
+  selectedFilm: IFilm = {
+    film_id: 0,
+    film_title: ``,
+    film_picture: ``,
+    film_length: ``
+  }
+
+  constructor(
+    private route: ActivatedRoute,
+    private apiService: ApiService
+  ) {
+    let filmIdentifier: number = Number.parseInt(this.route.snapshot.paramMap.get(`id`), 0)
+    apiService.oneFilm(filmIdentifier)
+      .subscribe(result => this.selectedFilm = result.content.pop())
+  }
+
   // selected_seats: Array<number> = [];
   // sessions: Array<ISession> = [];
   // seats: Array<ISeat> = [];

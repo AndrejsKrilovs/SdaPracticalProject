@@ -17,17 +17,14 @@ public class FilmController {
     private final FilmMapper filmMapper;
 
     @GetMapping(path = "/Films")
-    public ResponseEntity<FilmResponse> findFilms(
+    public FilmResponse findFilms(
             @RequestParam(value = "offset", required = false, defaultValue = "0") Integer offset) {
-        FilmResponse response = filmMapper.generateResponse(filmService.getFilms(offset));
-        return !response.getEntityList().isEmpty() ?
-                new ResponseEntity<>(response, HttpStatus.OK) :
-                new ResponseEntity<>(response, HttpStatus.NO_CONTENT);
+        return filmMapper.generateResponse(filmService.getFilms(offset));
     }
 
     @GetMapping(path = "/Film({id})")
-    public ResponseEntity<FilmResponse> findFilmById(@PathVariable Long id) {
-        return new ResponseEntity<>(filmMapper.generateSingleResponse(filmService.getFilmById(id)), HttpStatus.FOUND);
+    public FilmResponse findFilmById(@PathVariable Long id) {
+        return filmMapper.generateSingleResponse(filmService.getFilmById(id));
     }
 //
 //    @GetMapping("/Films$filter")

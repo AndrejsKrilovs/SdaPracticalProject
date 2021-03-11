@@ -1,8 +1,8 @@
- <!-- <div class="row">
+  <div class="row">
   <div class="col-md-5">
     <app-film [film]="selectedFilm" [mainPage]="false" [buttonValue]="'На главную'"></app-film>
   </div>
-  <div class="col-md-7">
+  <!-- <div class="col-md-7">
     <h1>Доступные сеансы</h1>
     <hr/>
     <div class="list-group">
@@ -15,12 +15,12 @@
       <button type="button" class="btn" (click)="pageDown()">&laquo;</button>
       <span class="btn">{{current_page + 1}}</span>
       <button type="button" class="btn" (click)="pageUp()">&raquo;</button>
-    </div>
+    </div> 
   </div>
 
   <div *ngIf="selectedSession.id === 0; else roomPlan"></div>
-  <div *ngIf="selected_seats.length === 0; else paymentForm"></div>
-</div> -->
+  <div *ngIf="selected_seats.length === 0; else paymentForm"></div> -->
+</div>
 
 <ng-template #roomPlan>
   <div class="col-sm-12">

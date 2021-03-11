@@ -19,9 +19,9 @@ export class ApiService {
     return this.httpClient.get<IFilmResponse>(this.filmURL + `/Films`, { params })
   }
 
-  // public oneFilm(id: number): Observable<any> {
-  //   return this.httpClient.get(this.filmURL + `/Film(` + id + `)`);
-  // }
+  public oneFilm(id: number): Observable<IFilmResponse> {
+    return this.httpClient.get<IFilmResponse>(this.filmURL + `/Film(` + id + `)`);
+  }
 
   // public sessionCollection(film_id: number, offset: number): Observable<any> {
   //   const params = new HttpParams().set(`offset`, offset.toString());
