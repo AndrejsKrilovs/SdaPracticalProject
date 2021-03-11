@@ -19,6 +19,10 @@ public class FilmService {
         return filmRepository.findAll(PageRequest.of(offset, ELEMENT_SIZE_PER_PAGE));
     }
 
+    public Film getFilmById(Long id) {
+        return filmRepository.findById(id).orElseThrow();
+    }
+
     public List<Film> getFilmsByTitle(String title, Integer offset) {
         if (title.isBlank()) {
             return filmRepository.findAll(PageRequest.of(offset, ELEMENT_SIZE_PER_PAGE)).getContent();

@@ -29,6 +29,20 @@ public class FilmMapper {
         return response;
     }
 
+    public FilmResponse generateSingleResponse(Film film) {
+        Metadata metadata = new Metadata();
+        metadata.setTotalPages(0);
+        metadata.setTotalElements(1L);
+        metadata.setOffset(0L);
+        metadata.setPageNumber(0);
+
+        FilmResponse response = new FilmResponse();
+        response.setEntityList(List.of(toDTO(film)));
+        response.setMetadata(metadata);
+
+        return response;
+    }
+
     private FilmDTO toDTO(Film film) {
         FilmDTO result = new FilmDTO();
         result.setId(film.getId());

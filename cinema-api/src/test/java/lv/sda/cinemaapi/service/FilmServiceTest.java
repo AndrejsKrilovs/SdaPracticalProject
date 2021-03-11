@@ -11,6 +11,8 @@ import org.springframework.data.domain.PageRequest;
 
 import java.time.LocalTime;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.LongStream;
 
@@ -40,6 +42,24 @@ public class FilmServiceTest {
         Assert.assertTrue(response.getContent().isEmpty());
         Assert.assertEquals(1, response.getTotalPages());
         Assert.assertEquals(0, response.getTotalElements());
+    }
+
+    @Test
+    public void getFilmByExistingIdTest() {
+        Mockito.doReturn(Optional.of(filmTestData().get(0)))
+                .when(repository).findById(1L);
+
+        Film response = service.getFilmById(1L);
+        Assert.assertEquals(filmTestData().get(0).getId(), response.getId());
+        Assert.assertEquals(filmTestData().get(0).getTitle(), response.getTitle());
+        Assert.assertEquals(filmTestData().get(0).getLength(), response.getLength());
+        Assert.assertEquals(filmTestData().get(0).getPicturePath(), response.getPicturePath());
+    }
+
+    @Test
+    public void getFilmByInvalidIdTest() {
+        Mockito.doReturn(Optional.empty()).when(repository).findById(0L);
+        Assert.assertThrows(NoSuchElementException.class, () -> service.getFilmById(0L));
     }
 
     @Test

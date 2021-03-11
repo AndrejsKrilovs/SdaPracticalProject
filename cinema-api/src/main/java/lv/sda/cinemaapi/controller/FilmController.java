@@ -24,23 +24,11 @@ public class FilmController {
                 new ResponseEntity<>(response, HttpStatus.OK) :
                 new ResponseEntity<>(response, HttpStatus.NO_CONTENT);
     }
-//    @GetMapping("/Films")
-//    public ResponseEntity<List<FilmDTO>> findAll(
-//            @RequestParam(value = "offset", required = false, defaultValue = "0") Integer offset
-//    ) {
-//        List<FilmDTO> resultList = filmService.getFilms(offset)
-//                .stream()
-//                .map(filmMapper::toDTO)
-//                .collect(Collectors.toList());
-//        return resultList.size() > 0 ?
-//                new ResponseEntity<>(resultList, HttpStatus.OK) :
-//                new ResponseEntity<>(new ArrayList<>(), HttpStatus.NO_CONTENT);
-//    }
-//
-//    @GetMapping("/Film({id})")
-//    public ResponseEntity<FilmDTO> getOne(@PathVariable("id") Film film) {
-//        return new ResponseEntity<>(filmMapper.toDTO(film), HttpStatus.OK);
-//    }
+
+    @GetMapping(path = "/Film({id})")
+    public ResponseEntity<FilmResponse> findFilmById(@PathVariable Long id) {
+        return new ResponseEntity<>(filmMapper.generateSingleResponse(filmService.getFilmById(id)), HttpStatus.FOUND);
+    }
 //
 //    @GetMapping("/Films$filter")
 //    public ResponseEntity<List<FilmDTO>> findAllByTitle(
