@@ -6,8 +6,10 @@
     <h1>Доступные сеансы</h1>
     <hr />
     <div class="list-group">
-      <button *ngFor="let session of sessions" (click)="onSessionSelect(session)" class="list-group-item list-group-item-action">
-        {{ session.date_time }} &nbsp;/ Room {{ session.session_room}} &nbsp;/ {{ session.session_price }} {{ session.price_currency }}
+      <button *ngFor="let session of sessions" (click)="onSessionSelect(session)"
+        class="list-group-item list-group-item-action">
+        {{ session.date_time }} &nbsp;/ Room {{ session.session_room}} &nbsp;/ {{ session.session_price }} {{
+        session.price_currency }}
       </button>
     </div>
 
@@ -18,8 +20,8 @@
     </div>
   </div>
 
-  <!-- <div *ngIf="selectedSession.id === 0; else roomPlan"></div>
-  <div *ngIf="selected_seats.length === 0; else paymentForm"></div> -->
+  <div *ngIf="!sessionSelected; else roomPlan"></div>
+  <!-- <div *ngIf="selected_seats.length === 0; else paymentForm"></div> -->
 </div>
 
 <ng-template #roomPlan>
@@ -27,10 +29,13 @@
     <h3 style="margin-top: 1rem">План зала</h3>
     <hr />
   </div>
-  <div style="width: 3rem; margin: 1rem" *ngFor="let seat of seats"
-    [ngClass]="seat.available ? 'card text-white bg-primary' : 'card'">
-    <a (click)="onSeatSelect($event, seat)" [ng-class]="seat.enabled ? 'btn disabled' : 'btn'">
+  <div style="width: 3rem; margin: 1rem" *ngFor="let place of places"
+    [ngClass]="place.place_availability ? 'card text-white bg-primary' : 'card'">
+    <!-- <a (click)="onSeatSelect($event, seat)" [ng-class]="seat.enabled ? 'btn disabled' : 'btn'">
       {{seat.place_number}}
+    </a> -->
+    <a [ng-class]="place.enabled ? 'btn disabled' : 'btn'">
+      {{ place.place_seat }}
     </a>
   </div>
 </ng-template>

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
-import { IFilm, ISession } from '../app.component'
+import { IFilm, IPlace, ISession } from '../app.component'
 import { ApiService } from '../api.service'
 
 @Component({
@@ -9,9 +9,11 @@ import { ApiService } from '../api.service'
   styleUrls: ['./film-session.component.css']
 })
 export class FilmSessionComponent {
-  sessions: Array<ISession> = [];
-  session_page_number: number = 0;
-  session_total_pages: number = 0;
+  sessions: Array<ISession> = []
+  places: Array<IPlace> = []
+  session_page_number: number = 0
+  session_total_pages: number = 0
+  sessionSelected: boolean = false
 
   selectedFilm: IFilm = {
     film_id: 0,
@@ -49,16 +51,8 @@ export class FilmSessionComponent {
   }
 
   onSessionSelect(session: ISession): void {
-    console.log(session)
-    // this.seats.splice(0);
-    // this.selected_seats.splice(0);
-    // this.seats.forEach(s => s.available = false);
-    // this.selectedSession = session;
-
-    // this.apiService.showSeats(this.selectedSession.room)
-    //   .subscribe(result =>
-    //     result.forEach(data => this.seats.push(data))
-    //   );
+    this.apiService.showSeats(session.session_id).subscribe(result => this.places = result.content)
+    this.sessionSelected = true
   }
 
 

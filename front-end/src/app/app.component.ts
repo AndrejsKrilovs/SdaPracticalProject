@@ -28,8 +28,17 @@ export interface ISession {
   session_film_id: number
 }
 
+export interface IPlace {
+  room_number: number
+  place_seat: number
+  place_session_id: number
+  place_availability: boolean
+  enable: boolean
+}
+
 export interface IFilmResponse extends IResponse<IFilm> { }
 export interface ISessionResponse extends IResponse<ISession> { }
+export interface IPlaceResponse extends IResponse<IPlace> { }
 
 // export interface ISeat {
 //   room_number: number;

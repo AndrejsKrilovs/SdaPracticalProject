@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core'
 import { HttpClient, HttpParams } from '@angular/common/http'
 import { Observable } from 'rxjs'
-import { IFilmResponse, ISessionResponse } from './app.component'
+import { IFilmResponse, IPlace, IPlaceResponse, ISessionResponse } from './app.component'
 
 @Injectable({
   providedIn: 'root'
@@ -28,9 +28,10 @@ export class ApiService {
     return this.httpClient.get<ISessionResponse>(this.sessionURL + `/Sessions`, { params })
   }
 
-  // public showSeats(room_number: number): Observable<any> {
-  //   return this.httpClient.get(this.placeURL + `/Places(` + room_number + `)`);
-  // }
+  public showSeats(session_id: number): Observable<IPlaceResponse> {
+    const params = new HttpParams().set(`session_id`, session_id.toString())
+    return this.httpClient.get<IPlaceResponse>(this.placeURL + `/Places`, { params })
+  }
 
   // public updateSeat(seat: ISeat): Observable<any> {
   //   return this.httpClient.put(this.placeURL + `/Place`, seat);
