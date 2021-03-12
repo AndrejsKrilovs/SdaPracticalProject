@@ -15,7 +15,7 @@ public class PlaceService {
     private final PlaceRepository placeRepository;
 
     public Page<Place> findPlacesBySession(Long sessionId) {
-        return placeRepository.findPlaceBySession(sessionId, PageRequest.of(0, 10));
+        return placeRepository.findPlaceBySession(sessionId, PageRequest.of(0, 30));
     }
 
     public Place changePlaceStatus(Place place) {

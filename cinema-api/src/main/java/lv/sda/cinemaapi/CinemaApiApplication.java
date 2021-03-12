@@ -60,8 +60,8 @@ public class CinemaApiApplication {
         }
 
         if (placeRepository.count() == 0) {
-            for (long sessionId = 10000; sessionId < 10248; sessionId++) {
-                for (int placeNumber = 1; placeNumber <= 10; placeNumber++) {
+            for (long sessionId = 10000; sessionId < 12047; sessionId++) {
+                for (int placeNumber = 1; placeNumber <= 30; placeNumber++) {
                     PlacePrimaryKey placePrimaryKey = new PlacePrimaryKey();
                     placePrimaryKey.setPlace(placeNumber);
                     placePrimaryKey.setSession(sessionRepository.getOne(sessionId));
