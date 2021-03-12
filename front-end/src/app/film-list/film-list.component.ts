@@ -36,13 +36,4 @@ export class FilmListComponent {
     this.page_number <= 0 ? this.page_number = 0 : this.page_number--
     this.apiService.filmCollection(this.page_number).subscribe(result => this.films = result.content)
   }
-
-  // filterInput(event: any): void {
-  //   this.currentPage = 0;
-  //   console.log(event.target.value);
-  //   this.films.slice(0);
-  //   this.apiService
-  //     .filterFilm(event.target.value, this.currentPage)
-  //     .subscribe(result => result.forEach(data => console.log(data)));
-  // }
 }

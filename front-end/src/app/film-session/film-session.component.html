@@ -31,10 +31,7 @@
   </div>
   <div style="width: 3rem; margin: 1rem" *ngFor="let place of places"
     [ngClass]="place.place_availability ? 'card text-white bg-primary' : 'card'">
-    <!-- <a (click)="onSeatSelect($event, seat)" [ng-class]="seat.enabled ? 'btn disabled' : 'btn'">
-      {{seat.place_number}}
-    </a> -->
-    <a [ng-class]="place.enabled ? 'btn disabled' : 'btn'">
+    <a (click)="onPlaceSelect(place)" [ng-class]="place.enabled ? 'btn disabled' : 'btn'">
       {{ place.place_seat }}
     </a>
   </div>
