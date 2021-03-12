@@ -15,9 +15,9 @@ public class SessionController {
     private final SessionService sessionService;
     private final SessionMapper sessionMapper;
 
-    @GetMapping(path = "/Sessions({film_id})")
+    @GetMapping(path = "/Sessions")
     public Response<SessionDTO> findSessionsByFilm(
-            @PathVariable(value = "film_id") Long filmId,
+            @RequestParam(value = "film_id") Long filmId,
             @RequestParam(value = "offset", required = false, defaultValue = "0") Integer offset
     ) {
         return sessionMapper.generateResponse(sessionService.getSessionsByFilm(filmId, offset));

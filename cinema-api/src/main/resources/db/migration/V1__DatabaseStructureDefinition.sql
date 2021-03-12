@@ -19,9 +19,9 @@
 
     create table place (
        place_seat integer,
-       place_room integer,
        place_availability boolean,
-       constraint place_pk primary key (place_seat, place_room)
+       place_session_id bigint,
+       constraint place_pk primary key (place_seat, place_session_id)
     );
 
     create table session_table (

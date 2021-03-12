@@ -7,3 +7,8 @@
        add constraint order_session_fk
        foreign key (ord_session_id)
        references session_table;
+
+    alter table place
+           add constraint place_session_fk
+           foreign key (place_session_id)
+           references session_table;

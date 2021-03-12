@@ -2,12 +2,11 @@ package lv.sda.cinemaapi.service;
 
 import lombok.RequiredArgsConstructor;
 import lv.sda.cinemaapi.entity.Place;
-import lv.sda.cinemaapi.entity.Room;
 import lv.sda.cinemaapi.repository.PlaceRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.Array;
-import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -15,9 +14,8 @@ import java.util.Objects;
 public class PlaceService {
     private final PlaceRepository placeRepository;
 
-    public List<Place> placesByRoomNumber(Integer roomNumber) {
-        Room room = (Room) Array.get(Room.values(), roomNumber);
-        return placeRepository.findPlaceByRoom(room);
+    public Page<Place> findPlacesBySession(Long sessionId) {
+        return placeRepository.findPlaceBySession(sessionId, PageRequest.of(0, 10));
     }
 
     public Place changePlaceStatus(Place place) {
