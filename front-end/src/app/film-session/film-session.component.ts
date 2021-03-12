@@ -32,7 +32,7 @@ export class FilmSessionComponent {
 
   pageUp(): void {
     this.sessions.splice(0);
-    this.session_page_number > this.session_total_pages - 1 ? this.session_total_pages : this.session_page_number ++
+    this.session_page_number > this.session_total_pages - 1 ? this.session_total_pages : this.session_page_number++
     this.apiService.sessionCollection(this.selectedFilm.film_id, this.session_page_number).subscribe(result => {
       this.sessions = result.content
       this.session_page_number = result.metadata.page_number
@@ -41,11 +41,24 @@ export class FilmSessionComponent {
 
   pageDown(): void {
     this.sessions.splice(0)
-    this.session_page_number <= 0 ? this.session_page_number = 0 : this.session_page_number --
+    this.session_page_number <= 0 ? this.session_page_number = 0 : this.session_page_number--
     this.apiService.sessionCollection(this.selectedFilm.film_id, this.session_page_number).subscribe(result => {
       this.sessions = result.content
       this.session_page_number = result.metadata.page_number
     })
+  }
+
+  onSessionSelect(session: ISession): void {
+    console.log(session)
+    // this.seats.splice(0);
+    // this.selected_seats.splice(0);
+    // this.seats.forEach(s => s.available = false);
+    // this.selectedSession = session;
+
+    // this.apiService.showSeats(this.selectedSession.room)
+    //   .subscribe(result =>
+    //     result.forEach(data => this.seats.push(data))
+    //   );
   }
 
 
@@ -86,17 +99,6 @@ export class FilmSessionComponent {
   //     .subscribe(result => result.forEach(data => this.sessions.push(data)));
   // }
 
-  // onSessionSelect(session: ISession): void {
-  //   this.seats.splice(0);
-  //   this.selected_seats.splice(0);
-  //   this.seats.forEach(s => s.available = false);
-  //   this.selectedSession = session;
-
-  //   this.apiService.showSeats(this.selectedSession.room)
-  //     .subscribe(result =>
-  //       result.forEach(data => this.seats.push(data))
-  //     );
-  // }
 
   // onSeatSelect(event: any, seat: ISeat): void {
   //   const selectedNumber: number = Number.parseInt(event.target.text, 0);

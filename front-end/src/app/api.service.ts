@@ -20,12 +20,12 @@ export class ApiService {
   }
 
   public oneFilm(id: number): Observable<IFilmResponse> {
-    return this.httpClient.get<IFilmResponse>(this.filmURL + `/Film(` + id + `)`);
+    return this.httpClient.get<IFilmResponse>(this.filmURL + `/Film(` + id + `)`)
   }
 
   public sessionCollection(film_id: number, offset: number): Observable<ISessionResponse> {
-    const params = new HttpParams().set(`offset`, offset.toString());
-    return this.httpClient.get<ISessionResponse>(this.sessionURL + `/Sessions(` + film_id + `)`, { params });
+    const params = new HttpParams().set(`offset`, offset.toString()).set(`film_id`, film_id.toString())
+    return this.httpClient.get<ISessionResponse>(this.sessionURL + `/Sessions`, { params })
   }
 
   // public showSeats(room_number: number): Observable<any> {

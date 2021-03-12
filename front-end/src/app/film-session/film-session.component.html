@@ -6,11 +6,8 @@
     <h1>Доступные сеансы</h1>
     <hr />
     <div class="list-group">
-      <!-- <button *ngFor="let session of sessions" (click)="onSessionSelect(session)" class="list-group-item list-group-item-action">
-        {{session.date_time }} &nbsp;/ Room {{session.room}} &nbsp;/ {{session.price | currency:'EUR'}}
-      </button> -->
-      <button *ngFor="let session of sessions" class="list-group-item list-group-item-action">
-        {{ session.date_time }} &nbsp;/ Room {{ session.session_film_id}} &nbsp;/ {{ session.session_price }} {{ session.price_currency }}
+      <button *ngFor="let session of sessions" (click)="onSessionSelect(session)" class="list-group-item list-group-item-action">
+        {{ session.date_time }} &nbsp;/ Room {{ session.session_room}} &nbsp;/ {{ session.session_price }} {{ session.price_currency }}
       </button>
     </div>
 
