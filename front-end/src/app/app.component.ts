@@ -35,6 +35,10 @@ export interface IPlace {
   place_availability: boolean
   enable: boolean
 }
+export interface IPerson {
+  nameSurname: string
+  personalCode: string
+}
 
 export interface IFilmResponse extends IResponse<IFilm> { }
 export interface ISessionResponse extends IResponse<ISession> { }

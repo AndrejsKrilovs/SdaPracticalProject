@@ -21,7 +21,7 @@
   </div>
 
   <div *ngIf="!sessionSelected; else roomPlan"></div>
-  <!-- <div *ngIf="selected_seats.length === 0; else paymentForm"></div> -->
+  <div *ngIf="selectedPlaces.length === 0; else paymentForm"></div>
 </div>
 
 <ng-template #roomPlan>
@@ -46,7 +46,7 @@
   <div class="col-md-4 col-xl-3 was-validated">
     <label for="name_surname">Имя и Фамилия</label>
     <input id="name_surname" aria-label="Search" class="form-control is-invalid" type="text" placeholder="Имя Фамилия"
-      required pattern="[A-Z]{1}[a-z]{1,}\s[A-Z]{1}[a-z]{1,}" (input)="userNameInput($event)">
+      required pattern="[A-Z\u0410-\u042F]{1}[a-z\u0430-\u044F]{1,}\s[A-Z\u0410-\u042F]{1}[a-z\u0430-\u044F]{1,}" (input)="userNameInput($event)">
   </div>
 
   <div class="col-md-4 col-xl-3 was-validated">
@@ -55,77 +55,12 @@
       pattern="[0-9]{6}-[0-9]{5}" (input)="userCodeInput($event)">
   </div>
 
-  <div class="col-md-4 col-xl-3 was-validated">
+  <div class="ng col-md-4 col-xl-3 was-validated">
     <label for="mk_ord" style="padding-top: 1em"></label>
     <button id="mk_ord" class="btn btn-primary btn-block" data-toggle="modal" data-target="#exampleModalCenter"
-      (click)="makeOrder()" [disabled]="buttonDisabled">
+      (click)="makeOrder()" [disabled]="orderButtonDisabled">
       Оформить заказ
     </button>
   </div>
-
-  <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">Поздравляем, ваш билет оформлен!</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <div class="form-group col-md-12">
-            <label for="nameSurname">Имя Фамилия</label>
-            <input id="nameSurname" aria-label="Search" class="form-control" type="text" [value]="name_surname"
-              readonly>
-          </div>
-
-          <div class="form-group col-md-12">
-            <label for="em">Персональный код</label>
-            <input id="em" aria-label="Search" class="form-control" type="text" [value]="personal_code" readonly>
-          </div>
-
-          <div class="form-group col-md-12">
-            <label for="film">Название фильма</label>
-            <input id="film" aria-label="Search" class="form-control" type="text" [value]="selectedFilm.title" readonly>
-          </div>
-
-          <div class="form-row" style="margin: 0 0.7rem">
-            <div class="form-group col-md-5">
-              <label for="data">Дата сеанса</label>
-              <input id="data" aria-label="Search" class="form-control" type="text" [value]="selectedSession.date_time"
-                readonly>
-            </div>
-            <div class="form-group col-md-2">
-              <label for="room">Комната</label>
-              <input id="room" aria-label="Search" class="form-control" type="number" [value]="selectedSession.room"
-                readonly>
-            </div>
-            <div class="form-group col-md-5">
-              <label for="seats">Места</label>
-              <input id="seats" aria-label="Search" class="form-control" type="text" [value]="order.places" readonly>
-            </div>
-          </div>
-
-          <div class="form-row" style="margin: 0 0.7rem">
-            <div class="form-group col-md-6">
-              <label for="print">Дата генерации билета</label>
-              <input id="print" aria-label="Search" class="form-control" type="text" [value]="order.generation_time"
-                readonly>
-            </div>
-            <div class="form-group col-md-3">
-              <label for="price">Цена</label>
-              <input id="price" aria-label="Search" class="form-control" type="text"
-                [value]="order.total_price | currency:'EUR'" readonly>
-            </div>
-          </div>
-        </div>
-
-        <div class="modal-footer">
-          <button type="button" class="btn btn-primary" data-dismiss="modal" disabled>Распечатать</button>
-          <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="approveOrder()">Окей</button>
-        </div>
-      </div>
-    </div>
-  </div>
+  <app-modal-window></app-modal-window>
 </ng-template>
