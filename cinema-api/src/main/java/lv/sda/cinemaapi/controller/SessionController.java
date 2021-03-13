@@ -9,8 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/session.svc")
-@CrossOrigin(origins="http://localhost:4200")
+@RequestMapping(path = "/api/session.svc")
 public class SessionController {
     private final SessionService sessionService;
     private final SessionMapper sessionMapper;

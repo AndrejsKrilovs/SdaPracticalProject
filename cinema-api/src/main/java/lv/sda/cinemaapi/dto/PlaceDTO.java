@@ -13,7 +13,7 @@ public class PlaceDTO {
     @Positive
     @NotBlank
     @JsonProperty(value = "room_number")
-    @JsonFormat(shape = JsonFormat.Shape.NUMBER)
+    @JsonFormat(shape = JsonFormat.Shape.NUMBER_INT)
     private Room roomNumber;
 
     @Positive

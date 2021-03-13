@@ -11,8 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/api/order.svc")
-@CrossOrigin(origins="http://localhost:4200")
+@RequestMapping(path = "/api/order.svc")
 public class OrderController {
 
     private final OrderService orderService;

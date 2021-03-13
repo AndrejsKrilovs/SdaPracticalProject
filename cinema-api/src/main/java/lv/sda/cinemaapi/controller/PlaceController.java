@@ -9,8 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/place.svc")
-@CrossOrigin(origins="http://localhost:4200")
+@RequestMapping(path = "/api/place.svc")
 public class PlaceController {
     private final PlaceService placeService;
     private final PlaceMapper placeMapper;
@@ -18,6 +17,12 @@ public class PlaceController {
     @GetMapping(path = "/Places")
     public Response<PlaceDTO> findPlacesBySession(@RequestParam(value = "session_id") Long sessionId) {
         return placeMapper.generateResponse(placeService.findPlacesBySession(sessionId));
+    }
+
+    @PutMapping(value = "/Place")
+    public PlaceDTO updatePlace(@RequestBody PlaceDTO placeDTO) {
+        System.out.println(placeDTO);
+        return placeDTO;
     }
 //
 //    @PutMapping("/Place")

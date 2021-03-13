@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(path = "/api/film.svc")
-@CrossOrigin(origins = "http://localhost:4200")
 public class FilmController {
     private final FilmService filmService;
     private final FilmMapper filmMapper;
