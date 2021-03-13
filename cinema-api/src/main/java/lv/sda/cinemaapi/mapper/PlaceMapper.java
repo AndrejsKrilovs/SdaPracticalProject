@@ -1,9 +1,12 @@
 package lv.sda.cinemaapi.mapper;
 
+import lombok.RequiredArgsConstructor;
 import lv.sda.cinemaapi.dto.Metadata;
 import lv.sda.cinemaapi.dto.PlaceDTO;
 import lv.sda.cinemaapi.dto.Response;
 import lv.sda.cinemaapi.entity.Place;
+import lv.sda.cinemaapi.entity.PlacePrimaryKey;
+import lv.sda.cinemaapi.repository.SessionRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
@@ -11,7 +14,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
+@RequiredArgsConstructor
 public class PlaceMapper {
+    private final SessionRepository sessionRepository;
+
     public Response<PlaceDTO> generateResponse(Page<Place> placesPage) {
         boolean emptyFlag = placesPage.isEmpty();
         Metadata metadata = new Metadata();
@@ -28,19 +34,20 @@ public class PlaceMapper {
 
         return response;
     }
-//    public Place fromDTO(PlaceDTO placeDTO) {
-//        Place result = new Place();
-//        result.setAvailable(placeDTO.getAvailable());
-//
-//        PlacePrimaryKey id = new PlacePrimaryKey();
-//        id.setRoom(Room.values()[placeDTO.getRoomNumber()]);
-//        id.setPlace(placeDTO.getPlaceNumber());
-//        result.setId(id);
-//
-//        return result;
-//    }
-//
-    private PlaceDTO toDTO(Place place) {
+
+    public Place fromDTO(PlaceDTO placeDTO) {
+        Place result = new Place();
+        result.setAvailable(placeDTO.getAvailable());
+
+        PlacePrimaryKey id = new PlacePrimaryKey();
+        id.setSession(sessionRepository.getOne(placeDTO.getSession()));
+        id.setPlace(placeDTO.getPlaceNumber());
+        result.setId(id);
+
+        return result;
+    }
+
+    public PlaceDTO toDTO(Place place) {
         PlaceDTO result = new PlaceDTO();
         result.setEnabled(place.getAvailable());
         result.setAvailable(place.getAvailable());

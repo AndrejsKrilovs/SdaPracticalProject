@@ -7,8 +7,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.util.Objects;
-
 @Service
 @RequiredArgsConstructor
 public class PlaceService {
@@ -19,6 +17,6 @@ public class PlaceService {
     }
 
     public Place changePlaceStatus(Place place) {
-        return placeRepository.save(Objects.requireNonNull(place));
+        return placeRepository.save(place);
     }
 }

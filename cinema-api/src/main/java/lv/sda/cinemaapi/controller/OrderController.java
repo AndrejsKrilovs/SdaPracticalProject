@@ -12,6 +12,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping(path = "/api/order.svc")
+@CrossOrigin(origins = "http://localhost:4200")
 public class OrderController {
 
     private final OrderService orderService;
