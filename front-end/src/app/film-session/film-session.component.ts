@@ -55,13 +55,7 @@ export class FilmSessionComponent {
   }
 
   onPlaceSelect(place: IPlace): void {
-    if (place.enable)
-      place.place_availability = !place.place_availability
-    if (place.enable && place.place_availability)
-      this.selected_places.push(place)
-    if (place.enable && !place.place_availability) {
-      const ind = this.selected_places.indexOf(place)
-      this.selected_places.splice(ind, 1)
-    }
+    place.place_availability = !place.place_availability
+    this.apiService.updatePlace(place).subscribe()
   }
 }

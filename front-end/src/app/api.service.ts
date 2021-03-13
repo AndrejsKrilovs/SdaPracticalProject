@@ -33,9 +33,9 @@ export class ApiService {
     return this.httpClient.get<IPlaceResponse>(this.placeURL + `/Places`, { params })
   }
 
-  // public updateSeat(seat: ISeat): Observable<any> {
-  //   return this.httpClient.put(this.placeURL + `/Place`, seat);
-  // }
+  public updatePlace(seat: IPlace): Observable<IPlace> {
+    return this.httpClient.put<IPlace>(this.placeURL + `/Place`, seat)
+  }
 
   // public addOrder(order: IOrder): Observable<any> {
   //     return this.httpClient.post(this.orderURL + `/Order`, order);
