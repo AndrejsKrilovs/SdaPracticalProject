@@ -2,81 +2,43 @@ package lv.sda.cinemaapi.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Builder;
+import lombok.Value;
 
-import javax.validation.constraints.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.PositiveOrZero;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
+@Value
+@Builder
 public class OrderDTO {
-    @NotBlank
     @JsonProperty(value = "name_surname")
-    @Pattern(regexp = "[A-Z]{1}[a-z]{1,}\\s[A-Z]{1}[a-z]{1,}", message = "Incorrect Name and Surname")
-    private String user;
+    @NotBlank(message = "Name should not be empty")
+    @Pattern(message = "Incorrect name and Surname",
+            regexp = "[A-Z\\u0410-\\u042F]{1}[a-z\\u0430-\\u044F]{1,}\\s[A-Z\\u0410-\\u042F]{1}[a-z\\u0430-\\u044F]{1,}")
+    String user;
 
-    @NotBlank
     @JsonProperty(value = "personal_code")
+    @NotBlank(message = "Personal code should not be empty")
     @Pattern(regexp = "[0-9]{6}-[0-9]{5}", message = "Incorrect Personal code")
-    private String personalCode;
+    String personalCode;
 
-    @Positive
-    private Long session;
+    @NotBlank(message = "Session number should not be empty")
+    @Positive(message = "Session number should be positive")
+    Long session;
 
     @NotBlank(message = "Should select at least one place")
-    private String places;
+    String places;
 
     @JsonProperty(value = "generation_time")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy hh:mm:ss")
     @NotBlank(message = "Generated time should be with pattern 'dd.MM.yyyy hh:mm:ss'")
-    private String generationTime;
+    LocalDateTime generationTime;
 
     @JsonProperty(value = "total_price")
     @PositiveOrZero(message = "Total sum should be positive")
-    private BigDecimal totalPrice;
-
-    public String getUser() {
-        return user;
-    }
-
-    public void setUser(String user) {
-        this.user = user;
-    }
-
-    public String getPersonalCode() {
-        return personalCode;
-    }
-
-    public void setPersonalCode(String personalCode) {
-        this.personalCode = personalCode;
-    }
-
-    public Long getSession() {
-        return session;
-    }
-
-    public void setSession(Long session) {
-        this.session = session;
-    }
-
-    public String getPlaces() {
-        return places;
-    }
-
-    public void setPlaces(String places) {
-        this.places = places;
-    }
-
-    public String getGenerationTime() {
-        return generationTime;
-    }
-
-    public void setGenerationTime(String generationTime) {
-        this.generationTime = generationTime;
-    }
-
-    public BigDecimal getTotalPrice() {
-        return totalPrice;
-    }
-
-    public void setTotalPrice(BigDecimal totalPrice) {
-        this.totalPrice = totalPrice;
-    }
+    BigDecimal totalPrice;
 }
