@@ -20,19 +20,22 @@ public class PlaceMapper {
 
     public Response<PlaceDTO> generateResponse(Page<Place> placesPage) {
         boolean emptyFlag = placesPage.isEmpty();
-        Metadata metadata = new Metadata();
-        metadata.setTotalPages(emptyFlag ? 0 : placesPage.getTotalPages());
-        metadata.setTotalElements(placesPage.getTotalElements());
-        metadata.setOffset(placesPage.getPageable().getOffset());
-        metadata.setPageNumber(emptyFlag ? 0 : placesPage.getPageable().getPageNumber());
+        Metadata metadata = Metadata.builder()
+                .pageNumber(emptyFlag ? 0 : placesPage.getPageable().getPageNumber())
+                .totalPages(emptyFlag ? 0 : placesPage.getTotalPages())
+                .totalElements(placesPage.getTotalElements())
+                .offset(placesPage.getPageable().getOffset())
+                .build();
 
-        Response<PlaceDTO> response = new Response<>();
         List<PlaceDTO> contentData = emptyFlag ? List.of() :
-                placesPage.stream().map(this::toDTO).collect(Collectors.toList());
-        response.setEntityList(contentData);
-        response.setMetadata(metadata);
+                placesPage.stream()
+                        .map(this::generatePlace)
+                        .collect(Collectors.toList());
 
-        return response;
+        return Response.<PlaceDTO>builder()
+                .entityList(contentData)
+                .metadata(metadata)
+                .build();
     }
 
     public Place fromDTO(PlaceDTO placeDTO) {
@@ -47,13 +50,12 @@ public class PlaceMapper {
         return result;
     }
 
-    public PlaceDTO toDTO(Place place) {
-        PlaceDTO result = new PlaceDTO();
-        result.setEnabled(place.getAvailable());
-        result.setAvailable(place.getAvailable());
-        result.setPlaceNumber(place.getId().getPlace());
-        result.setSession(place.getId().getSession().getId());
-        result.setRoomNumber(place.getId().getSession().getRoom());
-        return result;
+    public PlaceDTO generatePlace(Place place) {
+        return PlaceDTO.builder()
+                .roomNumber(place.getId().getSession().getRoom())
+                .session(place.getId().getSession().getId())
+                .placeNumber(place.getId().getPlace())
+                .available(place.getAvailable())
+                .build();
     }
 }

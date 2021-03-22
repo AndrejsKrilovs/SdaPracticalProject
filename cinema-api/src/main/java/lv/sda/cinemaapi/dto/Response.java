@@ -1,15 +1,17 @@
 package lv.sda.cinemaapi.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Data;
+import lombok.Builder;
+import lombok.Value;
 
 import java.util.List;
 
-@Data
+@Value
+@Builder
 public class Response<T> {
     @JsonProperty(value = "metadata")
-    private Metadata metadata;
+    Metadata metadata;
 
     @JsonProperty(value = "content")
-    private List<T> entityList;
+    List<T> entityList;
 }

@@ -25,6 +25,6 @@ public class PlaceController {
     public PlaceDTO updatePlace(@RequestBody PlaceDTO placeDTO) {
         Place placeToUpdate = placeMapper.fromDTO(placeDTO);
         Place updatedPlace = placeService.changePlaceStatus(placeToUpdate);
-        return placeMapper.toDTO(updatedPlace);
+        return placeMapper.generatePlace(updatedPlace);
     }
 }

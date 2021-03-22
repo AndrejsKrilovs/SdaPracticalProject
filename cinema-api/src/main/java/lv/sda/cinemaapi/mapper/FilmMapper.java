@@ -1,8 +1,8 @@
 package lv.sda.cinemaapi.mapper;
 
 import lv.sda.cinemaapi.dto.FilmDTO;
-import lv.sda.cinemaapi.dto.Response;
 import lv.sda.cinemaapi.dto.Metadata;
+import lv.sda.cinemaapi.dto.Response;
 import lv.sda.cinemaapi.entity.Film;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
@@ -14,41 +14,45 @@ import java.util.stream.Collectors;
 public class FilmMapper {
     public Response<FilmDTO> generateResponse(Page<Film> filmPage) {
         boolean emptyFlag = filmPage.isEmpty();
-        Metadata metadata = new Metadata();
-        metadata.setTotalPages(emptyFlag ? 0 : filmPage.getTotalPages() - 1);
-        metadata.setTotalElements(filmPage.getTotalElements());
-        metadata.setOffset(filmPage.getPageable().getOffset());
-        metadata.setPageNumber(emptyFlag ? 0 : filmPage.getPageable().getPageNumber());
+        Metadata metadata = Metadata.builder()
+                .pageNumber(emptyFlag ? 0 : filmPage.getPageable().getPageNumber())
+                .totalPages(emptyFlag ? 0 : filmPage.getTotalPages() - 1)
+                .totalElements(filmPage.getTotalElements())
+                .offset(filmPage.getPageable().getOffset())
+                .build();
 
-        Response<FilmDTO> response = new Response<>();
         List<FilmDTO> contentData = emptyFlag ? List.of() :
-                filmPage.stream().map(this::toDTO).collect(Collectors.toList());
-        response.setEntityList(contentData);
-        response.setMetadata(metadata);
+                filmPage.stream()
+                        .map(this::generateDTO)
+                        .collect(Collectors.toList());
 
-        return response;
+        return Response.<FilmDTO>builder()
+                .entityList(contentData)
+                .metadata(metadata)
+                .build();
     }
 
-    public Response<FilmDTO> generateSingleResponse(Film film) {
-        Metadata metadata = new Metadata();
-        metadata.setTotalPages(0);
-        metadata.setTotalElements(1L);
-        metadata.setOffset(0L);
-        metadata.setPageNumber(0);
+    public Response<FilmDTO> generateSingleResponse(Film entity) {
+        Metadata metadata = Metadata.builder()
+                .totalElements(1L)
+                .totalPages(0)
+                .pageNumber(0)
+                .offset(0L)
+                .build();
 
-        Response<FilmDTO> response = new Response<>();
-        response.setEntityList(List.of(toDTO(film)));
-        response.setMetadata(metadata);
-
-        return response;
+        FilmDTO film = generateDTO(entity);
+        return Response.<FilmDTO>builder()
+                .entityList(List.of(film))
+                .metadata(metadata)
+                .build();
     }
 
-    private FilmDTO toDTO(Film film) {
-        FilmDTO result = new FilmDTO();
-        result.setId(film.getId());
-        result.setTitle(film.getTitle());
-        result.setPicturePath(film.getPicturePath());
-        result.setLength(film.getLength());
-        return result;
+    private FilmDTO generateDTO(Film entity) {
+        return FilmDTO.builder()
+                .picturePath(entity.getPicturePath())
+                .length(entity.getLength())
+                .title(entity.getTitle())
+                .id(entity.getId())
+                .build();
     }
 }

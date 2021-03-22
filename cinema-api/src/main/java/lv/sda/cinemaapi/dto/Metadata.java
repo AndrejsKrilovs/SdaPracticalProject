@@ -1,19 +1,21 @@
 package lv.sda.cinemaapi.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Data;
+import lombok.Builder;
+import lombok.Value;
 
-@Data
+@Value
+@Builder
 public class Metadata {
     @JsonProperty(value = "offset")
-    private Long offset;
+    Long offset;
 
     @JsonProperty(value = "page_number")
-    private Integer pageNumber;
+    Integer pageNumber;
 
     @JsonProperty(value = "total_pages")
-    private Integer totalPages;
+    Integer totalPages;
 
     @JsonProperty(value = "total_elements")
-    private Long totalElements;
+    Long totalElements;
 }

@@ -14,28 +14,31 @@ import java.util.stream.Collectors;
 public class SessionMapper {
     public Response<SessionDTO> generateResponse(Page<Session> sessionPage) {
         boolean emptyFlag = sessionPage.isEmpty();
-        Metadata metadata = new Metadata();
-        metadata.setTotalPages(emptyFlag ? 0 : sessionPage.getTotalPages() - 1);
-        metadata.setTotalElements(sessionPage.getTotalElements());
-        metadata.setOffset(sessionPage.getPageable().getOffset());
-        metadata.setPageNumber(emptyFlag ? 0 : sessionPage.getPageable().getPageNumber());
+        Metadata metadata = Metadata.builder()
+                .pageNumber(emptyFlag ? 0 : sessionPage.getPageable().getPageNumber())
+                .totalPages((emptyFlag ? 0 : sessionPage.getTotalPages() - 1))
+                .offset((sessionPage.getPageable().getOffset()))
+                .totalElements(sessionPage.getTotalElements())
+                .build();
 
-        Response<SessionDTO> response = new Response<>();
         List<SessionDTO> contentData = emptyFlag ? List.of() :
-                sessionPage.stream().map(this::toDTO).collect(Collectors.toList());
-        response.setEntityList(contentData);
-        response.setMetadata(metadata);
+                sessionPage.stream()
+                        .map(this::generateSession)
+                        .collect(Collectors.toList());
 
-        return response;
+        return Response.<SessionDTO>builder()
+                .entityList(contentData)
+                .metadata(metadata)
+                .build();
     }
 
-    private SessionDTO toDTO(Session session) {
-        SessionDTO result = new SessionDTO();
-        result.setId(session.getId());
-        result.setDateTime(session.getDateTime());
-        result.setRoom(session.getRoom());
-        result.setPrice(session.getPrice());
-        result.setFilmId(session.getFilm().getId());
-        return result;
+    private SessionDTO generateSession(Session session) {
+        return SessionDTO.builder()
+                .filmId(session.getFilm().getId())
+                .dateTime(session.getDateTime())
+                .price(session.getPrice())
+                .room(session.getRoom())
+                .id(session.getId())
+                .build();
     }
 }
