@@ -6,7 +6,6 @@ import lv.sda.cinemaapi.entity.Session;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 @Component
 public class OrderMapper {
@@ -17,8 +16,7 @@ public class OrderMapper {
         result.setTotalPrice(orderDTO.getTotalPrice());
         result.setPersonalCode(orderDTO.getPersonalCode());
 
-        LocalDateTime generationTime = LocalDateTime
-                .parse(orderDTO.getGenerationTime(), DateTimeFormatter.ofPattern("dd.MM.yyyy kk:mm:ss"));
+        LocalDateTime generationTime = orderDTO.getGenerationTime();
         result.setGenerationTime(generationTime);
 
         Session session = new Session();
@@ -28,13 +26,12 @@ public class OrderMapper {
     }
 
     public OrderDTO toDTO(Order order) {
-        OrderDTO result = new OrderDTO();
-        result.setUser(order.getUser());
-        result.setPlaces(order.getPlaces());
-        result.setTotalPrice(order.getTotalPrice());
-        result.setPersonalCode(order.getPersonalCode());
-        result.setGenerationTime(order.getGenerationTime().format(DateTimeFormatter.ofPattern("dd.MM.yyyy kk:mm:ss")));
-        result.setSession(order.getSession().getId());
-        return result;
+        return OrderDTO.builder()
+                .generationTime(order.getGenerationTime())
+                .personalCode(order.getPersonalCode())
+                .totalPrice(order.getTotalPrice())
+                .places(order.getPlaces())
+                .user(order.getUser())
+                .build();
     }
 }
