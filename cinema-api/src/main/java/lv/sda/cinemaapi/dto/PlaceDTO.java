@@ -1,6 +1,7 @@
 package lv.sda.cinemaapi.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Value;
@@ -23,14 +24,12 @@ public class PlaceDTO {
     @JsonProperty(value = "place_seat")
     Integer placeNumber;
 
-    @Positive
-    @NotBlank
-    @JsonProperty(value = "place_session_id")
+    @JsonIgnore
     Long session;
 
     @JsonProperty(value = "place_availability")
     Boolean available;
 
-    @JsonProperty(value = "enable")
+    @JsonProperty(value = "place_enable")
     Boolean enabled = getAvailable();
 }

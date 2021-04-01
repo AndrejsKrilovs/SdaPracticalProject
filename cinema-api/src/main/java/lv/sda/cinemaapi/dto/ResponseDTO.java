@@ -8,7 +8,7 @@ import java.util.List;
 
 @Value
 @Builder
-public class Response<T> {
+public class ResponseDTO<T> {
     @JsonProperty(value = "metadata")
     Metadata metadata;
 

@@ -1,7 +1,7 @@
 package lv.sda.cinemaapi.controller;
 
 import lombok.RequiredArgsConstructor;
-import lv.sda.cinemaapi.dto.Response;
+import lv.sda.cinemaapi.dto.ResponseDTO;
 import lv.sda.cinemaapi.dto.SessionDTO;
 import lv.sda.cinemaapi.mapper.SessionMapper;
 import lv.sda.cinemaapi.service.SessionService;
@@ -16,7 +16,7 @@ public class SessionController {
     private final SessionMapper sessionMapper;
 
     @GetMapping(path = "/Sessions")
-    public Response<SessionDTO> findSessionsByFilm(
+    public ResponseDTO<SessionDTO> findSessionsByFilm(
             @RequestParam(value = "film_id") Long filmId,
             @RequestParam(value = "offset", required = false, defaultValue = "0") Integer offset
     ) {

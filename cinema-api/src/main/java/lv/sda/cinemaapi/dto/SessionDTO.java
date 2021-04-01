@@ -30,7 +30,4 @@ public class SessionDTO {
 
     @JsonProperty(value = "price_currency")
     Currency currency = Currency.getInstance(Locale.getDefault());
-
-    @JsonProperty(value = "session_film_id")
-    Long filmId;
 }

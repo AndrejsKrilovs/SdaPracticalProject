@@ -2,7 +2,7 @@ package lv.sda.cinemaapi.controller;
 
 import lombok.RequiredArgsConstructor;
 import lv.sda.cinemaapi.dto.PlaceDTO;
-import lv.sda.cinemaapi.dto.Response;
+import lv.sda.cinemaapi.dto.ResponseDTO;
 import lv.sda.cinemaapi.entity.Place;
 import lv.sda.cinemaapi.mapper.PlaceMapper;
 import lv.sda.cinemaapi.service.PlaceService;
@@ -17,7 +17,7 @@ public class PlaceController {
     private final PlaceMapper placeMapper;
 
     @GetMapping(path = "/Places")
-    public Response<PlaceDTO> findPlacesBySession(@RequestParam(value = "session_id") Long sessionId) {
+    public ResponseDTO<PlaceDTO> findPlacesBySession(@RequestParam(value = "session_id") Long sessionId) {
         return placeMapper.generateResponse(placeService.findPlacesBySession(sessionId));
     }
 

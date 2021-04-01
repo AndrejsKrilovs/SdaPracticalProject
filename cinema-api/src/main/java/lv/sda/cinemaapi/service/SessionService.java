@@ -18,4 +18,8 @@ public class SessionService {
         Sort sortingOrder = Sort.by("dateTime").ascending();
         return sessionRepository.findAllByFilm(filmId, PageRequest.of(offset, ELEMENT_SIZE_PER_PAGE, sortingOrder));
     }
+
+    public Session getById(Long id) {
+        return sessionRepository.findById(id).orElseThrow();
+    }
 }

@@ -1,7 +1,7 @@
 package lv.sda.cinemaapi.mapper;
 
 import lv.sda.cinemaapi.dto.Metadata;
-import lv.sda.cinemaapi.dto.Response;
+import lv.sda.cinemaapi.dto.ResponseDTO;
 import lv.sda.cinemaapi.dto.SessionDTO;
 import lv.sda.cinemaapi.entity.Session;
 import org.springframework.data.domain.Page;
@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 @Component
 public class SessionMapper {
-    public Response<SessionDTO> generateResponse(Page<Session> sessionPage) {
+    public ResponseDTO<SessionDTO> generateResponse(Page<Session> sessionPage) {
         boolean emptyFlag = sessionPage.isEmpty();
         Metadata metadata = Metadata.builder()
                 .pageNumber(emptyFlag ? 0 : sessionPage.getPageable().getPageNumber())
@@ -26,15 +26,14 @@ public class SessionMapper {
                         .map(this::generateSession)
                         .collect(Collectors.toList());
 
-        return Response.<SessionDTO>builder()
+        return ResponseDTO.<SessionDTO>builder()
                 .entityList(contentData)
                 .metadata(metadata)
                 .build();
     }
 
-    private SessionDTO generateSession(Session session) {
+    public SessionDTO generateSession(Session session) {
         return SessionDTO.builder()
-                .filmId(session.getFilm().getId())
                 .dateTime(session.getDateTime())
                 .price(session.getPrice())
                 .room(session.getRoom())

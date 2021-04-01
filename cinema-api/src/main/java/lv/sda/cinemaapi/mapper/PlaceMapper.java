@@ -3,7 +3,7 @@ package lv.sda.cinemaapi.mapper;
 import lombok.RequiredArgsConstructor;
 import lv.sda.cinemaapi.dto.Metadata;
 import lv.sda.cinemaapi.dto.PlaceDTO;
-import lv.sda.cinemaapi.dto.Response;
+import lv.sda.cinemaapi.dto.ResponseDTO;
 import lv.sda.cinemaapi.entity.Place;
 import lv.sda.cinemaapi.entity.PlacePrimaryKey;
 import lv.sda.cinemaapi.repository.SessionRepository;
@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 public class PlaceMapper {
     private final SessionRepository sessionRepository;
 
-    public Response<PlaceDTO> generateResponse(Page<Place> placesPage) {
+    public ResponseDTO<PlaceDTO> generateResponse(Page<Place> placesPage) {
         boolean emptyFlag = placesPage.isEmpty();
         Metadata metadata = Metadata.builder()
                 .pageNumber(emptyFlag ? 0 : placesPage.getPageable().getPageNumber())
@@ -32,7 +32,7 @@ public class PlaceMapper {
                         .map(this::generatePlace)
                         .collect(Collectors.toList());
 
-        return Response.<PlaceDTO>builder()
+        return ResponseDTO.<PlaceDTO>builder()
                 .entityList(contentData)
                 .metadata(metadata)
                 .build();
@@ -53,7 +53,6 @@ public class PlaceMapper {
     public PlaceDTO generatePlace(Place place) {
         return PlaceDTO.builder()
                 .roomNumber(place.getId().getSession().getRoom())
-                .session(place.getId().getSession().getId())
                 .placeNumber(place.getId().getPlace())
                 .available(place.getAvailable())
                 .build();
