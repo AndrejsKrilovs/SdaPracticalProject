@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core'
 import { HttpClient, HttpParams } from '@angular/common/http'
 import { Observable } from 'rxjs'
-import { IFilmResponse, IPlace, IPlaceResponse, ISessionResponse } from './app.component'
+import { IFilmResponse, IOrder, IPlace, IPlaceResponse, ISessionResponse } from './app.component'
 
 @Injectable({
   providedIn: 'root'
@@ -37,12 +37,7 @@ export class ApiService {
     return this.httpClient.put<IPlace>(this.placeURL + `/Place`, seat)
   }
 
-  // public addOrder(order: IOrder): Observable<any> {
-  //     return this.httpClient.post(this.orderURL + `/Order`, order);
-  // }
-
-  // public filterFilm(query: string, offset: number): Observable<any> {
-  //   const params = new HttpParams().set(`offset`, offset.toString()).set(`title`, query);
-  //   return this.httpClient.get(this.filmURL + `/Films$filter` + {params});
-  // }
+  public generatePreOrderData(order_data: any): Observable<IOrder> {
+    return this.httpClient.post<IOrder>(this.orderURL + `/Calculation`, order_data)
+  }
 }

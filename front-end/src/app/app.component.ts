@@ -25,40 +25,30 @@ export interface ISession {
   session_room: number
   session_price: number
   price_currency: string
-  session_film_id: number
 }
 
 export interface IPlace {
   room_number: number
   place_seat: number
-  place_session_id: number
   place_availability: boolean
-  enable: boolean
+  place_enable: boolean
 }
-export interface IPerson {
-  nameSurname: string
-  personalCode: string
+
+export interface IOrder {
+  name_surname: string
+  personal_code: string
+  film_name: string
+  session_date: string
+  room_number: number
+  total_price: number
+  price_currency: string
+  places: string
+  order_generated_date: string
 }
 
 export interface IFilmResponse extends IResponse<IFilm> { }
 export interface ISessionResponse extends IResponse<ISession> { }
 export interface IPlaceResponse extends IResponse<IPlace> { }
-
-// export interface ISeat {
-//   room_number: number;
-//   place_number: number;
-//   available: boolean;
-//   enabled: boolean;
-// }
-
-// export interface IOrder {
-//   name_surname: string;
-//   personal_code: string
-//   session: number;
-//   places: string;
-//   generation_time: string;
-//   total_price: number;
-// }
 
 @Component({
   selector: 'app-root',

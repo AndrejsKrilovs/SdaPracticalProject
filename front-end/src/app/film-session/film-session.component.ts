@@ -1,6 +1,6 @@
 import { Component } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
-import { IFilm, IPerson, IPlace, ISession } from '../app.component'
+import { IFilm,  IOrder,  IPlace, ISession } from '../app.component'
 import { ApiService } from '../api.service'
 
 @Component({
@@ -11,29 +11,49 @@ import { ApiService } from '../api.service'
 export class FilmSessionComponent {
   sessions: Array<ISession> = []
   places: Array<IPlace> = []
-  selectedPlaces: Array<IPlace> = []
+  selected_places: Array<IPlace> = []
 
   session_page_number: number = 0
   session_total_pages: number = 0
 
-  sessionSelected: boolean = false
-  orderButtonDisabled = true
+  order_button_disabled = true
 
-  selectedFilm: IFilm = {
+  selected_film: IFilm = {
     film_id: 0,
     film_title: ``,
     film_picture: ``,
     film_length: ``
   }
 
-  authorizedPerson: IPerson = {
-    nameSurname: ``,
-    personalCode: ``
+  session_selected: ISession = {
+    session_id: -1,
+    date_time: ``,
+    session_room: -1,
+    session_price: -1,
+    price_currency: ``
+  }
+
+  authorized_person = {
+    name_surname: ``,
+    personal_code: ``
+  }
+
+  pre_order_data = {}
+  order_data: IOrder = {
+    name_surname: ``,
+    personal_code: ``,
+    film_name: ``,
+    session_date: ``,
+    room_number: -1,
+    total_price: -1,
+    price_currency: ``,
+    places: ``,
+    order_generated_date: ``
   }
 
   constructor(private route: ActivatedRoute, private apiService: ApiService) {
     let filmIdentifier: number = Number.parseInt(this.route.snapshot.paramMap.get(`id`), 0)
-    apiService.oneFilm(filmIdentifier).subscribe(result => this.selectedFilm = result.content.pop())
+    apiService.oneFilm(filmIdentifier).subscribe(result => this.selected_film = result.content.pop())
     apiService.sessionCollection(filmIdentifier, this.session_page_number).subscribe(result => {
       this.sessions = result.content
       this.session_page_number = result.metadata.page_number
@@ -42,58 +62,83 @@ export class FilmSessionComponent {
   }
 
   pageUp(): void {
-    this.sessionSelected = false
+    this.session_selected = {
+      session_id: -1,
+      date_time: ``,
+      session_room: -1,
+      session_price: -1,
+      price_currency: ``
+    }
+
+    this.selected_places.splice(0)
     this.session_page_number > this.session_total_pages - 1 ? this.session_total_pages : this.session_page_number++
-    this.apiService.sessionCollection(this.selectedFilm.film_id, this.session_page_number).subscribe(result => {
+    this.apiService.sessionCollection(this.selected_film.film_id, this.session_page_number).subscribe(result => {
       this.sessions = result.content
       this.session_page_number = result.metadata.page_number
     })
   }
 
   pageDown(): void {
-    this.sessionSelected = false
+    this.session_selected = {
+      session_id: -1,
+      date_time: ``,
+      session_room: -1,
+      session_price: -1,
+      price_currency: ``
+    }
+
+    this.selected_places.splice(0)
     this.session_page_number <= 0 ? this.session_page_number = 0 : this.session_page_number--
-    this.apiService.sessionCollection(this.selectedFilm.film_id, this.session_page_number).subscribe(result => {
+    this.apiService.sessionCollection(this.selected_film.film_id, this.session_page_number).subscribe(result => {
       this.sessions = result.content
       this.session_page_number = result.metadata.page_number
     })
   }
 
   onSessionSelect(session: ISession): void {
-    this.sessionSelected = true
-    this.selectedPlaces.splice(0)
+    this.session_selected = session
+    this.selected_places.splice(0)
     this.apiService.showSeats(session.session_id).subscribe(result => this.places = result.content)
   }
 
   onPlaceSelect(place: IPlace): void {
-    if (place.enable) {
+    if (!place.place_enable) {
       place.place_availability = !place.place_availability
-      const ind: number = this.selectedPlaces.indexOf(place)
+      const ind: number = this.selected_places.indexOf(place)
 
       if (ind > -1)
-        this.selectedPlaces.splice(ind, 1)
+        this.selected_places.splice(ind, 1)
       else
-        this.selectedPlaces.push(place)
-
-      console.log(this.selectedPlaces)
+        this.selected_places.push(place)
     }
   }
 
   userCodeInput(event: any): void {
     const correctUserCode: RegExp = /[0-9]{6}-[0-9]{5}/
     if (correctUserCode.test(event.target.value))
-      this.authorizedPerson.personalCode = event.target.value;
+      this.authorized_person.personal_code = event.target.value;
 
-    this.orderButtonDisabled = !(this.authorizedPerson.nameSurname.length > 0 &&
-      this.authorizedPerson.personalCode.length === 12)
+    this.order_button_disabled = !(this.authorized_person.name_surname.length > 0 &&
+      this.authorized_person.personal_code.length === 12)
   }
 
   userNameInput(event: any): void {
     const correctUserName: RegExp = /[A-Z\u0410-\u042F]{1}[a-z\u0430-\u044F]{1,}\s[A-Z\u0410-\u042F]{1}[a-z\u0430-\u044F]{1,}/
     if (correctUserName.test(event.target.value))
-      this.authorizedPerson.nameSurname = event.target.value;
+      this.authorized_person.name_surname = event.target.value;
 
-    this.orderButtonDisabled = !(this.authorizedPerson.nameSurname.length > 0 &&
-      this.authorizedPerson.personalCode.length === 12)
+    this.order_button_disabled = !(this.authorized_person.name_surname.length > 0 &&
+      this.authorized_person.personal_code.length === 12)
+  }
+
+  makeOrder(): void {
+    this.pre_order_data = {
+      film: this.selected_film.film_id,
+      session: this.session_selected.session_id,
+      places: this.selected_places.map(place => place.place_seat)
+    }
+
+    this.apiService.generatePreOrderData(this.pre_order_data)
+      .subscribe(result => this.order_data = result)
   }
 }

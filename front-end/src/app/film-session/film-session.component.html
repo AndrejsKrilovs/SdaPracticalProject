@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-md-5">
-    <app-film [film]="selectedFilm" [mainPage]="false" [buttonValue]="'На главную'"></app-film>
+    <app-film [film]="selected_film" [mainPage]="false" [buttonValue]="'На главную'"></app-film>
   </div>
   <div class="col-md-7">
     <h1>Доступные сеансы</h1>
@@ -8,8 +8,7 @@
     <div class="list-group">
       <button *ngFor="let session of sessions" (click)="onSessionSelect(session)"
         class="list-group-item list-group-item-action">
-        {{ session.date_time }} &nbsp;/ Room {{ session.session_room}} &nbsp;/ {{ session.session_price }} {{
-        session.price_currency }}
+        {{ session.date_time }} &nbsp;/ Room {{ session.session_room}} &nbsp;/ {{ session.session_price }} {{ session.price_currency }}
       </button>
     </div>
 
@@ -20,8 +19,8 @@
     </div>
   </div>
 
-  <div *ngIf="!sessionSelected; else roomPlan"></div>
-  <div *ngIf="selectedPlaces.length === 0; else paymentForm"></div>
+  <div *ngIf="session_selected.session_id === -1; else roomPlan"></div>
+  <div *ngIf="selected_places.length === 0; else paymentForm"></div>
 </div>
 
 <ng-template #roomPlan>
