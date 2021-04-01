@@ -16,9 +16,9 @@ export class FilmComponent {
 
   onSelect(entity: IFilm): void {
     if (this.mainPage) {
-      this.router.navigate([`film.svc/Film`, entity.film_id])
+      this.router.navigate([`film.svc/Film`, entity.film_id], {skipLocationChange: true})
     } else {
-      this.router.navigate([``])
+      this.router.navigate([``], {skipLocationChange: true})
     }
   }
 }

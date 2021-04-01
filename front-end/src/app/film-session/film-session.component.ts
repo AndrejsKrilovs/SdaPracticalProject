@@ -38,18 +38,7 @@ export class FilmSessionComponent {
     personal_code: ``
   }
 
-  pre_order_data = {}
-  order_data: IOrder = {
-    name_surname: ``,
-    personal_code: ``,
-    film_name: ``,
-    session_date: ``,
-    room_number: -1,
-    total_price: -1,
-    price_currency: ``,
-    places: ``,
-    order_generated_date: ``
-  }
+  order: IOrder
 
   constructor(private route: ActivatedRoute, private apiService: ApiService) {
     let filmIdentifier: number = Number.parseInt(this.route.snapshot.paramMap.get(`id`), 0)
@@ -132,13 +121,13 @@ export class FilmSessionComponent {
   }
 
   makeOrder(): void {
-    this.pre_order_data = {
+    const atributes = {
       film: this.selected_film.film_id,
       session: this.session_selected.session_id,
       places: this.selected_places.map(place => place.place_seat)
     }
 
-    this.apiService.generatePreOrderData(this.pre_order_data)
-      .subscribe(result => this.order_data = result)
+    this.apiService.generatePreOrderData(atributes)
+      .subscribe(result => this.order = result)
   }
 }
