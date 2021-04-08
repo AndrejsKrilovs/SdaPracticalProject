@@ -14,7 +14,7 @@ public class Film {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "film_id_seq")
     private Long id;
 
-    @Column(name = "film_title")
+    @Column(name = "film_title", length = 20)
     private String title;
 
     @Column(name = "film_picture")

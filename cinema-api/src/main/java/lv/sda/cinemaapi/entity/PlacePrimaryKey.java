@@ -8,10 +8,13 @@ import java.io.Serializable;
 @Data
 @Embeddable
 public class PlacePrimaryKey implements Serializable {
-    @Column(name = "place_seat")
+    @Column(name = "room_number")
+    private Integer room;
+
+    @Column(name = "seat_number")
     private Integer place;
 
-    @JoinColumn(name = "place_session_id")
+    @JoinColumn(name = "session_id")
     @ManyToOne(targetEntity = Session.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Session session;
 }

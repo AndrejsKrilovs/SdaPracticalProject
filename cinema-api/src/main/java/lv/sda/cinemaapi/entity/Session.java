@@ -19,13 +19,10 @@ public class Session {
     @Column(name = "session_date_time")
     private LocalDateTime dateTime;
 
-    @Column(name = "session_room")
-    private Room room;
-
-    @Column(name = "session_price")
+    @Column(name = "session_price", precision = 5, scale = 2)
     private BigDecimal price;
 
-    @JoinColumn(name = "session_film_id")
+    @JoinColumn(name = "film_id")
     @ManyToOne(targetEntity = Film.class, fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
     private Film film;
 }
