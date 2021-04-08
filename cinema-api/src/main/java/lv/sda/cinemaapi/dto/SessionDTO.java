@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Value;
-import lv.sda.cinemaapi.entity.Room;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -22,8 +21,7 @@ public class SessionDTO {
     LocalDateTime dateTime;
 
     @JsonProperty(value = "session_room")
-    @JsonFormat(shape = JsonFormat.Shape.NUMBER)
-    Room room;
+    Integer roomNumber;
 
     @JsonProperty(value = "session_price")
     BigDecimal price;
