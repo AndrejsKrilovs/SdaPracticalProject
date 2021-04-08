@@ -8,12 +8,22 @@ import org.springframework.stereotype.Component;
 public class SessionMapper extends AbstractMapper<SessionDTO, Session>{
 
     @Override
-    public SessionDTO generateDTO(Session entity) {
+    protected SessionDTO generateDTO(Session entity) {
         return SessionDTO.builder()
                 .roomNumber(entity.getRoomNumber())
                 .dateTime(entity.getDateTime())
                 .price(entity.getPrice())
                 .id(entity.getId())
                 .build();
+    }
+
+    @Override
+    protected Session generateEntity(SessionDTO dto) {
+        Session result = new Session();
+        result.setId(dto.getId());
+        result.setPrice(dto.getPrice());
+        result.setDateTime(dto.getDateTime());
+        result.setRoomNumber(dto.getRoomNumber());
+        return result;
     }
 }

@@ -8,12 +8,22 @@ import org.springframework.stereotype.Component;
 public class FilmMapper extends AbstractMapper<FilmDTO, Film>{
 
     @Override
-    public FilmDTO generateDTO(Film entity) {
+    protected FilmDTO generateDTO(Film entity) {
         return FilmDTO.builder()
                 .picturePath(entity.getPicturePath())
                 .length(entity.getLength())
                 .title(entity.getTitle())
                 .id(entity.getId())
                 .build();
+    }
+
+    @Override
+    protected Film generateEntity(FilmDTO dto) {
+        Film result = new Film();
+        result.setId(dto.getId());
+        result.setLength(dto.getLength());
+        result.setTitle(dto.getTitle());
+        result.setPicturePath(dto.getPicturePath());
+        return result;
     }
 }

@@ -42,5 +42,6 @@ public abstract class AbstractMapper<T, E> {
                 .build();
     }
 
-    public abstract T generateDTO(E entity);
+    protected abstract T generateDTO(E entity);
+    protected abstract E generateEntity(T dto);
 }
