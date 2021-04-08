@@ -25,4 +25,7 @@ public class Session {
     @JoinColumn(name = "film_id")
     @ManyToOne(targetEntity = Film.class, fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
     private Film film;
+
+    @Transient
+    private Integer roomNumber;
 }

@@ -7,8 +7,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 @RequiredArgsConstructor
 public class FilmService {
@@ -21,14 +19,5 @@ public class FilmService {
 
     public Film getFilmById(Long id) {
         return filmRepository.findById(id).orElseThrow();
-    }
-
-    public List<Film> getFilmsByTitle(String title, Integer offset) {
-        if (title.isBlank()) {
-            return filmRepository.findAll(PageRequest.of(offset, ELEMENT_SIZE_PER_PAGE)).getContent();
-        } else {
-            return filmRepository.findAllByTitleContainingIgnoreCase(title, PageRequest.of(offset, ELEMENT_SIZE_PER_PAGE)
-            );
-        }
     }
 }

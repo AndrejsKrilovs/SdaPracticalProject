@@ -10,6 +10,10 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface SessionRepository extends JpaRepository<Session, Long> {
-    @Query(value = "from Session s where s.film.id = :film")
-    Page<Session> findAllByFilm(@Param(value = "film")Long filmId, Pageable pageable);
+    @Query(value =
+            "select s, p.id.room " +
+                "from Place p " +
+            "inner join p.id.session s " +
+                "where s.film.id = :film")
+    Page<Session> findSessionsByFilm(@Param(value = "film")Long filmId, Pageable pageable);
 }

@@ -15,11 +15,7 @@ public class SessionService {
     private final SessionRepository sessionRepository;
 
     public Page<Session> getSessionsByFilm(Long filmId, Integer offset) {
-        Sort sortingOrder = Sort.by("dateTime").ascending();
-        return sessionRepository.findAllByFilm(filmId, PageRequest.of(offset, ELEMENT_SIZE_PER_PAGE, sortingOrder));
-    }
-
-    public Session getById(Long id) {
-        return sessionRepository.findById(id).orElseThrow();
+        return sessionRepository.findSessionsByFilm(filmId,
+                PageRequest.of(offset, ELEMENT_SIZE_PER_PAGE, Sort.by("id.session.dateTime")));
     }
 }

@@ -1,60 +1,18 @@
 package lv.sda.cinemaapi.mapper;
 
-import lombok.RequiredArgsConstructor;
-import lv.sda.cinemaapi.dto.Metadata;
 import lv.sda.cinemaapi.dto.PlaceDTO;
-import lv.sda.cinemaapi.dto.ResponseDTO;
 import lv.sda.cinemaapi.entity.Place;
-import lv.sda.cinemaapi.entity.PlacePrimaryKey;
-import lv.sda.cinemaapi.repository.SessionRepository;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 @Component
-@RequiredArgsConstructor
-public class PlaceMapper {
-    private final SessionRepository sessionRepository;
+public class PlaceMapper extends AbstractMapper<PlaceDTO, Place>{
 
-    public ResponseDTO<PlaceDTO> generateResponse(Page<Place> placesPage) {
-        boolean emptyFlag = placesPage.isEmpty();
-        Metadata metadata = Metadata.builder()
-                .pageNumber(emptyFlag ? 0 : placesPage.getPageable().getPageNumber())
-                .totalPages(emptyFlag ? 0 : placesPage.getTotalPages())
-                .totalElements(placesPage.getTotalElements())
-                .offset(placesPage.getPageable().getOffset())
-                .build();
-
-        List<PlaceDTO> contentData = emptyFlag ? List.of() :
-                placesPage.stream()
-                        .map(this::generatePlace)
-                        .collect(Collectors.toList());
-
-        return ResponseDTO.<PlaceDTO>builder()
-                .entityList(contentData)
-                .metadata(metadata)
-                .build();
-    }
-
-    public Place fromDTO(PlaceDTO placeDTO) {
-        Place result = new Place();
-        result.setAvailable(placeDTO.getAvailable());
-
-        PlacePrimaryKey id = new PlacePrimaryKey();
-        id.setSession(sessionRepository.getOne(placeDTO.getSession()));
-        id.setPlace(placeDTO.getPlaceNumber());
-        result.setId(id);
-
-        return result;
-    }
-
-    public PlaceDTO generatePlace(Place place) {
+    @Override
+    public PlaceDTO generateDTO(Place entity) {
         return PlaceDTO.builder()
-                .roomNumber(place.getId().getSession().getRoom())
-                .placeNumber(place.getId().getPlace())
-                .available(place.getAvailable())
+                .roomNumber(entity.getId().getRoom())
+                .seatNumber(entity.getId().getPlace())
+                .available(entity.getAvailable())
                 .build();
     }
 }
