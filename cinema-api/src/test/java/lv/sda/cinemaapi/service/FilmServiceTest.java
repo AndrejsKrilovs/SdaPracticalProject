@@ -1,6 +1,11 @@
 package lv.sda.cinemaapi.service;
 
+import lombok.extern.slf4j.Slf4j;
+import lv.sda.cinemaapi.dto.FilmDTO;
+import lv.sda.cinemaapi.dto.Metadata;
+import lv.sda.cinemaapi.dto.ResponseDTO;
 import lv.sda.cinemaapi.entity.Film;
+import lv.sda.cinemaapi.mapper.FilmMapper;
 import lv.sda.cinemaapi.repository.FilmRepository;
 import org.junit.Assert;
 import org.junit.Test;
@@ -11,65 +16,111 @@ import org.springframework.data.domain.PageRequest;
 
 import java.time.LocalTime;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.LongStream;
 
+@Slf4j
 public class FilmServiceTest {
-    private final FilmRepository repository = Mockito.mock(FilmRepository.class);
-    private final FilmService service = new FilmService(repository);
+    private final FilmMapper filmMapper = Mockito.mock(FilmMapper.class);
+    private final FilmRepository filmRepository = Mockito.mock(FilmRepository.class);
+    private final FilmService filmService = new FilmService(filmRepository, filmMapper);
 
     @Test
-    public void getNonEmptyFilmListTest() {
-        Mockito.doReturn(new PageImpl<>(filmTestData()))
-                .when(repository)
+    public void testNonEmptyFilmList() {
+        Page<Film> filmList = new PageImpl<>(List.of(generateFilm(0L), generateFilm(1L)));
+        Mockito.doReturn(filmList)
+                .when(filmRepository)
                 .findAll(PageRequest.of(0, 10));
 
-        Page<Film> response = service.getFilms(0);
-        Assert.assertFalse(response.getContent().isEmpty());
-        Assert.assertEquals(1, response.getTotalPages());
-        Assert.assertEquals(20, response.getTotalElements());
+        Mockito.doReturn(generateResponse(2L))
+                .when(filmMapper)
+                .generateResponse(filmList);
+
+        ResponseDTO<FilmDTO> testResponse = filmService.getFilms(0);
+        Assert.assertFalse(testResponse.getEntityList().isEmpty());
+        Assert.assertEquals(Long.valueOf(2), testResponse.getMetadata().getTotalElements());
     }
 
     @Test
-    public void getEmptyFilmListTest() {
-        Mockito.doReturn(new PageImpl<Film>(List.of()))
-                .when(repository)
+    public void testEmptyFilmList() {
+        Page<Film> filmList = new PageImpl<>(List.of());
+        Mockito.doReturn(filmList)
+                .when(filmRepository)
                 .findAll(PageRequest.of(0, 10));
 
-        Page<Film> response = service.getFilms(0);
-        Assert.assertTrue(response.getContent().isEmpty());
-        Assert.assertEquals(1, response.getTotalPages());
-        Assert.assertEquals(0, response.getTotalElements());
+        Mockito.doReturn(generateResponse(0L))
+                .when(filmMapper)
+                .generateResponse(filmList);
+
+        ResponseDTO<FilmDTO> testResponse = filmService.getFilms(0);
+        Assert.assertTrue(testResponse.getEntityList().isEmpty());
+        Assert.assertEquals(Long.valueOf(0), testResponse.getMetadata().getTotalElements());
     }
 
     @Test
-    public void getFilmByExistingIdTest() {
-        Mockito.doReturn(Optional.of(filmTestData().get(0)))
-                .when(repository).findById(1L);
+    public void findById() {
+        Mockito.doReturn(Optional.of(generateFilm(1L)))
+                .when(filmRepository)
+                .findById(1L);
 
-        Film response = service.getFilmById(1L);
-        Assert.assertEquals(filmTestData().get(0).getId(), response.getId());
-        Assert.assertEquals(filmTestData().get(0).getTitle(), response.getTitle());
-        Assert.assertEquals(filmTestData().get(0).getLength(), response.getLength());
-        Assert.assertEquals(filmTestData().get(0).getPicturePath(), response.getPicturePath());
+        Mockito.doReturn(generateResponse(1L))
+                .when(filmMapper)
+                .generateSingleResponse(generateFilm(1L));
+
+        Optional<ResponseDTO<FilmDTO>> response = filmService.getFilmById(1L);
+        Assert.assertTrue(response.isPresent());
+        Assert.assertEquals(Long.valueOf(1), response.get().getMetadata().getTotalElements());
+        Assert.assertEquals("title", response.get().getEntityList().get(0).getTitle());
+        Assert.assertEquals("picture", response.get().getEntityList().get(0).getPicturePath());
+        Assert.assertEquals(LocalTime.MIN, response.get().getEntityList().get(0).getLength());
     }
 
     @Test
-    public void getFilmByInvalidIdTest() {
-        Mockito.doReturn(Optional.empty()).when(repository).findById(0L);
-        Assert.assertThrows(NoSuchElementException.class, () -> service.getFilmById(0L));
+    public void notFoundById() {
+        Mockito.doReturn(Optional.of(generateFilm(0L)))
+                .when(filmRepository)
+                .findById(0L);
+
+        Mockito.doReturn(generateResponse(0L))
+                .when(filmMapper)
+                .generateSingleResponse(generateFilm(0L));
+
+        Optional<ResponseDTO<FilmDTO>> response = filmService.getFilmById(1L);
+        Assert.assertFalse(response.isPresent());
     }
 
-    private List<Film> filmTestData() {
-        return LongStream.rangeClosed(1, 20).mapToObj(item -> {
-            Film testFilmData = new Film();
-            testFilmData.setId(item);
-            testFilmData.setTitle("Test title " + item);
-            testFilmData.setPicturePath("/path/to/image");
-            testFilmData.setLength(LocalTime.MIN);
-            return testFilmData;
-        }).collect(Collectors.toList());
+    private Film generateFilm(Long id) {
+        Film film = new Film();
+        film.setId(id);
+        film.setTitle("title");
+        film.setLength(LocalTime.MIN);
+        film.setPicturePath("picture");
+        return film;
+    }
+
+    private FilmDTO generateFilmDTO(Long id) {
+        return FilmDTO.builder()
+                .id(id)
+                .title("title")
+                .length(LocalTime.MIN)
+                .picturePath("picture")
+                .build();
+    }
+
+    private ResponseDTO<FilmDTO> generateResponse(Long id) {
+        List<FilmDTO> filmList = LongStream.range(0, id)
+                .mapToObj(this::generateFilmDTO)
+                .collect(Collectors.toList());
+        Metadata metadata = Metadata.builder()
+                .totalPages(0)
+                .pageNumber(0)
+                .offset(0L)
+                .totalElements((long) filmList.size())
+                .build();
+        return ResponseDTO.<FilmDTO>builder()
+                .entityList(filmList)
+                .metadata(metadata)
+                .build();
     }
 }

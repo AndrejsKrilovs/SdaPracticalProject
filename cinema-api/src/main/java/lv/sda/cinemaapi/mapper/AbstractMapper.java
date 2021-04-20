@@ -18,6 +18,7 @@ public abstract class AbstractMapper<T, E> {
                 .offset(0L)
                 .build();
         return ResponseDTO.<T>builder()
+                .metadata(metadata)
                 .entityList(List.of(generateDTO(entity)))
                 .build();
     }
