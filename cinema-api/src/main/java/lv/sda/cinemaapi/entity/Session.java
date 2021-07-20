@@ -23,9 +23,6 @@ public class Session {
     private BigDecimal price;
 
     @JoinColumn(name = "film_id")
-    @ManyToOne(targetEntity = Film.class, fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
+    @ManyToOne(targetEntity = Film.class, fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
     private Film film;
-
-    @Transient
-    private Integer roomNumber;
 }

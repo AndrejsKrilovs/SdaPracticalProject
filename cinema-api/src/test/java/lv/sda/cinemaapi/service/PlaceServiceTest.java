@@ -5,6 +5,5 @@ import org.mockito.Mockito;
 
 public class PlaceServiceTest {
     private final PlaceRepository repository = Mockito.mock(PlaceRepository.class);
-    private final PlaceService service = new PlaceService(repository);
 
 }

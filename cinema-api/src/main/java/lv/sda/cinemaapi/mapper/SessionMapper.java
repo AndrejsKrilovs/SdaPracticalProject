@@ -10,7 +10,6 @@ public class SessionMapper extends AbstractMapper<SessionDTO, Session>{
     @Override
     protected SessionDTO generateDTO(Session entity) {
         return SessionDTO.builder()
-                .roomNumber(entity.getRoomNumber())
                 .dateTime(entity.getDateTime())
                 .price(entity.getPrice())
                 .id(entity.getId())
@@ -23,7 +22,6 @@ public class SessionMapper extends AbstractMapper<SessionDTO, Session>{
         result.setId(dto.getId());
         result.setPrice(dto.getPrice());
         result.setDateTime(dto.getDateTime());
-        result.setRoomNumber(dto.getRoomNumber());
         return result;
     }
 }
