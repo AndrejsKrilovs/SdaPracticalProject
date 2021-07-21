@@ -13,7 +13,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class FilmService {
-    private final static Integer ELEMENT_SIZE_PER_PAGE = 10;
+    private final static Integer ELEMENT_SIZE_PER_PAGE = 12;
     private final FilmRepository filmRepository;
     private final FilmMapper filmMapper;
 

@@ -19,7 +19,7 @@ public class SessionService {
     public ResponseDTO<SessionDTO> getSessionsByFilm(Long filmId, Integer offset) {
         return sessionMapper.generateResponse(
                 sessionRepository.findSessionsByFilm(
-                        filmId, PageRequest.of(offset, ELEMENT_SIZE_PER_PAGE, Sort.by("id.session.dateTime"))
+                        filmId, PageRequest.of(offset, ELEMENT_SIZE_PER_PAGE, Sort.by("dateTime"))
                 )
         );
     }
