@@ -9,9 +9,8 @@ import { IFilm, IMetadata } from '../app.component'
 })
 export class FilmListComponent {
   page_number: number = 0
-  total_pages: number = 0;
+  total_pages: number = 0
   films: Array<IFilm> = []
-  toggle: boolean = false
 
   constructor(private apiService: ApiService) {
     apiService.filmCollection(this.page_number).subscribe(result => {
@@ -19,10 +18,6 @@ export class FilmListComponent {
       this.page_number = result.metadata.page_number
       this.total_pages = result.metadata.total_pages
     })
-  }
-
-  toggleFilms(): void {
-    this.toggle = !this.toggle
   }
 
   pageUp(): void {
