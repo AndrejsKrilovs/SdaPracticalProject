@@ -42,7 +42,7 @@ public class CinemaApiApplication {
         }
 
         if (sessionRepository.count() == 0) {
-            for (long i = 1; i <= 1048; i++) {
+            for (long i = 1; i <= 2000; i++) {
                 Session session = new Session();
                 session.setId(i);
                 session.setPrice(BigDecimal.valueOf(Math.random() * 3).setScale(2, RoundingMode.CEILING));
@@ -54,6 +54,9 @@ public class CinemaApiApplication {
                 long maximalDate = LocalDateTime.now().plusMonths(3).toEpochSecond(ZoneOffset.UTC);
                 long generatedDate = ThreadLocalRandom.current().longs(minimalDate, maximalDate).limit(1).findFirst().orElse(0);
                 session.setDateTime(LocalDateTime.ofEpochSecond(generatedDate, 0, ZoneOffset.UTC));
+
+                int roomNumber = ThreadLocalRandom.current().ints(1, 5).limit(1).findFirst().orElse(0);
+                session.setRoomNumber(roomNumber);
 
                 sessionRepository.save(session);
             }
