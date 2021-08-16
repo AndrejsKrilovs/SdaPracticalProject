@@ -6,7 +6,7 @@ import lv.sda.cinemaapi.entity.PlacePrimaryKey;
 import org.springframework.stereotype.Component;
 
 @Component
-public class PlaceMapper extends AbstractMapper<PlaceDTO, Place>{
+public class SessionPlaceMapper extends AbstractMapper<PlaceDTO, Place>{
 
     @Override
     protected PlaceDTO generateDTO(Place entity) {

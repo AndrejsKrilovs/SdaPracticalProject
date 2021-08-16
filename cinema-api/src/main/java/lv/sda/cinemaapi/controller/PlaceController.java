@@ -11,12 +11,12 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(path = "/api/place.svc")
 @CrossOrigin(origins = "http://localhost:4200")
 public class PlaceController {
-    private final PlaceService placeService;
-
-    @GetMapping(path = "/Places")
-    public ResponseDTO<PlaceDTO> findPlacesBySession(
-            @RequestParam(value = "session_id") Long sessionId
-    ){
-        return placeService.findPlacesBySession(sessionId);
-    }
+//    private final PlaceService placeService;
+//
+//    @GetMapping(path = "/Places")
+//    public ResponseDTO<PlaceDTO> findPlacesBySession(
+//            @RequestParam(value = "session_id") Long sessionId
+//    ){
+//        return placeService.findPlacesBySession(sessionId);
+//    }
 }

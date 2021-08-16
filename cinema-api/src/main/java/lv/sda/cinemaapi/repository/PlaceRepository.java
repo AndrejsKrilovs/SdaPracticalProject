@@ -11,6 +11,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PlaceRepository extends JpaRepository<Place, PlacePrimaryKey> {
-    @Query(value = "from Place p where p.id.session.id = :session")
-    Page<Place> findPlaceBySession(@Param(value = "session") Long sessionId, Pageable pageable);
+//    @Query(value = "from Place p join p.id.session s where s.id = :session")
+//    Page<Place> findPlaceBySession(@Param(value = "session") Long sessionId, Pageable pageable);
 }

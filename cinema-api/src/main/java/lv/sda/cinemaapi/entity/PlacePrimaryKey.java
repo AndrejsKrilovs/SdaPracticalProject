@@ -13,8 +13,4 @@ public class PlacePrimaryKey implements Serializable {
 
     @Column(name = "seat_number")
     private Integer place;
-
-    @JoinColumn(name = "session_id")
-    @ManyToOne(targetEntity = Session.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private Session session;
 }

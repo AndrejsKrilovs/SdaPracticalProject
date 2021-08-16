@@ -5,7 +5,7 @@ import lv.sda.cinemaapi.entity.Session;
 import org.springframework.stereotype.Component;
 
 @Component
-public class SessionMapper extends AbstractMapper<SessionDTO, Session>{
+public class SessionMapper extends AbstractMapper<SessionDTO, Session> {
 
     @Override
     protected SessionDTO generateDTO(Session entity) {
@@ -19,9 +19,9 @@ public class SessionMapper extends AbstractMapper<SessionDTO, Session>{
     @Override
     protected Session generateEntity(SessionDTO dto) {
         Session result = new Session();
-        result.setId(dto.getId());
-        result.setPrice(dto.getPrice());
-        result.setDateTime(dto.getDateTime());
+//        result.setId(dto.getId());
+//        result.setPrice(dto.getPrice());
+//        result.setDateTime(dto.getDateTime());
         return result;
     }
 }
