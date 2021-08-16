@@ -8,7 +8,7 @@
     <div class="list-group">
       <button *ngFor="let session of sessions" (click)="onSessionSelect(session)"
         class="list-group-item list-group-item-action">
-        {{ session.date_time }} &nbsp;/ Room {{ session.session_room}} &nbsp;/ {{ session.session_price }} {{ session.price_currency }}
+        {{ session.date_time }} &nbsp;/ {{ session.session_price }} {{ session.price_currency }}
       </button>
     </div>
 
