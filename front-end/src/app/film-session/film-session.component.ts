@@ -2,6 +2,7 @@ import { Component } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
 import { IFilm,  IOrder,  IPlace, ISession } from '../app.component'
 import { ApiService } from '../api.service'
+import { AnimationKeyframesSequenceMetadata } from '@angular/animations'
 
 @Component({
   selector: 'app-film-session',
@@ -111,7 +112,7 @@ export class FilmSessionComponent {
     }
   }
 
-  userCodeInput(event: any): void {
+  userCodeInput(event: { target: HTMLInputElement }): void {
     const correctUserCode: RegExp = /[0-9]{6}-[0-9]{5}/
     if (correctUserCode.test(event.target.value))
       this.authorized_person.personal_code = event.target.value;
@@ -120,7 +121,7 @@ export class FilmSessionComponent {
       this.authorized_person.personal_code.length === 12)
   }
 
-  userNameInput(event: any): void {
+  userNameInput(event: { target: HTMLInputElement }): void {
     const correctUserName: RegExp = /[A-Z\u0410-\u042F]{1}[a-z\u0430-\u044F]{1,}\s[A-Z\u0410-\u042F]{1}[a-z\u0430-\u044F]{1,}/
     if (correctUserName.test(event.target.value))
       this.authorized_person.name_surname = event.target.value;
