@@ -85,9 +85,18 @@ export class FilmSessionComponent {
   }
 
   onSessionSelect(session: ISession): void {
-    this.session_selected = session
+    this.places.splice(0)
     this.selected_places.splice(0)
-    this.apiService.showSeats(session.session_id).subscribe(result => this.places = result.content)
+    this.session_selected.session_id = session.session_id
+
+    Array.from(Array(30).keys()).map(place => { 
+      return {
+        room_number: session.session_room,
+        place_availability: false,
+        place_enable: false,
+        place_seat: place
+      }
+    }).forEach(item => this.places.push(item))
   }
 
   onPlaceSelect(place: IPlace): void {
