@@ -10,7 +10,6 @@ import lv.sda.cinemaapi.repository.FilmRepository;
 import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mockito;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 
@@ -28,34 +27,12 @@ public class FilmServiceTest {
 
     @Test
     public void testNonEmptyFilmList() {
-        Page<Film> filmList = new PageImpl<>(List.of(generateFilm(0L), generateFilm(1L)));
-        Mockito.doReturn(filmList)
-                .when(filmRepository)
-                .findAll(PageRequest.of(0, 10));
-
-        Mockito.doReturn(generateResponse(2L))
-                .when(filmMapper)
-                .generateResponse(filmList);
-
-        ResponseDTO<FilmDTO> testResponse = filmService.getFilms(0);
-        Assert.assertFalse(testResponse.getEntityList().isEmpty());
-        Assert.assertEquals(Long.valueOf(2), testResponse.getMetadata().getTotalElements());
+       
     }
 
     @Test
     public void testEmptyFilmList() {
-        Page<Film> filmList = new PageImpl<>(List.of());
-        Mockito.doReturn(filmList)
-                .when(filmRepository)
-                .findAll(PageRequest.of(0, 10));
 
-        Mockito.doReturn(generateResponse(0L))
-                .when(filmMapper)
-                .generateResponse(filmList);
-
-        ResponseDTO<FilmDTO> testResponse = filmService.getFilms(0);
-        Assert.assertTrue(testResponse.getEntityList().isEmpty());
-        Assert.assertEquals(Long.valueOf(0), testResponse.getMetadata().getTotalElements());
     }
 
     @Test
