@@ -7,7 +7,7 @@ import { Component, EventEmitter, Output } from '@angular/core';
 })
 export class MenuComponent {
   menuItems = [
-    `Vebinars`, `Scheduler`, `My progress`, `Chat`
+    `Webinars`, `Scheduler`, `My progress`, `Chat`
   ]
 
   @Output() selectedMenuEvent = new EventEmitter<String>();
