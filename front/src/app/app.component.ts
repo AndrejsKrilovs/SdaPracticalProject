@@ -6,5 +6,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'front';
+  selectedMenu: string = ``
+
+  menuItem(event: String): any {
+    this.selectedMenu = event.trim()
+  }
 }
